@@ -1,0 +1,39 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.qoala.app/reference/introduction, https://docs.qoala.app/reference/webhook-notification, openapi/*.yml
+  servers[]
+model: separate hosts per environment (no test/live key prefix scheme)
+environments:
+- name: staging
+  host: https://api-staging.qoala.app
+  purpose: Partner integration and testing
+  listed_in:
+  - docs introduction
+  - OpenAPI servers[]
+- name: uat
+  host: https://api.uat.qoala.app
+  purpose: User acceptance testing
+  listed_in:
+  - OpenAPI servers[]
+  note: The introduction page publishes https://uat.qoala.app for this environment instead; the two Qoala sources disagree.
+- name: production
+  host: https://api.qoala.app
+  purpose: Live
+  listed_in:
+  - docs introduction
+  - OpenAPI servers[]
+credentials:
+  self_service: false
+  note: API keys are issued by Qoala Engineering during onboarding. There is no self-service signup, sandbox key generator,
+    or published test key.
+test_values:
+  published: false
+  note: Qoala publishes no magic test identifiers, test cards, or fixture values. Example identifiers appearing in the
+    docs (e.g. transaction_number PVI-001-TEST3, quotation QS-260715-I23KFR3M) are illustrative payload samples, not
+    working test values, and are not recorded as such.
+time_simulation:
+  supported: false
+console:
+  url: https://docs.qoala.app/reference/introduction
+  note: The ReadMe developer portal renders a try-it console per operation, and the hosted MCP server exposes an execute-request
+    tool; both still require a partner-issued x-api-key against a real environment.

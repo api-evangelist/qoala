@@ -1,0 +1,118 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.qoala.app/reference/webhook-notification, https://docs.qoala.app/reference/policy-status-notification,
+  https://docs.qoala.app/reference/claim-status-notification
+spec_type: Webhooks
+asyncapi_published: false
+note: Qoala documents a bidirectional webhook surface but publishes no AsyncAPI document. Captured as a webhook catalog;
+  no AsyncAPI was fabricated.
+directions:
+- direction: inbound (partner/insurer -> Qoala)
+  endpoint: POST {base_url}/api/integration/partner/webhook
+  hosts:
+    staging: https://api-staging.qoala.app
+    uat: https://api.uat.qoala.app
+    production: https://api.qoala.app
+  auth: x-api-key header issued by Qoala
+  idempotency: request_id in the body; identical replay returns 200, differing payload on the same request_id returns
+    409
+  purpose: Insurance providers and integration partners notify Qoala when a policy or claim transaction status changes,
+    and attach supporting documents.
+  payload_fields:
+  - field: request_id
+    type: string
+    required: false
+    description: Unique idempotency key for safe retries
+  - field: transaction_number
+    type: string
+    required: true
+    description: Unique transaction identifier for the policy or claim
+  - field: transaction_type
+    type: string
+    required: true
+    description: POLICY or CLAIM (case-insensitive)
+  - field: status
+    type: string
+    required: true
+    description: Current transaction status; see policy/claim status vocabularies
+  - field: documents
+    type: array
+    required: true
+    description: At least one related document (type, url, filename)
+  responses:
+  - http: 200
+    meaning: Webhook received and processed; data.status is COMPLETED or FAILED, journey_status reports the stage
+  - http: 400
+    error_code: INVALID_PAYLOAD_VALIDATION_ERR
+  - http: 401
+    error_code: INVALID_API_KEY_ERR
+  - http: 409
+    meaning: request_id reused with a different payload
+  - http: 500
+    meaning: Unexpected server error
+  docs: https://docs.qoala.app/reference/webhook-notification
+- direction: outbound (Qoala -> partner callback)
+  endpoint: POST {partner-url-path} — configured during onboarding
+  auth: Qoala sends an x-api-key header the partner can verify. Qoala also supports HMAC_SHA256, MD5, Bearer and Basic
+    Auth on partner callbacks, and can add methods on request.
+  retry: Non-200 partner responses are retried up to 8 times with exponential backoff; a 200 stops retries.
+  events:
+  - event: policy.status.changed
+    trigger: Any change in policy status; also the delivery mechanism for the final policy detail after asynchronous
+      issuance.
+    payload_fields:
+    - policy_number (required)
+    - partner_transaction_number
+    - product_code
+    - quotation_number
+    - status
+    - documents[]
+    status_enum:
+    - POLICY_ACTIVE
+    - POLICY_ISSUING
+    - POLICY_CANCELLED
+    note: The insureds structure varies by product.parent_category (e.g. Gadget vs Travel).
+    docs: https://docs.qoala.app/reference/policy-status-notification
+  - event: claim.status.changed
+    trigger: Any change in claim status — approval or rejection by Qoala or the insurer.
+    payload_fields:
+    - claim_number (required)
+    - policy_number
+    - status (required)
+    optional: true
+    note: Not mandatory for claim creation, but recommended for up-to-date claim status.
+    docs: https://docs.qoala.app/reference/claim-status-notification
+status_vocabularies:
+  policy:
+  - code: POLICY_WAITING_PAYMENT
+    description: The policy is pending payment from the partner.
+  - code: ISSUING_POLICY
+    description: The policy is being issued by Qoala or the partner insurance.
+  - code: POLICY_ACTIVE
+    description: The policy is active and provides coverage.
+  - code: POLICY_REJECTED_INSURANCE
+    description: The policy issuance has been rejected.
+  - code: POLICY_CANCELLED
+    description: The policy has been cancelled for partner-specific reasons.
+  - code: POLICY_EXPIRED
+    description: The coverage period has ended.
+  - code: DATA_VERIFICATION_NEEDED
+    description: Additional documents or information are required for activation.
+  claim:
+  - code: CLAIM_INITIATE
+    description: The claimer successfully submitted a claim.
+  - code: QOALA_CLAIM_APPROVE
+    description: Qoala approved the claim.
+  - code: QOALA_CLAIM_REJECT
+    description: Qoala rejected the claim.
+  - code: INSURANCE_CLAIM_APPROVE
+    description: The insurer approved the claim.
+  - code: INSURANCE_CLAIM_REJECT
+    description: The insurer rejected the claim.
+  - code: INSURANCE_CLAIM_PAID
+    description: The claim has been paid by the insurer.
+  - code: INSURANCE_CLAIM_WAITING_PAID
+    description: Approved by the insurer and awaiting payment.
+  docs:
+  - https://docs.qoala.app/reference/policy-status
+  - https://docs.qoala.app/reference/claim-status

@@ -1,0 +1,47 @@
+generated: '2026-08-05'
+method: generated
+source: openapi/*.yml + https://docs.qoala.app/reference/*
+note: Every operationId referenced was verified present in the named specification. Qoala publishes no first-party agent
+  skills or AGENTS.md.
+skills:
+- file: qoala-activate-gadget-policy.md
+  name: Activate a Qoala gadget policy after verification
+  description: Complete activation for gadget policies whose insured object must be verified before cover starts.
+  api: openapi/qoala-gadget-insurance-openapi.yml
+  operations:
+  - detailPolicy
+  - activationPolicy
+- file: qoala-authenticate-session.md
+  name: Create and refresh a Qoala Enterprise session
+  description: Exchange an email and security code for a JWT access token and refresh token on the Qoala for Enterprise
+    platform, then keep it alive.
+  api: openapi/qoala-authentication-api-openapi.yml
+  operations:
+  - createSession
+  - refreshSession
+- file: qoala-cancel-policy.md
+  name: Cancel a Qoala policy
+  description: Look up an issued policy and cancel it, handling the asynchronous status transition.
+  api: openapi/qoala-gadget-insurance-openapi.yml
+  operations:
+  - detailPolicy
+  - cancelPolicy
+- file: qoala-file-and-track-claim.md
+  name: File and track a Qoala claim
+  description: Create a claim against an existing policy, attach supporting documents via presigned URLs, track status,
+    and cancel if needed.
+  api: openapi/qoala-claim-api-openapi.yml
+  operations:
+  - createClaim
+  - presignCreateClaim
+  - presignUploadClaim
+  - statusClaim
+  - cancelClaim
+- file: qoala-issue-policy.md
+  name: Issue a Qoala insurance policy (asynchronous)
+  description: Create a policy from a quotation on any Qoala product line, then confirm issuance via polling or the partner
+    callback webhook.
+  api: openapi/qoala-logistic-insurance-openapi.yml
+  operations:
+  - createPolicy
+  - detailPolicy

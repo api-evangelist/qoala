@@ -1,0 +1,1303 @@
+openapi: 3.1.0
+info:
+  version: v1.3
+  title: Gadget Insurance
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://assets.qoala.app/qoala/email-transparant.png
+  description: "# Introduction\n\nWelcome to the Qoala API! Our API provides you with access to the Qoala\
+    \ platform, allowing you to perform actions like creating policies across various product categories\
+    \ and submitting new claims, among other functionalities.\nFor your convenience, we have included\
+    \ a straightforward example in the payload to assist you in seamlessly integrating with our platform.\
+    \ You can also find code examples in the shaded area on the right.\nIf you have any inquiries or need\
+    \ assistance with our API, please do not hesitate to contact our dedicated developer support team.\
+    \ We are here to assist you!\n\n# Product Categories\n\nQoala, functioning as an insurance broker,\
+    \ offers a diverse range of insurance products that encompass various functionalities and benefits.\
+    \ Consequently, we have organized these products into distinct groups based on their corresponding\
+    \ functions. There are four primary categories into which we classify these products:\n\n1. Travel\n\
+    The Travel category encompasses the following subcategories:\n\n- Flight\n- Train\n- Bus\n- Hotel\n\
+    - Experience\n\n2. Gadget\nThe Gadget category includes the following subcategories:\n\n- Smartphone\n\
+    - Electronic\n\n3. Finance\n\n4. Health\n\n>It's important to note that Finance and Health do not\
+    \ have any subcategories at this time.\n\n# Host\n\nEnvironment|Host Address\n------------- | -------------\n\
+    Staging|https://api-staging.qoala.app\nProduction|https://api.qoala.app\n\n# Authentication\n\nQoala\
+    \ Partnership utilizes API keys to grant access to the API. You can request a new API key from Qoala\
+    \ Engineering. \nQoala Partnership requires the API key to be included in the header of all API requests\
+    \ made to our services. The header should appear as follows:\n`x-api-key: abcdefg`\n\n> To use the\
+    \ x-api-key, refer to the example below:\n\n```shell\ncurl --location --request {METHOD} '{{HOST_URL}}'\
+    \ \\\n--header 'x-api-key: abcdefg' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{}'\n\
+    ```\n\n> Make sure to replace `abcdefg` with your API key.\n"
+servers:
+- url: https://api-staging.qoala.app
+- url: https://api.uat.qoala.app
+- url: https://api.qoala.app
+security:
+- ApiKeyAuth: []
+tags:
+- name: API Specification
+  description: Policy API documentation consist of create policy, get policy detail or status, policy
+    cancellation and policy activation.
+paths:
+  /api/v2/quotation/quotes:
+    post:
+      tags:
+      - API Specification
+      summary: Create Policy
+      description: This API is used by partner to create policy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/200createQuotation'
+        '202':
+          $ref: '#/components/responses/202createQuotation'
+        '400':
+          $ref: '#/components/responses/400createQuotation'
+        '401':
+          $ref: '#/components/responses/401createQuotation'
+        '404':
+          $ref: '#/components/responses/404createQuotation'
+        '500':
+          $ref: '#/components/responses/500createQuotation'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Gadget Minimum Request:
+                $ref: '#/components/examples/createPolicyGadgetMinimumRequest'
+              Gadget With Activation Flow:
+                $ref: '#/components/examples/createPolicyGadgetWithActivation'
+              Gadget Without Activation Flow:
+                $ref: '#/components/examples/createPolicyGadgetWithoutActivation'
+            schema:
+              type: object
+              required:
+              - product_category
+              - partner_transaction_number
+              - product_code
+              - policy_holder
+              - insureds
+              properties:
+                product_category:
+                  description: product classification will be provided by Qoala
+                  type: string
+                  enum:
+                  - GADGET
+                  default: GADGET
+                  example: GADGET
+                partner_transaction_number:
+                  description: The Transaction ID serves as a unique identifier for each transaction initiated
+                    through the API. Partners are responsible for generating this ID and ensuring its
+                    uniqueness across their transactions.
+                  type: string
+                  maxLength: 100
+                  default: Tx12345678543213456
+                  example: Tx12345678543213456
+                product_code:
+                  description: Defined by Qoala, plays a pivotal role in the API, providing contextual
+                    information about certain aspects of the product. However, as of now, the details
+                    for this field will be shared at a later stage when the product is ready for testing.
+                  type: string
+                  default: G-ADLD-PARTNER-001
+                  example: G-ADLD-PARTNER-001
+                purchased_at:
+                  description: A timestamp indicating when a product was purchased. This field is of the
+                    time type and is not mandatory. By default, if no value is provided, it is set to
+                    the current time. The timestamp is formatted using the ISO 8601 date format.
+                  type: string
+                  format: date-time
+                  default: '2025-10-04T00:00:00+08:00'
+                  example: '2025-10-04T00:00:00+08:00'
+                premium:
+                  description: A vital component of the API, representing the cost of an insurance product
+                    in its respective currency.
+                  type: number
+                  format: float64
+                policy_holder:
+                  description: The policy_holder field serves as a container for essential data regarding
+                    the holder of the policy.  This data provides insight into the individual or organization
+                    that is associated with the policy.
+                  type: object
+                  $ref: '#/components/schemas/PolicyHolderRequest'
+                insureds:
+                  description: 'Insured''s object. The object can be different depending on the product.
+                    For example: covered user, car, smartphone, flight, hotel, etc.'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Insured'
+        description: The following list explains body payload for creating policy
+        required: true
+      x-codeSamples:
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\
+          \n)\n\ntype RequestPayload struct {\n\tProductCategory          string `json:\"product_category\"\
+          `\n\tPartnerTransactionNumber string `json:\"partner_transaction_number\"`\n\t// ... other fields\n\
+          }\n\nfunc main() {\n\t// Construct the URL\n\tapiUrl := \"https://{{HOST_QOALA}}/api/v1/quotation\"\
+          \n\n\t// Create the request payload\n\tpayload := RequestPayload{\n\t\tProductCategory:    \
+          \      \"TRAVEL\",\n\t\tPartnerTransactionNumber: \"FL-01\",\n\t\t// ... initialize other fields\n\
+          \t}\n\n\t// Convert the payload to JSON\n\tpayloadBytes, err := json.Marshal(payload)\n\tif\
+          \ err != nil {\n\t\tfmt.Println(\"Error encoding JSON:\", err)\n\t\treturn\n\t}\n\n\t// Create\
+          \ a new POST request with the payload\n\treq, err := http.NewRequest(\"POST\", apiUrl, bytes.NewBuffer(payloadBytes))\n\
+          \tif err != nil {\n\t\tfmt.Println(\"Error creating request:\", err)\n\t\treturn\n\t}\n\n\t\
+          // Set headers\n\treq.Header.Set(\"x-api-key\", \"abcdefg\")\n\treq.Header.Set(\"Content-Type\"\
+          , \"application/json\")\n\n\t// Send the request\n\tclient := http.Client{}\n\tresp, err :=\
+          \ client.Do(req)\n\tif err != nil {\n\t\tfmt.Println(\"Error sending request:\", err)\n\t\t\
+          return\n\t}\n\tdefer resp.Body.Close()\n\n\t// Print the response status code\n\tfmt.Println(\"\
+          Response Status:\", resp.Status)\n}\n"
+      - lang: PHP
+        source: "<?php\n\nclass RequestPayload {\n    public $product_category;\n    public $partner_transaction_number;\n\
+          \    public $purchased_at;\n    public $premium;\n    public $pool_amount;\n    public $addons;\n\
+          \    public $policy_holder;\n    public $insureds;\n}\n\nclass Addons {\n    public $code;\n\
+          \    public $unit;\n    public $sum_insured;\n}\n\nclass PolicyHolder {\n    public $identity_type;\n\
+          \    public $identity_number;\n    public $full_name;\n    public $email;\n    public $phone_number;\n\
+          \    public $birth_date;\n    public $gender;\n    public $relationship;\n    public $address;\n\
+          \    public $documents;\n}\n\nclass Document {\n    public $filename;\n    public $type;\n \
+          \   public $url;\n}\n\nclass Insureds {\n    public $type;\n    public $details; // This can\
+          \ be either InsuredTravel or InsuredUser\n    public $documents;\n}\n\nclass InsuredTravel {\n\
+          \    public $identity_type;\n    public $identity_number;\n    public $booking_time;\n    public\
+          \ $name;\n    public $number;\n    // ... other fields\n}\n\nclass InsuredUser {\n    public\
+          \ $identity_type;\n    public $identity_number;\n    public $full_name;\n    public $email;\n\
+          \    public $phone_number;\n    public $birth_date;\n    public $gender;\n    // ... other fields\n\
+          }\n\n// Construct the URL\n$apiUrl = \"https://{{HOST_QOALA}}/api/v1/quotation\";\n\n// Create\
+          \ the request payload\n$payload = new RequestPayload();\n$payload->product_category = \"TRAVEL\"\
+          ;\n$payload->partner_transaction_number = \"FL-01\";\n// ... initialize other fields\n\n// Convert\
+          \ the payload to JSON\n$payloadJson = json_encode($payload);\n\n// Create headers\n$headers\
+          \ = [\n    \"x-api-key: abcdefg\",\n    \"Content-Type: application/json\"\n];\n\n// Initialize\
+          \ cURL session\n$ch = curl_init();\n\n// Set cURL options\ncurl_setopt($ch, CURLOPT_URL, $apiUrl);\n\
+          curl_setopt($ch, CURLOPT_POST, true);\ncurl_setopt($ch, CURLOPT_POSTFIELDS, $payloadJson);\n\
+          curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);\ncurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n\
+          \n// Execute cURL session\n$response = curl_exec($ch);\n\n// Check for cURL errors\nif (curl_errno($ch))\
+          \ {\n    echo \"cURL Error: \" . curl_error($ch);\n} else {\n    // Print response\n    echo\
+          \ \"Response: \" . $response;\n}\n\n// Close cURL session\ncurl_close($ch);\n\n?>\n"
+      - lang: Node.js
+        source: "const axios = require('axios');\n\nasync function createPolicy() {\n    const apiUrl\
+          \ = 'https://{{HOST_QOALA}}/api/v1/quotation';\n    \n    const payload = {\n        product_category:\
+          \ 'TRAVEL',\n        partner_transaction_number: 'FL-01',\n        // ... other fields\n   \
+          \ };\n\n    const headers = {\n        'x-api-key': 'abcdefg',\n        'Content-Type': 'application/json'\n\
+          \    };\n\n    try {\n        const response = await axios.post(apiUrl, payload, { headers });\n\
+          \        console.log('Response:', response.data);\n    } catch (error) {\n        console.error('Error:',\
+          \ error.message);\n    }\n}\n\ncreatePolicy();\n"
+      - lang: Python
+        source: "import requests\nimport json\n\ndef create_policy():\n    api_url = 'https://{{HOST_QOALA}}/api/v1/quotation'\n\
+          \n    payload = {\n        \"product_category\": \"TRAVEL\",\n        \"partner_transaction_number\"\
+          : \"FL-01\",\n        # ... other fields\n    }\n\n    headers = {\n        'x-api-key': 'abcdefg',\n\
+          \        'Content-Type': 'application/json'\n    }\n\n    try:\n        response = requests.post(api_url,\
+          \ data=json.dumps(payload), headers=headers)\n        response_data = response.json()\n    \
+          \    print('Response:', response_data)\n    except requests.exceptions.RequestException as e:\n\
+          \        print('Error:', e)\n\ncreate_policy()\n"
+  /api/v2/quotation/quotes/partner/status:
+    get:
+      tags:
+      - API Specification
+      summary: Get Policy Detail
+      description: Policy detail
+      operationId: detailPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200detailPolicy'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  error_code:
+                    type: string
+                    example: POLCE-ERR-001
+                  message:
+                    type: string
+                    example: invalid request
+                  status:
+                    type: string
+                    example: failed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorizer Access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  error_code:
+                    type: string
+                    example: QEC-ERR-REST-003
+                  message:
+                    type: string
+                    example: product code G-ADLD-PARTNER-001 not found
+                  status:
+                    type: string
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      parameters:
+      - in: query
+        name: partner_transaction_number
+        required: true
+        description: The Transaction ID serves as a unique identifier for each transaction initiated through
+          the API. Partners are responsible for generating this ID and ensuring its uniqueness across
+          all of their transactions.
+        schema:
+          type: string
+          example: 5099e32c-5c75-4587
+      - in: query
+        name: product_code
+        required: true
+        description: Defined by Qoala, this field plays a pivotal role in the API, providing contextual
+          information about certain aspects of the product. However, the details for this field will be
+          shared at a later stage, when the product is ready for testing in the staging environment.
+        schema:
+          type: string
+          example: G-ADLD-PARTNER-001
+      - in: query
+        name: quotation_number
+        required: true
+        description: Unique identity number generated by qoala system as transaction identifier for each
+          transaction that received by qoala.
+        schema:
+          type: string
+          example: QS-GADGET-20251004-ABC12
+  /api/v2/policies/partner/cancel:
+    patch:
+      tags:
+      - API Specification
+      summary: Cancel Policy
+      description: Policy cancellation
+      operationId: cancelPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Success update policy status
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      policy_number:
+                        type: string
+                        example: G-ADLD-PARTNER-001-20251004-OM94T
+                      status:
+                        type: string
+                        example: POLICY_CANCELLED
+                      reason:
+                        type: string
+                        example: explain reason why do you cancel this policy
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  error_code:
+                    type: string
+                    example: POLCE-ERR-001
+                  message:
+                    type: string
+                    example: invalid request
+                  status:
+                    type: string
+                    example: failed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorizer Access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  error_code:
+                    type: string
+                    example: QEC-ERR-REST-003
+                  message:
+                    type: string
+                    example: product code G-ADLD-PARTNER-001 not found
+                  status:
+                    type: string
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policy_number
+              - reason
+              properties:
+                policy_number:
+                  type: string
+                  description: policy number generated by qoala
+                reason:
+                  type: string
+                  description: reason why do we need to cancel the policy
+  /api/v2/policies/documents/activation:
+    post:
+      tags:
+      - API Specification
+      summary: Activate Policy
+      description: API policy activation is needed when the object to be insured needs to be verified.
+        For example, this usually applies to used, second-hand gadgets, but is not needed for new gadgets.  Only
+        policies with a status of non POLICY_ACTIVE can be activated..
+      operationId: activationPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Activation submitted
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      policy_number:
+                        type: string
+                        example: G-ADLD-PARTNER-001-20251004-OM94T
+                      status:
+                        type: string
+                        example: DATA_VERIFICATION_SUBMITTED
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request payload
+                  status:
+                    type: string
+                    example: failed
+                  data:
+                    type: object
+                    example: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 401
+                  message:
+                    type: string
+                    example: Unauthorized request
+                  status:
+                    type: string
+                    example: failed
+                  data:
+                    type: object
+                    example: null
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policy_number
+              - status
+              properties:
+                policy_number:
+                  type: string
+                  example: SCS30-001-20220418
+                  description: policy number generated by qoala
+                status:
+                  type: string
+                  description: status of activation
+                  example: DATA_VERIFICATION_SUBMITTED
+                  enum:
+                  - DATA_VERIFICATION_SUBMITTED
+                  - DATA_VERIFICATION_IN_PROCESS
+                activated_at:
+                  type: string
+                  example: 2006-01-02T15:04:05+0700
+                  description: Activation date time that passed from partner or 3rd party service. Date
+                    time format follow ISO8601
+                upload_activation_at:
+                  type: string
+                  example: 2006-01-02T15:04:05+0700
+                  description: Uploaded date time of evidence or activation file for insurance to review.
+                    Date time format follow ISO8601
+                supporting_documents:
+                  type: object
+                  description: Data of uploaded activation document using provided presigned url for activation
+                  properties:
+                    url:
+                      type: string
+                      example: URL_DOCUMENT
+                      description: S3 URL of uploaded activation document
+                    key:
+                      type: string
+                      example: PRIVATE/POLICIES/PARTNER/GADGET/SCREEN_PROTECTION/example.mp4
+                      description: S3 URL key path of uploaded activation document
+                    type:
+                      type: string
+                      description: Enum value type of uploaded document
+                      example: POLICY_ACTIVATION
+                      enum:
+                      - POLICY_ACTIVATION
+                    filename:
+                      type: string
+                      example: example.mp4
+                      description: File name of uploaded activation document
+                insureds:
+                  type: array
+                  description: Detailed data of the insured gadget
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: GADGET
+                        description: The product category type of the insured detailed data
+                      details:
+                        type: array
+                        description: Detail information about the insured
+                        items:
+                          type: object
+                          properties:
+                            identity_type:
+                              type: string
+                              example: IMEI
+                              description: Identity type used for the insured
+                            identity_number:
+                              type: string
+                              example: 865769845678
+                              description: Identity number used for the insured
+                            model:
+                              type: string
+                              example: Iphone 8
+                              description: The model of the insured gadget
+                            manufacturer:
+                              type: string
+                              example: Apple
+                              description: The manufacturer of the insured gadget
+                            brand:
+                              type: string
+                              example: Apple
+                              description: The brand which produce the insured gadget
+                            series:
+                              type: string
+                              example: Iphone 8
+                              description: The product series of the insured gadget
+                            sum_insured:
+                              type: number
+                              example: 1000000
+                              description: The amount insured with the gadget
+                            device_category:
+                              type: string
+                              example: SMARTPHONE
+                              description: The insured gadget device’s category
+                additional_info:
+                  type: object
+                  description: Standard additional info object json passed from partner or 3rd party services
+                    for policy service to capture
+                  properties:
+                    activation_number:
+                      type: string
+                      example: 15SS9Nxm1650255314
+                      description: Identifier number of activation process returned from partner or 3rd
+                        party service
+                    external_url:
+                      type: string
+                      example: https://smartphone-frame-be-dot-qoala-217505.el.r.appspot.com
+                      description: Accessible external resource url that policy service will store this
+                        url as activation evidence from partner or 3rd party service.  If external url
+                        more than one value than separated by semicolon as separator.
+                    result:
+                      type: string
+                      example: 70%
+                      description: Value of crack result in this case is smartphone activation i.e 70%
+                    imei:
+                      type: string
+                      example: 1234567
+                      description: Value of detected imei during activation process. If imei more than
+                        one value than separated by semicolon as separator
+components:
+  schemas:
+    Document:
+      type: object
+      properties:
+        filename:
+          description: name of the fale, you can provide the filename include its extention.
+          type: string
+          example: G-ADLD-PARTNER-001-20251004-OM94T.pdf
+        type:
+          description: type of document, it is just constant value that categorize of the document.
+          type: string
+          examples:
+          - POLICY_CERTIFICATE
+          - POLICY_WORDING
+          - IMEI_PHOTO
+          - INVOICE
+          - KTP
+          - ID
+        url:
+          description: full url to access the document, this is should be public url
+          type: string
+          example: '{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/G-ADLD-PARTNER-001-20251004-OM94T.pdf'
+        alias:
+          description: document alias
+          type: string
+          example: policy_certificate.pdf
+    PolicyHolderRequest:
+      required:
+      - full_name
+      - email
+      properties:
+        identity_type:
+          description: type of data identity
+          type: string
+          example: BOOKING_NUMBER
+          enum:
+          - KTP
+          - PASSPORT
+          - DRIVING_LICENSE
+          - NATIONAL_ID
+        identity_number:
+          description: identity value
+          type: string
+          example: 1234567890
+        full_name:
+          description: fullname of policy holder
+          type: string
+          default: kwee
+          example: kwee
+        email:
+          description: email of policy holder, this email will receive policy certificate
+          type: string
+          example: john.doe@qoala.id
+        phone_number:
+          description: The phone number must start with the country code, prefixed by a '+' sign.
+          type: string
+          example: '+6281234567890'
+        birth_date:
+          description: birth date information in format yyyy-mm-dd
+          type: string
+          example: '1990-01-01'
+        gender:
+          description: User supplied username
+          type: string
+          example: WOMAN
+        relationship:
+          description: status of relationship
+          type: string
+          example: SINGLE
+        address:
+          description: detail of address
+          type: string
+          example: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI
+            Jakarta 10310
+        occupation:
+          description: occupation of person
+          type: string
+          example: Pilot
+        documents:
+          description: supporting documents
+          $ref: '#/components/schemas/Document'
+    InsuredGadget:
+      required:
+      - identity_type
+      - identity_number
+      - sum_insured
+      - brand
+      - model
+      - device_category
+      type: object
+      properties:
+        identity_type:
+          type: string
+          default: IMEI
+          example: IMEI
+          description: type of device identification
+        identity_number:
+          type: string
+          default: '45678986543456789'
+          example: '45678986543456789'
+          description: value of device identification
+        sum_insured:
+          type: number
+          format: float64
+          default: 100000
+          example: 100000
+          description: amount of insured
+        price:
+          type: number
+          format: float64
+          default: 100000
+          example: 100000
+          description: price of device
+        manufacturer:
+          type: string
+          example: Apple
+          description: manufacture of device
+        brand:
+          type: string
+          default: VIVO
+          example: VIVO
+          description: brand of device
+        series:
+          type: string
+          example: A2643
+          description: series of device
+        model:
+          type: string
+          default: X300
+          example: X300
+          description: model of device
+        activation_number:
+          type: string
+          example: 876543345687654
+          description: activation number of device
+        external_url:
+          type: string
+          example: http://url_here
+          description: external url for activation
+        upload_activation_at:
+          type: string
+          format: date-time
+          example: '2022-10-11T00:00:00Z'
+          description: time of activation
+        device_category:
+          type: string
+          default: SMARTPHONE
+          example: SMARTPHONE
+          enum:
+          - SMARTPHONE
+          - TABLET
+          - SMARTWATCH
+          - LAPTOP
+          - OTHERS
+          description: category of device
+        device_price:
+          type: number
+          format: float64
+          example: 10000000
+          description: price of device
+        deductible_info:
+          type: object
+          description: information of deduction
+          properties:
+            unit_fee:
+              type: string
+              enum:
+              - STATIC
+              - PERCENTAGE
+            unit_fee_amount:
+              type: number
+              format: float64
+              example: 910
+        covered_type_unit:
+          type: string
+          example: MONTH
+          description: unit of covered type
+          enum:
+          - DAY
+          - MONTH
+          - YEAR
+        covered_type_max:
+          type: number
+          example: 1
+          description: maximum number of covered period or tenure
+    InsuredAgent:
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: AGENT_ID
+          description: identifier type of user information
+        identity_number:
+          type: string
+          example: 12010367678988002
+          description: unique identifier of user information
+        full_name:
+          type: string
+          example: Judiwara Samson
+          description: full name of user information
+        email:
+          type: string
+          example: john.doe@qoala.id
+          description: email address of user information
+        phone_number:
+          type: string
+          example: 81245678910
+          description: phone number of user
+        store_location:
+          type: string
+          example: Indonesian Mall, Jakarta
+          description: Address of the store
+        store_name:
+          type: string
+          example: Gadget Store
+          description: Store Name
+        store_id:
+          type: string
+          example: 12349
+          description: Store Id
+    Insured:
+      type: object
+      required:
+      - type
+      - details
+      default:
+        type: GADGET
+        details:
+          identity_type: IMEI
+          identity_number: '45678986543456789'
+          sum_insured: 100000
+          price: 100000
+          brand: VIVO
+          model: X300
+          device_category: SMARTPHONE
+      example:
+        type: GADGET
+        details:
+          identity_type: IMEI
+          identity_number: '45678986543456789'
+          sum_insured: 100000
+          price: 100000
+          brand: VIVO
+          model: X300
+          device_category: SMARTPHONE
+      properties:
+        type:
+          description: type of insureds
+          type: string
+          default: GADGET
+          example: GADGET
+          enum:
+          - GADGET
+          - AGENT
+        details:
+          description: detail information of insureds
+          type: object
+          default:
+            identity_type: IMEI
+            identity_number: '45678986543456789'
+            sum_insured: 100000
+            price: 100000
+            brand: VIVO
+            model: X300
+            device_category: SMARTPHONE
+          example:
+            identity_type: IMEI
+            identity_number: '45678986543456789'
+            sum_insured: 100000
+            price: 100000
+            brand: VIVO
+            model: X300
+            device_category: SMARTPHONE
+          anyOf:
+          - $ref: '#/components/schemas/InsuredGadget'
+          - $ref: '#/components/schemas/InsuredAgent'
+        documents:
+          description: insured's supporting documents
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+    200detailPolicy:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: success create gadget policy
+        code:
+          type: number
+          example: 200
+        data:
+          type: object
+          properties:
+            partner_transaction_number:
+              type: string
+              example: Tx12345678543213456
+            quotation_number:
+              type: string
+              example: QS-GADGET-20251004-ABC12
+            product_code:
+              type: string
+              example: G-ADLD-PARTNER-001
+            policies:
+              type: array
+              items:
+                type: object
+                properties:
+                  number:
+                    type: string
+                    example: G-ADLD-PARTNER-001-20251004-OM94T
+                  status:
+                    type: string
+                    enum:
+                    - POLICY_ACTIVE
+                    - POLICY_ISSUING
+                    example: POLICY_ACTIVE
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Document'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+  examples:
+    createPolicyGadgetWithActivation:
+      value:
+        product_category: GADGET
+        partner_transaction_number: PARTNER-20230415-1393561
+        product_code: G-SCRN-PARTNER-001
+        purchased_at: '2023-04-15T23:26:08+07:00'
+        policy_holder:
+          identity_type: NATIONAL_ID
+          identity_number: 012345678901
+          full_name: John Doe
+          email: john.doe@qoala.id
+          phone_number: '+6281234567890'
+          birth_date: '1997-10-10'
+          gender: FEMALE
+          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI
+            Jakarta 10310
+          occupation: ''
+    createPolicyGadgetWithoutActivation:
+      value:
+        product_category: GADGET
+        partner_transaction_number: 231003-KT1
+        product_code: G-ADLD-PARTNER-001
+        purchased_at: '2023-10-03T00:00:00+07:00'
+        policy_holder:
+          identity_type: KTP
+          identity_number: '1234567890000000'
+          full_name: John Doe
+          email: john.doe@qoala.id
+          phone_number: '+6281234567890'
+          birth_date: '1990-01-01'
+          gender: MALE
+          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI
+            Jakarta 10310
+          occupation: Product Manager
+        insureds:
+        - type: GADGET
+          details:
+            identity_type: IMEI
+            identity_number: IMEITES2T0231003-001
+            manufacturer: Apple
+            sum_insured: 1000
+            device_price: 15000
+            brand: Apple
+            series: A2643
+            model: Iphone 13 Pro Max
+            device_category: SMARTPHONE
+            covered_type_unit: MONTH
+            covered_type_max: 1
+          documents:
+          - url: IMAGE_URL
+            type: IMEI_PHOTO
+            filename: PHOTO_OF_IMEI.jpg
+          - url: IMAGE_URL
+            type: INVOICE
+            filename: PHOTO_OF_INVOICE.jpg
+        - type: AGENT
+          details:
+            identity_type: AGENT_ID
+            identity_number: '123456'
+            full_name: John Doe ServiceAgent
+            email: serviceagent@qoala.id
+            phone_number: '+628123456789'
+            store_location: Indonesian Mall, Jakarta
+            store_name: Phone Store Jakarta
+            store_id: '1029310'
+    createPolicyGadgetMinimumRequest:
+      value:
+        product_category: GADGET
+        partner_transaction_number: Tx12345678543213456
+        product_code: G-ADLD-PARTNER-001
+        purchased_at: '2025-10-04T00:00:00+08:00'
+        policy_holder:
+          full_name: kwee
+        insureds:
+        - type: GADGET
+          details:
+            identity_type: IMEI
+            identity_number: '45678986543456789'
+            sum_insured: 100000
+            price: 100000
+            brand: VIVO
+            model: X300
+            device_category: SMARTPHONE
+  responses:
+    200createQuotation:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: status of response, it will contain success
+                example: success
+              message:
+                type: string
+                description: short message explains about the success response
+                example: success to create quotes
+              code:
+                type: number
+                description: http code response
+                example: 200
+              data:
+                type: object
+                description: showing data response
+                properties:
+                  partner_transaction_number:
+                    type: string
+                    description: The transaction ID serves as a unique identifier for each transaction
+                      initiated through the API. Partners are responsible for generating this ID and ensuring
+                      its uniqueness across their transactions.
+                    example: Tx12345678543213456
+                  transaction_number:
+                    type: string
+                    description: Unique transaction number generated in qoala system
+                    example: QS-GADGET-20251004-ABC12
+                  product_code:
+                    type: string
+                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual
+                      information about certain aspects of the product. However, as of now, the details
+                      for this field will be shared at a later stage when the product is ready for testing.
+                    example: G-ADLD-PARTNER-001
+                  policies:
+                    type: array
+                    items:
+                      type: object
+                      description: policy information contains about its identifier, status and so on.
+                      properties:
+                        number:
+                          type: string
+                          description: unique identifier for policy which is autogenerated by qoala system
+                          example: G-ADLD-PARTNER-001-20251004-RGJO7
+                        status:
+                          type: string
+                          description: status of policy, we have set of statuses but we can support mapping
+                            status from partner if needed.
+                          enum:
+                          - POLICY_ACTIVE
+                          - POLICY_ISSUING
+                          - DATA_VERIFICATION_NEEDED
+                          example: POLICY_ACTIVE
+                        start_protection_at:
+                          type: string
+                          description: start date time of policy protection period
+                          format: date-time
+                          example: '2025-10-04T00:00:00+08:00'
+                        end_protection_at:
+                          type: string
+                          description: end date time of policy protection period
+                          format: date-time
+                          example: '2026-10-04T00:00:00+08:00'
+                        premium_amount:
+                          type: number
+                          description: premium amount of the policy
+                          example: 100000
+                        documents:
+                          type: array
+                          description: information regarding to policy document like certificate and policy
+                            wording stated by insurer
+                          items:
+                            $ref: '#/components/schemas/Document'
+                          example:
+                          - type: POLICY_CERTIFICATE
+                            filename: G-ADLD-PARTNER-001-20251004-RGJO7.pdf
+                            alias: ''
+                            url: '{base_url}/api/v2/policies/documents/198dcf19-087b-4074-aa32-1172ab1dae6f/files/G-ADLD-PARTNER-001-20251004-RGJO7.pdf'
+                          - type: POLICY_WORDING
+                            filename: Gadget_Policy_Wording.pdf
+                            alias: ''
+                            url: '{base_url}/api/v2/policies/documents/198dcf19-087b-4074-aa32-1172ab1dae6f/files/Gadget_Policy_Wording.pdf'
+    202createQuotation:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: status of response, it will contain success
+                example: success
+              message:
+                type: string
+                description: short message explains about the success response
+                example: success to create gadget policy
+              code:
+                type: number
+                description: http code response
+                example: 202
+              data:
+                type: object
+                description: showing data response
+                properties:
+                  partner_transaction_number:
+                    type: string
+                    description: The transaction ID serves as a unique identifier for each transaction
+                      initiated through the API. Partners are responsible for generating this ID and ensuring
+                      its uniqueness across their transactions.
+                    example: Tx12345678543213456
+                  quotation_number:
+                    type: string
+                    description: Unique transaction number generated in qoala system
+                    example: QS-GADGET-20251004-ABC12
+                  product_code:
+                    type: string
+                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual
+                      information about certain aspects of the product. However, as of now, the details
+                      for this field will be shared at a later stage when the product is ready for testing.
+                    example: G-ADLD-PARTNER-001
+    400createQuotation:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 400
+              error_code:
+                type: string
+                description: "qoala system error code for bad request\n\n### List of Error Code detail\n\
+                  \n| Error Code | HTTP Status | Description |\n|---|---|---|  \n| QEC-ERR-001 | 400 |\
+                  \ Invalid Request From the partner |\n"
+                example: QEC-ERR-001
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: success create gadget policy
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    401createQuotation:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 401
+              error_code:
+                type: string
+                description: 'qoala system error code for invalid token
+
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QC-CLT-KEYA-V1-003 | 401 | Invalid Permission |
+
+                  '
+                example: QEC-ERR-401-01
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: success create gadget policy
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    404createQuotation:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 404
+              error_code:
+                type: string
+                description: 'qoala system error code for error classification
+
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QEC-ERR-REST-003 | 404 | Wrong Product Code |
+
+                  '
+                example: QEC-ERR-REST-003
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: product code G-ADLD-PARTNER-001 not found
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    500createQuotation:
+      description: Internal Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 500
+              error_code:
+                type: string
+                description: 'qoala system error code for error classification
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QEC-ERR-REST-001 | 500 | Internal Server Error |
+
+                  '
+                example: QEC-ERR-REST-001
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: success create gadget policy
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed

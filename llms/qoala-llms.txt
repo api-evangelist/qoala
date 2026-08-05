@@ -1,0 +1,57 @@
+# Qoala for Enterprise Documentation
+
+> Unlock the potential of Qoala App Enterprise with our detailed API documentation. Explore robust integrations for travel, health, credit, and gadgets to streamline your services and enhance user experience. Start building with Qoala today!
+
+## API Reference
+- [API Integration](https://docs.qoala.app/reference/api-integration.md): This page describe how our partner connect to qoala system through API integration.
+- [Authentication](https://docs.qoala.app/reference/authentication.md)
+- [Claim Status](https://docs.qoala.app/reference/claim-status.md): List of claim status along with the status code and description
+- [Introduction](https://docs.qoala.app/reference/introduction.md)
+- [Policy Status](https://docs.qoala.app/reference/policy-status.md): List of policy status along with the status code and description
+- [White Label](https://docs.qoala.app/reference/white-label.md): This page describes how to integrate Qoala's insurance products as a white label solution in your platform.
+- [Claim Status Notification](https://docs.qoala.app/reference/claim-status-notification.md)
+- [Policy Status Notification](https://docs.qoala.app/reference/policy-status-notification.md)
+- [Webhook Notification](https://docs.qoala.app/reference/webhook-notification.md)
+- [Create Claim](https://docs.qoala.app/reference/createclaim-1.md): Partners could use this endpoint to generate and create a new claim. Qoala will validate and make sure the policy is claimable. Qoala will share the claim number in the response and if needed could also notify the partner via callback Integration. ### List of Claim Status  | Status Code                | Claim Status (Subject)          | Description                                     | | --------------------------- | ------------------------------- | ----------------------------------------------- | | `CLAIM_INITIATE`            | Claim initiated                 | When the claimer successfully submitted a claim | | `QOALA_CLAIM_APPROVE`       | Claim received by Qoala         | Qoala approved the claim                        | | `QOALA_CLAIM_REJECT`        | Claim rejected by Qoala         | Qoala rejects the claim                         | | `INSURANCE_CLAIM_APPROVE`   | Claim approved by Insurance      | Insurance approved the claim                    | | `INSURANCE_CLAIM_REJECT`    | Claim rejected by Insurance      | Insurance rejected the claim                    | | `INSURANCE_CLAIM_PAID`      | Claim paid by Insurance           | Claim already paid by insurance                 | | `INSURANCE_CLAIM_WAITING_PAID` | Claim Waiting paid            | Claim already approved by insurance and waiting for paid |  Each status code corresponds to a specific claim status, providing information about the state of the claim in the system.
+- [Cancel Claim](https://docs.qoala.app/reference/cancelclaim-1.md): Claim cancellation
+- [Upload claim documents](https://docs.qoala.app/reference/presigncreateclaim-1.md): Presign url to upload document
+- [Update claim documents](https://docs.qoala.app/reference/presignuploadclaim-1.md): Presign url to upload document
+- [Get Claim Pool](https://docs.qoala.app/reference/getpool-1.md): this endpoint can be used by the partner to get the claim pool balance
+- [Get Claim Status](https://docs.qoala.app/reference/statusclaim-1.md): Get claim status
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-13.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-15.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-15.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-12.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-12.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/createpolicy-1.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-11.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-11.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-11.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-13.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-13.md): Policy cancellation
+- [Activate Policy](https://docs.qoala.app/reference/activationpolicy-1.md): API policy activation is needed when the object to be insured needs to be verified. For example, this usually applies to used, second-hand gadgets, but is not needed for new gadgets.  Only policies with a status of non POLICY_ACTIVE can be activated..
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-12.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-14.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-14.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-14.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-16.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-16.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-15.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-17.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-17.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-17.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-19.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-19.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-18.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-20.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-20.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-19.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-21.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-21.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-16.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-18.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-18.md): Policy cancellation
+- [Create Policy](https://docs.qoala.app/reference/post_api-v2-quotation-quotes-20.md): This API is used by partner to create policy
+- [Get Policy Detail](https://docs.qoala.app/reference/detailpolicy-22.md): Policy detail
+- [Cancel Policy](https://docs.qoala.app/reference/cancelpolicy-22.md): Policy cancellation

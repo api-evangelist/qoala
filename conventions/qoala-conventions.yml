@@ -1,0 +1,80 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.qoala.app/reference/webhook-notification, https://docs.qoala.app/reference/api-integration, https://docs.qoala.app/reference/authentication,
+  openapi/*.yml
+authentication:
+  style: api-key
+  header: x-api-key
+  issuance: Partner API keys are issued by Qoala Engineering during integration onboarding; there is no self-service
+    key.
+  docs: https://docs.qoala.app/reference/authentication
+  note: The separate Authentication API (/v2/sessions) issues a JWT access token + refresh token for the Qoala for Enterprise
+    platform; the partner integration API itself is keyed by x-api-key, not the JWT.
+idempotency:
+  supported: true
+  field: request_id
+  location: request body
+  scope: partner webhook (POST /api/integration/partner/webhook)
+  semantics:
+  - case: same request_id, identical payload, after successful processing
+    result: 200 OK — the previously processed response is replayed, the request is not reprocessed
+  - case: same request_id, different payload
+    result: 409 Conflict — rejected as an idempotency violation
+  - case: no request_id supplied
+    result: each request is treated as new and processed independently
+  retry_guidance: Partners should retry on any response other than HTTP 200, except 409 Conflict, which indicates an
+    idempotency violation that requires investigation rather than a retry.
+  docs: https://docs.qoala.app/reference/webhook-notification
+  note: Idempotency is documented on the inbound partner webhook. The outbound policy/claim creation calls instead rely
+    on partner_transaction_number, which the partner generates and must keep unique across its transactions.
+correlation:
+  partner_transaction_number: Partner-generated unique identifier for each transaction; the partner is responsible for
+    its uniqueness.
+  quotation_number: Qoala-generated acknowledgement identifier returned immediately from an asynchronous policy creation.
+  transaction_number: Qoala-generated identifier for the policy or claim transaction.
+  policy_number: Qoala-generated identifier for an issued policy.
+  claim_number: Qoala-generated identifier for a created claim.
+  request_id: Echoed back on webhook responses for tracing.
+async_model:
+  style: acknowledge-then-callback
+  description: Policy creation is asynchronous. The partner POSTs a quotation; Qoala responds immediately with a quotation
+    number acknowledging receipt only — not completion. When issuance finishes Qoala POSTs the full policy detail to
+    the partner-hosted callback URL. Insurer communication is handled internally by Qoala and does not block the partner<->Qoala
+    exchange.
+  docs: https://docs.qoala.app/reference/api-integration
+  http_signal: 202 Accepted is declared alongside 200 on the Create Policy operations.
+error_envelope:
+  shape:
+    status: string — "success" | "failed"
+    data: object | null
+    message: string — human-readable detail
+    code: integer — mirrors the HTTP status
+    error_code: string — machine-readable error code (on failures)
+    request_id: string — echoed correlation id
+  content_type: application/json
+  rfc9457: false
+  note: Qoala uses a custom envelope, not RFC 9457 application/problem+json.
+  catalog: errors/qoala-problem-types.yml
+pagination:
+  supported: false
+  note: No paginated collection endpoints are published; reads are single-resource lookups by identifier.
+versioning:
+  scheme: uri-path
+  current: v2
+  note: Business endpoints are under /api/v2/; the Authentication API uses /v2/. Spec documents are versioned v1.3.
+  see: lifecycle/qoala-lifecycle.yml
+rate_limiting:
+  documented: false
+  note: No rate-limit headers or quota policy are published in the developer documentation.
+callback_security:
+  inbound_to_qoala: x-api-key header issued by Qoala.
+  outbound_from_qoala: Partner-configured callback URL. Qoala sends an x-api-key header the partner can verify. Qoala
+    states it supports HMAC_SHA256, MD5, Bearer and Basic Auth authorization on partner callbacks, and can add methods
+    on request.
+  retry: Non-200 responses from the partner callback are retried up to 8 times with exponential backoff.
+  docs: https://docs.qoala.app/reference/claim-status-notification
+cross_links:
+  authentication: authentication/qoala-authentication.yml
+  errors: errors/qoala-problem-types.yml
+  lifecycle: lifecycle/qoala-lifecycle.yml
+  webhooks: asyncapi/qoala-webhooks.yml

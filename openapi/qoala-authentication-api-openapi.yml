@@ -1,0 +1,639 @@
+openapi: 3.1.0
+info:
+  title: Authentication API
+  version: v1.3
+  description: '# Introduction
+
+
+    Welcome to the Qoala Authentication API! This API provides authentication and session management functionality
+    for the Qoala platform.
+
+
+    # Authentication Endpoints
+
+
+    This API provides the following authentication capabilities:
+
+
+    1. **Session Creation** - Create a new session using email and security code
+
+    2. **Session Refresh** - Refresh an existing session using a refresh token
+
+
+    # Host
+
+
+    Environment|Host Address
+
+    ------------- | -------------
+
+    Staging|https://api-staging.qoala.app
+
+
+    # Authentication
+
+
+    The session endpoints use captcha tokens and other security measures to protect against automated
+    attacks. After successful authentication, you will receive JWT tokens that can be used to access protected
+    resources.
+
+    '
+servers:
+- url: https://api-staging.qoala.app
+- url: https://api.uat.qoala.app
+- url: https://api.qoala.app
+tags:
+- name: Authentication
+  description: Authentication and session management endpoints
+paths:
+  /v2/sessions:
+    post:
+      tags:
+      - Authentication
+      summary: Create Session
+      description: Create a new authentication session using email and security code
+      operationId: createSession
+      parameters:
+      - in: header
+        name: priority
+        required: true
+        schema:
+          type: string
+        description: Request priority header
+      - in: header
+        name: x-captcha-token
+        required: true
+        schema:
+          type: string
+        description: Captcha token for security verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - securityCode
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User email address
+                  example: user@example.com
+                securityCode:
+                  type: string
+                  description: Security code sent to user's email
+                  example: '123456'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+  /v2/sessions/refresh:
+    post:
+      tags:
+      - Authentication
+      summary: Refresh Session
+      description: Refresh an existing authentication session using a refresh token
+      operationId: refreshSession
+      parameters:
+      - in: header
+        name: priority
+        required: true
+        schema:
+          type: string
+        description: Request priority header
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - refresh
+              properties:
+                refresh:
+                  type: string
+                  description: Refresh token obtained from previous session
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+components:
+  schemas:
+    SessionResponse:
+      type: object
+      required:
+      - camel
+      - data
+      - status
+      - message
+      properties:
+        camel:
+          type: boolean
+          description: Indicates if response keys are in camelCase
+        status:
+          type: string
+          example: success
+          description: Response status
+        message:
+          type: string
+          example: Session created successfully
+          description: Response message
+        data:
+          type: object
+          required:
+          - user
+          - token
+          - refresh
+          properties:
+            token:
+              type: string
+              description: JWT access token
+            refresh:
+              type: string
+              description: JWT refresh token
+            user:
+              $ref: '#/components/schemas/User'
+    User:
+      type: object
+      required:
+      - id
+      - uuid
+      - firstName
+      - lastName
+      - fullName
+      - gender
+      - lang
+      - nationality
+      - email
+      - phoneNumber
+      - isActive
+      - locked
+      - isIdentityVerified
+      - isBankVerified
+      - isEmailVerified
+      - isPhoneVerified
+      - createdAt
+      - organization
+      - role
+      - roleDetail
+      - bankAccount
+      - groups
+      - permissions
+      - profileImage
+      - lastLogin
+      - externalId
+      - totp
+      properties:
+        id:
+          type: integer
+          description: User ID
+        uuid:
+          type: string
+          format: uuid
+          description: User UUID
+        firstName:
+          type: string
+          description: User's first name
+        lastName:
+          type: string
+          description: User's last name
+        fullName:
+          type: string
+          description: User's full name
+        gender:
+          type: string
+          nullable: true
+          description: User's gender
+        lang:
+          type: string
+          description: User's preferred language
+        nationality:
+          type: string
+          nullable: true
+          description: User's nationality
+        email:
+          type: string
+          format: email
+          description: User's email address
+        phoneNumber:
+          type: string
+          description: User's phone number
+        isActive:
+          type: integer
+          description: Whether user is active (1 = active, 0 = inactive)
+        locked:
+          type: integer
+          description: Whether user is locked (1 = locked, 0 = unlocked)
+        isIdentityVerified:
+          type: string
+          description: Identity verification status
+        isBankVerified:
+          type: string
+          description: Bank verification status
+        isEmailVerified:
+          type: string
+          description: Email verification status
+        isPhoneVerified:
+          type: string
+          description: Phone verification status
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+        lastLogin:
+          type: string
+          format: date-time
+          description: Last login timestamp
+        role:
+          type: string
+          description: User's role
+        roleDetail:
+          $ref: '#/components/schemas/RoleDetail'
+        organization:
+          $ref: '#/components/schemas/Organization'
+        bankAccount:
+          type: object
+          description: User's bank account information
+        groups:
+          type: array
+          items:
+            type: string
+          description: User's groups
+        permissions:
+          type: array
+          items:
+            type: string
+          description: User's permissions
+        profileImage:
+          type: string
+          nullable: true
+          description: URL to user's profile image
+        externalId:
+          type: string
+          nullable: true
+          description: External ID reference
+        totp:
+          type: integer
+          description: TOTP status (1 = enabled, 0 = disabled)
+    RoleDetail:
+      type: object
+      required:
+      - id
+      - name
+      - rank
+      - description
+      - isLock
+      properties:
+        id:
+          type: string
+          description: Role ID
+        name:
+          type: string
+          description: Role name
+        rank:
+          type: integer
+          description: Role rank/priority
+        description:
+          type: string
+          description: Role description
+        isLock:
+          type: integer
+          description: Whether role is locked (1 = locked, 0 = unlocked)
+    Organization:
+      type: object
+      required:
+      - id
+      - name
+      - code
+      - codeAlias
+      - country
+      - description
+      - type
+      - logo
+      - logoSmall
+      - config
+      - contact
+      - address
+      - partnerId
+      - alternative
+      - bu
+      - colorTheme
+      - deletedAt
+      - sectionLevelId
+      - apiKey
+      - partner
+      - productCategories
+      - industries
+      - relations
+      - bank
+      properties:
+        id:
+          type: string
+          description: Organization ID
+        name:
+          type: string
+          description: Organization name
+        code:
+          type: string
+          description: Organization code
+        codeAlias:
+          type: string
+          description: Organization code alias
+        country:
+          type: string
+          description: Organization country
+        description:
+          type: string
+          description: Organization description
+        type:
+          type: string
+          description: Organization type
+        logo:
+          type: string
+          description: Organization logo URL
+        logoSmall:
+          type: string
+          description: Organization small logo URL
+        address:
+          type: string
+          description: Organization address
+        alternative:
+          type: string
+          description: Alternative name
+        bu:
+          type: string
+          description: Business unit
+        partnerId:
+          type: string
+          nullable: true
+          description: Partner ID
+        deletedAt:
+          type: string
+          nullable: true
+          format: date-time
+          description: Deletion timestamp
+        sectionLevelId:
+          type: string
+          nullable: true
+          description: Section level ID
+        bank:
+          type: string
+          nullable: true
+          description: Bank information
+        config:
+          $ref: '#/components/schemas/OrganizationConfig'
+        colorTheme:
+          $ref: '#/components/schemas/ColorTheme'
+        contact:
+          $ref: '#/components/schemas/Contact'
+        apiKey:
+          $ref: '#/components/schemas/ApiKey'
+        partner:
+          $ref: '#/components/schemas/Partner'
+        productCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+        industries:
+          type: array
+          items:
+            type: string
+        relations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Relation'
+    OrganizationConfig:
+      type: object
+      required:
+      - hasLevel
+      - loginMethods
+      - hasAgent
+      - hasCommission
+      properties:
+        hasLevel:
+          type: boolean
+          description: Whether organization has level structure
+        hasAgent:
+          type: boolean
+          description: Whether organization has agents
+        hasCommission:
+          type: boolean
+          description: Whether organization has commission structure
+        loginMethods:
+          type: array
+          items:
+            type: string
+          description: Available login methods
+    ColorTheme:
+      type: object
+      required:
+      - primary
+      - secondary
+      properties:
+        primary:
+          type: string
+          description: Primary color
+        secondary:
+          type: string
+          description: Secondary color
+    Contact:
+      type: object
+      required:
+      - mainPic
+      - reconPic
+      properties:
+        mainPic:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPerson'
+        reconPic:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPerson'
+    ContactPerson:
+      type: object
+      required:
+      - name
+      - phoneNumber
+      - email
+      properties:
+        name:
+          type: string
+          description: Contact person name
+        phoneNumber:
+          type: string
+          description: Contact person phone number
+        email:
+          type: string
+          format: email
+          description: Contact person email
+    ApiKey:
+      type: object
+      required:
+      - key
+      - secret
+      - isActive
+      - createdAt
+      - updatedAt
+      - plainSecret
+      - createdBy
+      properties:
+        key:
+          type: string
+          nullable: true
+          description: API key
+        secret:
+          type: string
+          description: API secret (hashed)
+        plainSecret:
+          type: string
+          description: API secret (plain text)
+        isActive:
+          type: integer
+          description: Whether API key is active
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        createdBy:
+          type: string
+          description: Creator user ID
+    Partner:
+      type: object
+      required:
+      - id
+      - type
+      - name
+      - alias
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: Partner ID
+        type:
+          type: string
+          description: Partner type
+        name:
+          type: string
+          description: Partner name
+        alias:
+          type: string
+          description: Partner alias
+    ProductCategory:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - description
+      - industry
+      - icon
+      - isDraft
+      properties:
+        id:
+          type: string
+          description: Product category ID
+        slug:
+          type: string
+          description: Product category slug
+        name:
+          type: string
+          description: Product category name
+        description:
+          type: string
+          nullable: true
+          description: Product category description
+        industry:
+          type: string
+          description: Industry
+        icon:
+          type: string
+          description: Icon URL
+        isDraft:
+          type: integer
+          description: Draft status
+    Relation:
+      type: object
+      required:
+      - id
+      - name
+      - code
+      - codeAlias
+      - type
+      - partnerId
+      - products
+      properties:
+        id:
+          type: string
+          description: Relation ID
+        name:
+          type: string
+          description: Relation name
+        code:
+          type: string
+          description: Relation code
+        codeAlias:
+          type: string
+          description: Relation code alias
+        type:
+          type: string
+          description: Relation type
+        partnerId:
+          type: string
+          nullable: true
+          description: Partner ID
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - description
+      - industry
+      - icon
+      - isDraft
+      - config
+      properties:
+        id:
+          type: string
+          description: Product ID
+        slug:
+          type: string
+          description: Product slug
+        name:
+          type: string
+          description: Product name
+        description:
+          type: string
+          nullable: true
+          description: Product description
+        industry:
+          type: string
+          description: Industry
+        icon:
+          type: string
+          description: Icon URL
+        isDraft:
+          type: integer
+          description: Draft status
+        config:
+          type: object
+          nullable: true
+          description: Product configuration

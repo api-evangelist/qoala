@@ -1,0 +1,337 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/*.yml components.schemas $ref graph and identifier fields
+domain: insurance policy issuance and claims
+identifiers:
+- id: partner_transaction_number
+  owner: partner
+  description: Partner-generated unique transaction id
+- id: quotation_number
+  owner: qoala
+  description: Acknowledgement id returned from asynchronous policy creation
+  example_prefix: QS-
+- id: transaction_number
+  owner: qoala
+  description: Policy or claim transaction id
+- id: policy_number
+  owner: qoala
+  description: Issued policy id
+- id: claim_number
+  owner: qoala
+  description: Created claim id
+- id: product_code
+  owner: qoala
+  description: Product identifier defined by Qoala
+- id: claim_pool_code
+  owner: qoala
+  description: Stop-loss claim pool identifier (path parameter on getPool)
+core_flow:
+- quotation -> policy (async, acknowledged by quotation_number, confirmed by callback)
+- policy -> claim (a claim is created against an existing claimable policy)
+- claim -> documents (presigned upload/update)
+- policy|claim -> status notification (partner callback)
+entities:
+- entity: Document
+  fields: 4
+  key_fields: []
+  sources:
+  - openapi/qoala-bus-insurance-openapi.yml
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-credit-insurance-openapi.yml
+  source_count: 14
+- entity: Insured
+  fields: 3
+  key_fields: []
+  sources:
+  - openapi/qoala-bus-insurance-openapi.yml
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-credit-insurance-openapi.yml
+  source_count: 14
+- entity: PolicyHolderRequest
+  fields: 11
+  key_fields:
+  - identity_number
+  - phone_number
+  sources:
+  - openapi/qoala-bus-insurance-openapi.yml
+  - openapi/qoala-credit-insurance-openapi.yml
+  - openapi/qoala-credit-life-insurance-openapi.yml
+  - openapi/qoala-experience-event-insurance-openapi.yml
+  source_count: 12
+- entity: 200detailPolicy
+  fields: 4
+  key_fields:
+  - status
+  sources:
+  - openapi/qoala-bus-insurance-openapi.yml
+  - openapi/qoala-credit-insurance-openapi.yml
+  - openapi/qoala-credit-life-insurance-openapi.yml
+  - openapi/qoala-experience-event-insurance-openapi.yml
+  source_count: 12
+- entity: InsuredUser
+  fields: 11
+  key_fields:
+  - identity_number
+  - phone_number
+  sources:
+  - openapi/qoala-bus-insurance-openapi.yml
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-credit-life-insurance-openapi.yml
+  source_count: 11
+- entity: InsuredTravel
+  fields: 23
+  key_fields:
+  - identity_number
+  sources:
+  - openapi/qoala-bus-insurance-openapi.yml
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-experience-event-insurance-openapi.yml
+  source_count: 6
+- entity: InsuredLoan
+  fields: 10
+  key_fields:
+  - identity_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-credit-insurance-openapi.yml
+  - openapi/qoala-credit-life-insurance-openapi.yml
+  source_count: 4
+- entity: InsuredAgent
+  fields: 8
+  key_fields:
+  - identity_number
+  - phone_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-gadget-insurance-openapi.yml
+  - openapi/qoala-goods-insurance-openapi.yml
+  source_count: 4
+- entity: InsuredGadget
+  fields: 15
+  key_fields:
+  - identity_number
+  - activation_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-gadget-insurance-openapi.yml
+  source_count: 3
+- entity: InsuredShipping
+  fields: 7
+  key_fields:
+  - identity_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-logistic-insurance-openapi.yml
+  source_count: 3
+- entity: InsuredPackage
+  fields: 4
+  key_fields:
+  - identity_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-logistic-insurance-openapi.yml
+  source_count: 3
+- entity: InsuredVehicle
+  fields: 19
+  key_fields:
+  - identity_number
+  - chassis_number
+  - engine_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-vehicle-insurance-openapi.yml
+  source_count: 3
+- entity: InsuredGoods
+  fields: 8
+  key_fields:
+  - identity_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-goods-insurance-openapi.yml
+  source_count: 3
+- entity: InsuredMotor
+  fields: 11
+  key_fields:
+  - identity_number
+  - chasis_number
+  - engine_number
+  - registration_number
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  source_count: 2
+- entity: 200status
+  fields: 4
+  key_fields:
+  - status
+  sources:
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  source_count: 2
+- entity: SessionResponse
+  fields: 4
+  key_fields:
+  - status
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: User
+  fields: 27
+  key_fields:
+  - id
+  - uuid
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: RoleDetail
+  fields: 5
+  key_fields:
+  - id
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: Organization
+  fields: 24
+  key_fields:
+  - id
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: OrganizationConfig
+  fields: 4
+  key_fields: []
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: ColorTheme
+  fields: 2
+  key_fields: []
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: Contact
+  fields: 2
+  key_fields: []
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: ContactPerson
+  fields: 3
+  key_fields: []
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: ApiKey
+  fields: 7
+  key_fields: []
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: Partner
+  fields: 4
+  key_fields:
+  - id
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: ProductCategory
+  fields: 7
+  key_fields:
+  - id
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: Relation
+  fields: 7
+  key_fields:
+  - id
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: Product
+  fields: 8
+  key_fields:
+  - id
+  sources:
+  - openapi/qoala-authentication-api-openapi.yml
+  source_count: 1
+- entity: UserBorrower
+  fields: 11
+  key_fields:
+  - identity_number
+  - phone_number
+  sources:
+  - openapi/qoala-credit-insurance-openapi.yml
+  source_count: 1
+- entity: UserLender
+  fields: 11
+  key_fields:
+  - identity_number
+  - phone_number
+  sources:
+  - openapi/qoala-credit-insurance-openapi.yml
+  source_count: 1
+relationships:
+- from: SessionResponse
+  to: User
+  cardinality: has_one
+- from: User
+  to: Organization
+  cardinality: has_one
+- from: User
+  to: RoleDetail
+  cardinality: has_one
+- from: Organization
+  to: ApiKey
+  cardinality: has_one
+- from: Organization
+  to: ColorTheme
+  cardinality: has_one
+- from: Organization
+  to: Contact
+  cardinality: has_one
+- from: Organization
+  to: OrganizationConfig
+  cardinality: has_one
+- from: Organization
+  to: Partner
+  cardinality: has_one
+- from: Organization
+  to: ProductCategory
+  cardinality: has_many
+- from: Organization
+  to: Relation
+  cardinality: has_many
+- from: Contact
+  to: ContactPerson
+  cardinality: has_many
+- from: Relation
+  to: Product
+  cardinality: has_many
+- from: PolicyHolderRequest
+  to: Document
+  cardinality: has_one
+- from: Insured
+  to: Document
+  cardinality: has_many
+- from: Insured
+  to: InsuredTravel
+  cardinality: has_one
+- from: Insured
+  to: InsuredUser
+  cardinality: has_one
+- from: 200detailPolicy
+  to: Document
+  cardinality: has_many
+render: null

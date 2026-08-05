@@ -1,0 +1,48 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.qoala.app/reference/introduction, https://docs.qoala.app/llms.txt, openapi/*.yml
+versioning:
+  scheme: uri-path
+  current: v2
+  spec_version: v1.3
+  note: Business endpoints sit under /api/v2/; the Authentication API uses /v2/. All 15 published OpenAPI documents declare
+    info.version v1.3.
+  docs: https://docs.qoala.app/reference/introduction
+environments:
+- name: staging
+  host: https://api-staging.qoala.app
+- name: uat
+  host: https://api.uat.qoala.app
+  note: The introduction page lists https://uat.qoala.app; the OpenAPI servers[] list https://api.uat.qoala.app. Both
+    are published by Qoala and disagree.
+- name: production
+  host: https://api.qoala.app
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: 'No deprecation or sunset policy is published, and no operation in any of the 15 specs is marked deprecated:
+    true.'
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA is published.
+status_page: null
+status_page_note: No status page was found. https://status.qoala.app and https://status.qoala.com do not resolve. https://qoala.statuspage.io
+  returns HTTP 200 but redirects to the Atlassian Statuspage marketing site — it is an unclaimed-subdomain soft 200,
+  NOT a Qoala status page, and is not recorded as one.
+changelog:
+  url: null
+  note: No dated changelog is published; docs pages carry an updatedAt timestamp only (most recently 2026-08-04).
+evidence:
+- url: https://status.qoala.app/
+  status: 0
+  note: DNS does not resolve
+- url: https://status.qoala.com/
+  status: 0
+  note: DNS does not resolve
+- url: https://qoala.statuspage.io/
+  status: 200
+  note: Atlassian marketing page, not a Qoala status page
+- url: https://docs.qoala.app/changelog
+  status: 404

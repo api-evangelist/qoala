@@ -1,0 +1,310 @@
+generated: '2026-08-05'
+method: derived
+source: mcp/qoala-mcp.yml + openapi/*.yml
+note: Qoala's MCP server is a DOCUMENTATION-PLANE server, not a capability-plane one. Its six tools are spec-navigation
+  and generic-execution primitives over the 15 published OpenAPI documents — there is no per-operation tool such
+  as create_policy or create_claim. Every REST operation is therefore reachable only indirectly, through the generic
+  execute-request tool, and no tool binds 1:1 to an operationId. This is recorded honestly rather than mapped as
+  if per-operation tools existed.
+surfaces:
+  openapi:
+    files: 15
+    operations: 51
+    gated: false
+    note: 15 OpenAPI 3.1.0 documents harvested from the provider's published specs
+  mcp:
+    url: https://docs.qoala.app/mcp
+    gated: false
+    note: tools/list and tools/call answered anonymously; execute-request against the business API still needs a
+      partner x-api-key
+  graphql: null
+crosswalk: []
+mcp_only:
+- tool: list-specs
+  reason: Documentation-plane discovery over the 15 published OpenAPI documents; no backing REST operation.
+- tool: list-endpoints
+  reason: Documentation-plane index of paths/methods within one spec; no backing REST operation.
+- tool: get-endpoint
+  reason: Returns the OpenAPI fragment (parameters, schemas, servers, security) for one path+method; no backing
+    REST operation.
+- tool: search-endpoints
+  reason: Full-text search across paths, operations and parameters; no backing REST operation.
+- tool: get-server-variables
+  reason: Reads servers[] variables from a spec; no backing REST operation.
+- tool: execute-request
+  reason: Generic HAR-request executor. It can invoke ANY of the 51 REST operations, so it binds to all of them
+    and to none of them specifically — recorded here rather than fanned out into 51 false 1:1 rows.
+rest_only:
+- capability: Authentication API
+  spec: qoala-authentication-api-openapi.yml
+  operations:
+  - operationId: createSession
+    method: POST
+    path: /v2/sessions
+    summary: Create Session
+  - operationId: refreshSession
+    method: POST
+    path: /v2/sessions/refresh
+    summary: Refresh Session
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Bus Insurance
+  spec: qoala-bus-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Claim API
+  spec: qoala-claim-api-openapi.yml
+  operations:
+  - operationId: createClaim
+    method: POST
+    path: /api/v2/claims/partner/create
+    summary: Create Claim
+  - operationId: cancelClaim
+    method: PATCH
+    path: /api/v2/claims/partner/cancel
+    summary: Cancel Claim
+  - operationId: presignCreateClaim
+    method: POST
+    path: /api/v2/claims/partner/update/presign
+    summary: Upload claim documents
+  - operationId: presignUploadClaim
+    method: PUT
+    path: /api/v2/claims/partner/update/presign
+    summary: Update claim documents
+  - operationId: getPool
+    method: GET
+    path: /api/v2/products/finance/partner/products/stoploss/{claim_pool_code}
+    summary: Get Claim Pool
+  - operationId: statusClaim
+    method: GET
+    path: /api/v2/claims/partner/status
+    summary: Get Claim Status
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Credit Insurance
+  spec: qoala-credit-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Credit Life Insurance
+  spec: qoala-credit-life-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Experience & Event Insurance
+  spec: qoala-experience-event-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Flight Insurance
+  spec: qoala-flight-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Gadget Insurance
+  spec: qoala-gadget-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  - operationId: activationPolicy
+    method: POST
+    path: /api/v2/policies/documents/activation
+    summary: Activate Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Goods Insurance
+  spec: qoala-goods-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Hotel Insurance
+  spec: qoala-hotel-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Logistic Insurance
+  spec: qoala-logistic-insurance-openapi.yml
+  operations:
+  - operationId: createPolicy
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Micro health insurance
+  spec: qoala-micro-health-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Qoala Claim API
+  spec: qoala-claim-api-alt-openapi.yml
+  operations:
+  - operationId: createClaim
+    method: POST
+    path: /api/v2/claims/partner/create
+    summary: Create Claim
+  - operationId: cancelClaim
+    method: PATCH
+    path: /api/v2/claims/partner/cancel
+    summary: Cancel Claim
+  - operationId: presignCreateClaim
+    method: POST
+    path: /api/v2/claims/partner/update/presign
+    summary: Upload claim documents
+  - operationId: presignUploadClaim
+    method: PUT
+    path: /api/v2/claims/partner/update/presign
+    summary: Update claim documents
+  - operationId: getPool
+    method: GET
+    path: /api/v2/products/finance/partner/products/stoploss/{claim_pool_code}
+    summary: Get Claim Pool
+  - operationId: statusClaim
+    method: GET
+    path: /api/v2/claims/partner/status
+    summary: Get Claim Status
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Train Insurance
+  spec: qoala-train-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+- capability: Vehicle Insurance
+  spec: qoala-vehicle-insurance-openapi.yml
+  operations:
+  - operationId: (unnamed) POST /api/v2/quotation/quotes
+    method: POST
+    path: /api/v2/quotation/quotes
+    summary: Create Policy
+  - operationId: detailPolicy
+    method: GET
+    path: /api/v2/quotation/quotes/partner/status
+    summary: Get Policy Detail
+  - operationId: cancelPolicy
+    method: PATCH
+    path: /api/v2/policies/partner/cancel
+    summary: Cancel Policy
+  reason: No dedicated MCP tool; reachable only through the generic execute-request tool.
+coverage:
+  tools_named: 6
+  tools_bound_to_operation: 0
+  mcp_only: 6
+  rest_operations_total: 51
+  rest_operations_with_dedicated_tool: 0
+  rest_operations_reachable_via_execute_request: 51
+  rest_operations_with_operationId: 40
+  rest_operations_without_operationId: 11

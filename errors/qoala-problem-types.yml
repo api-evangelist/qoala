@@ -1,0 +1,149 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/*.yml 4xx/5xx responses; enriched from https://docs.qoala.app/reference/webhook-notification
+format: custom-envelope
+rfc9457: false
+envelope:
+  status: '"failed"'
+  data: 'null'
+  message: human-readable detail
+  code: integer HTTP status
+  error_code: machine-readable code
+  request_id: echoed correlation id
+example:
+  status: failed
+  data: null
+  message: transaction_number is required
+  code: 400
+  error_code: INVALID_PAYLOAD_VALIDATION_ERR
+problems:
+- status: 400
+  title: null
+  occurrences: 12
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-life-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-experience-event-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-flight-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-gadget-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  source_operations_truncated: true
+- status: 400
+  title: Bad Request
+  occurrences: 27
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#cancelPolicy
+  - openapi/qoala-bus-insurance-openapi.yml#detailPolicy
+  - openapi/qoala-claim-api-alt-openapi.yml#statusClaim
+  - openapi/qoala-claim-api-openapi.yml#statusClaim
+  - openapi/qoala-credit-insurance-openapi.yml#cancelPolicy
+  - openapi/qoala-credit-insurance-openapi.yml#detailPolicy
+  source_operations_truncated: true
+- status: 400
+  title: Unauthorized
+  occurrences: 4
+  source_operations:
+  - openapi/qoala-claim-api-alt-openapi.yml#createClaim
+  - openapi/qoala-claim-api-alt-openapi.yml#getPool
+  - openapi/qoala-claim-api-openapi.yml#createClaim
+  - openapi/qoala-claim-api-openapi.yml#getPool
+- status: 401
+  title: null
+  occurrences: 12
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-life-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-experience-event-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-flight-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-gadget-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  source_operations_truncated: true
+- status: 401
+  title: Unauthorized
+  occurrences: 37
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#cancelPolicy
+  - openapi/qoala-bus-insurance-openapi.yml#detailPolicy
+  - openapi/qoala-claim-api-alt-openapi.yml#cancelClaim
+  - openapi/qoala-claim-api-alt-openapi.yml#createClaim
+  - openapi/qoala-claim-api-alt-openapi.yml#getPool
+  - openapi/qoala-claim-api-alt-openapi.yml#presignCreateClaim
+  source_operations_truncated: true
+- status: 404
+  title: null
+  occurrences: 12
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-life-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-experience-event-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-flight-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-gadget-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  source_operations_truncated: true
+- status: 404
+  title: Not Found
+  occurrences: 26
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#cancelPolicy
+  - openapi/qoala-bus-insurance-openapi.yml#detailPolicy
+  - openapi/qoala-claim-api-alt-openapi.yml#statusClaim
+  - openapi/qoala-claim-api-openapi.yml#statusClaim
+  - openapi/qoala-credit-insurance-openapi.yml#cancelPolicy
+  - openapi/qoala-credit-insurance-openapi.yml#detailPolicy
+  source_operations_truncated: true
+- status: 500
+  title: null
+  occurrences: 12
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-credit-life-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-experience-event-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-flight-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  - openapi/qoala-gadget-insurance-openapi.yml#POST /api/v2/quotation/quotes
+  source_operations_truncated: true
+- status: 500
+  title: Internal Error
+  occurrences: 37
+  source_operations:
+  - openapi/qoala-bus-insurance-openapi.yml#cancelPolicy
+  - openapi/qoala-bus-insurance-openapi.yml#detailPolicy
+  - openapi/qoala-claim-api-alt-openapi.yml#cancelClaim
+  - openapi/qoala-claim-api-alt-openapi.yml#createClaim
+  - openapi/qoala-claim-api-alt-openapi.yml#getPool
+  - openapi/qoala-claim-api-alt-openapi.yml#presignCreateClaim
+  source_operations_truncated: true
+named_error_codes:
+- error_code: INVALID_PAYLOAD_VALIDATION_ERR
+  status: 400
+  title: Invalid payload
+  meaning: The request payload is missing required fields or contains invalid values.
+  action: Correct the payload and resubmit.
+  surface: partner webhook
+  source: https://docs.qoala.app/reference/webhook-notification
+- error_code: INVALID_API_KEY_ERR
+  status: 401
+  title: Invalid or missing API key
+  meaning: The x-api-key header is missing or invalid.
+  action: Supply the partner API key issued by Qoala Engineering.
+  surface: partner webhook
+  source: https://docs.qoala.app/reference/webhook-notification
+- error_code: null
+  status: 409
+  title: Idempotency conflict
+  meaning: The supplied request_id has already been used with a different request payload.
+  action: Do NOT retry. Investigate — the same request_id was reused for a different payload.
+  surface: partner webhook
+  source: https://docs.qoala.app/reference/webhook-notification
+- error_code: null
+  status: 500
+  title: Server error
+  meaning: An unexpected server error occurred while processing the request.
+  action: Retry with the same request_id.
+  surface: partner webhook
+  source: https://docs.qoala.app/reference/webhook-notification
+cross_links:
+  conventions: conventions/qoala-conventions.yml
+spec_quality_notes:
+- Several published Qoala operations declare a 400 response whose description reads "Unauthorized", and many 4xx/5xx
+  responses carry an empty description. Captured verbatim as published — not corrected here.

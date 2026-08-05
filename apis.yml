@@ -1,23 +1,366 @@
 aid: qoala
 name: Qoala
-description: 'Qoala is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Qoala is a Southeast Asian omni-channel insurtech, headquartered in Jakarta and operating across Indonesia,
+  Malaysia, Thailand and Vietnam, that distributes personal and embedded insurance through a consumer app, an agent platform
+  (Qoala Plus) and a partner/enterprise API. Qoala for Enterprise exposes a partner-facing REST API covering policy issuance
+  and claim handling across travel (flight, train, bus, hotel, experience), gadget, goods, vehicle, logistics, health,
+  credit and credit-life product lines. Policy creation is asynchronous: partners POST a quotation, receive a quotation
+  number as acknowledgement, and are notified of the issued policy through a partner callback webhook. Authentication
+  is by partner API key in the x-api-key header.'
+image: https://assets.qoala.app/images/icons/qoala.png
 url: https://raw.githubusercontent.com/api-evangelist/qoala/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
-- Company
-apis: []
+- Insurance
+- Insurtech
+- Embedded Insurance
+- Policies
+- Claims
+- Southeast Asia
+- Indonesia
+- Financial Services
+- Partner API
+apis:
+- name: Qoala Authentication API
+  description: Session management for the Qoala for Enterprise platform — create an authentication session from an email
+    and security code, and refresh it with a refresh token. Returns a JWT access token, a refresh token and the full
+    authenticated user, role and organization profile.
+  humanURL: https://docs.qoala.app/reference/authentication
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-authentication-api-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-authentication-api-overlay.yaml
+- name: Qoala Bus Insurance
+  description: Partner-facing Bus Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-15
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-bus-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-bus-insurance-overlay.yaml
+- name: Qoala Claim API (alternate published spec)
+  description: A second published claim specification carrying the same partner claim lifecycle surface as the Claim
+    API — create, cancel, presigned document upload and update, claim status, and claim pool balance. Retained as published
+    by Qoala.
+  humanURL: https://docs.qoala.app/reference/createclaim-1
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-claim-api-alt-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-claim-api-alt-overlay.yaml
+- name: Qoala Claim API
+  description: 'Partner-facing claim lifecycle API for the Qoala insurance platform: create a claim against an existing
+    policy, cancel it, request presigned URLs to upload and update supporting claim documents, read claim status, and
+    read the stop-loss claim pool balance.'
+  humanURL: https://docs.qoala.app/reference/createclaim-1
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-claim-api-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-claim-api-overlay.yaml
+- name: Qoala Credit Insurance
+  description: Partner-facing Credit Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-credit-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-credit-insurance-overlay.yaml
+- name: Qoala Credit Life Insurance
+  description: Partner-facing Credit Life Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-20
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-credit-life-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-credit-life-insurance-overlay.yaml
+- name: Qoala Experience & Event Insurance
+  description: Partner-facing Experience & Event Insurance API for the Qoala insurance platform. Creates a policy from
+    a quotation, reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation
+    is asynchronous — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback
+    webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-17
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-experience-event-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-experience-event-insurance-overlay.yaml
+- name: Qoala Flight Insurance
+  description: Partner-facing Flight Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-13
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-flight-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-flight-insurance-overlay.yaml
+- name: Qoala Gadget Insurance
+  description: Partner-facing Gadget Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook. This
+    product also supports policy activation for objects that require verification before cover starts.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-11
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-gadget-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-gadget-insurance-overlay.yaml
+- name: Qoala Goods Insurance
+  description: Partner-facing Goods Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-18
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-goods-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-goods-insurance-overlay.yaml
+- name: Qoala Hotel Insurance
+  description: Partner-facing Hotel Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-16
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-hotel-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-hotel-insurance-overlay.yaml
+- name: Qoala Logistic Insurance
+  description: Partner-facing Logistic Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/createpolicy-1
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-logistic-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-logistic-insurance-overlay.yaml
+- name: Qoala Micro health insurance
+  description: Partner-facing Micro health insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-12
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-micro-health-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-micro-health-insurance-overlay.yaml
+- name: Qoala Train Insurance
+  description: Partner-facing Train Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-14
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-train-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-train-insurance-overlay.yaml
+- name: Qoala Vehicle Insurance
+  description: Partner-facing Vehicle Insurance API for the Qoala insurance platform. Creates a policy from a quotation,
+    reads policy detail and status by quotation or policy number, and cancels an issued policy. Policy creation is asynchronous
+    — Qoala acknowledges with a quotation number and delivers the final policy via the partner callback webhook.
+  humanURL: https://docs.qoala.app/reference/post_api-v2-quotation-quotes-19
+  baseURL: https://api.qoala.app
+  tags:
+  - Insurance
+  - Policies
+  - Claims
+  - Embedded Insurance
+  - Southeast Asia
+  properties:
+  - type: OpenAPI
+    url: openapi/qoala-vehicle-insurance-openapi.yml
+  - type: Overlay
+    url: overlays/qoala-vehicle-insurance-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/qoala-agentic-access.yml
+- type: DomainSecurity
+  url: security/qoala-domain-security.yml
+- type: Authentication
+  url: authentication/qoala-authentication.yml
 - type: Website
-  url: https://www.hiive.com/securities/qoala-stock
+  url: https://qoala.com/
+- type: DeveloperPortal
+  url: https://docs.qoala.app/reference/introduction
+- type: Documentation
+  url: https://docs.qoala.app/reference/introduction
+- type: APIReference
+  url: https://docs.qoala.app/reference/api-integration
+- type: GettingStarted
+  url: https://docs.qoala.app/reference/introduction
+- type: Authentication
+  url: https://docs.qoala.app/reference/authentication
+- type: Support
+  url: https://www.qoala.app/id-en/faq
+- type: SignUp
+  url: https://www.qoala.app/id-en/account
+- type: PrivacyPolicy
+  url: https://www.qoala.app/id-en/privacy-notice
+- type: GitHubOrganization
+  url: https://github.com/qoala-engineering
+- type: Partners
+  url: https://www.qoala.app/id-en/partnership
+- type: WellKnown
+  url: well-known/qoala-well-known.yml
+- type: LLMsTxt
+  url: llms/qoala-llms.txt
+- type: MCPServer
+  url: https://docs.qoala.app/mcp
+- type: MCPServer
+  url: mcp/qoala-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/qoala-tool-crosswalk.yml
+- type: Conventions
+  url: conventions/qoala-conventions.yml
+- type: Idempotency
+  url: conventions/qoala-conventions.yml
+- type: ErrorCatalog
+  url: errors/qoala-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/qoala-lifecycle.yml
+- type: Conformance
+  url: conformance/qoala-conformance.yml
+- type: Sandbox
+  url: sandbox/qoala-sandbox.yml
+- type: DataModel
+  url: data-model/qoala-data-model.yml
+- type: Webhooks
+  url: asyncapi/qoala-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgentSkill
+  url: skills/qoala-activate-gadget-policy.md
+  name: Activate a Qoala gadget policy after verification
+- type: AgentSkill
+  url: skills/qoala-authenticate-session.md
+  name: Create and refresh a Qoala Enterprise session
+- type: AgentSkill
+  url: skills/qoala-cancel-policy.md
+  name: Cancel a Qoala policy
+- type: AgentSkill
+  url: skills/qoala-file-and-track-claim.md
+  name: File and track a Qoala claim
+- type: AgentSkill
+  url: skills/qoala-issue-policy.md
+  name: Issue a Qoala insurance policy (asynchronous)
+x-enrichment:
+  date: '2026-08-05'
+  status: enriched
+  artifacts_added: 50
+  pass: local-v1

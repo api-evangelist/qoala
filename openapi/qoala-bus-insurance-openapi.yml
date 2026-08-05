@@ -1,0 +1,994 @@
+openapi: 3.1.0
+info:
+  version: v1.3
+  title: Bus Insurance
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  x-logo:
+    url: https://assets.qoala.app/qoala/email-transparant.png
+  description: "# Introduction\n\nWelcome to the Qoala API! Our API provides you with access to the Qoala\
+    \ platform, allowing you to perform actions like creating policies across various product categories\
+    \ and submitting new claims, among other functionalities.\nFor your convenience, we have included\
+    \ a straightforward example in the payload to assist you in seamlessly integrating with our platform.\
+    \ You can also find code examples in the shaded area on the right.\nIf you have any inquiries or need\
+    \ assistance with our API, please do not hesitate to contact our dedicated developer support team.\
+    \ We are here to assist you!\n\n# Product Categories\n\nQoala, functioning as an insurance broker,\
+    \ offers a diverse range of insurance products that encompass various functionalities and benefits.\
+    \ Consequently, we have organized these products into distinct groups based on their corresponding\
+    \ functions. There are four primary categories into which we classify these products:\n\n1. Travel\n\
+    The Travel category encompasses the following subcategories:\n\n- Flight\n- Train\n- Bus\n- Hotel\n\
+    - Experience\n\n2. Gadget\nThe Gadget category includes the following subcategories:\n\n- Smartphone\n\
+    - Electronic\n\n3. Finance\n\n4. Health\n\n>It's important to note that Finance and Health do not\
+    \ have any subcategories at this time.\n\n# Host\n\nEnvironment|Host Address\n------------- | -------------\n\
+    Staging|https://api-staging.qoala.app\nProduction|https://api.qoala.app\n\n# Authentication\n\nQoala\
+    \ Partnership utilizes API keys to grant access to the API. You can request a new API key from Qoala\
+    \ Engineering. \nQoala Partnership requires the API key to be included in the header of all API requests\
+    \ made to our services. The header should appear as follows:\n`x-api-key: abcdefg`\n\n> To use the\
+    \ x-api-key, refer to the example below:\n\n```shell\ncurl --location --request {METHOD} '{{HOST_URL}}'\
+    \ \\\n--header 'x-api-key: abcdefg' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{}'\n\
+    ```\n\n> Make sure to replace `abcdefg` with your API key.\n"
+servers:
+- url: https://api-staging.qoala.app
+- url: https://api.uat.qoala.app
+- url: https://api.qoala.app
+security:
+- ApiKeyAuth: []
+tags:
+- name: API Specification
+  description: Policy API documentation consist of create policy, get policy detail or status, policy
+    cancellation and policy activation.
+paths:
+  /api/v2/quotation/quotes:
+    post:
+      tags:
+      - API Specification
+      summary: Create Policy
+      description: This API is used by partner to create policy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/200createQuotation'
+        '202':
+          $ref: '#/components/responses/202createQuotation'
+        '400':
+          $ref: '#/components/responses/400createQuotation'
+        '401':
+          $ref: '#/components/responses/401createQuotation'
+        '404':
+          $ref: '#/components/responses/404createQuotation'
+        '500':
+          $ref: '#/components/responses/500createQuotation'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Bus:
+                $ref: '#/components/examples/createPolicyBus'
+            schema:
+              type: object
+              required:
+              - product_category
+              - partner_transaction_number
+              - product_code
+              - policy_holder
+              properties:
+                product_category:
+                  description: product classification will be provided by Qoala
+                  type: string
+                  enum:
+                  - TRAVEL
+                partner_transaction_number:
+                  description: The Transaction ID serves as a unique identifier for each transaction initiated
+                    through the API. Partners are responsible for generating this ID and ensuring its
+                    uniqueness across their transactions.
+                  type: string
+                  maxLength: 100
+                  example: 1234567890
+                product_code:
+                  description: Defined by Qoala, plays a pivotal role in the API, providing contextual
+                    information about certain aspects of the product. However, as of now, the details
+                    for this field will be shared at a later stage when the product is ready for testing.
+                  type: string
+                  example: T-TBUS-PARTNER-001
+                purchased_at:
+                  description: A timestamp indicating when a product was purchased. This field is of the
+                    time type and is not mandatory. By default, if no value is provided, it is set to
+                    the current time. The timestamp is formatted using the ISO 8601 date format.
+                  type: string
+                  example: '2023-09-04T06:38:00Z'
+                  format: date-time
+                premium:
+                  description: A vital component of the API, representing the cost of an insurance product
+                    in its respective currency.
+                  type: number
+                  example: 2000
+                  format: float64
+                policy_holder:
+                  description: The policy_holder field serves as a container for essential data regarding
+                    the holder of the policy.  This data provides insight into the individual or organization
+                    that is associated with the policy.
+                  type: object
+                  $ref: '#/components/schemas/PolicyHolderRequest'
+                insureds:
+                  description: 'Insured''s object. The object can be different depending on the product.
+                    For example: covered user, car, smartphone, flight, hotel, etc.'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Insured'
+        description: The following list explains body payload for creating policy
+        required: true
+      x-codeSamples:
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\
+          \n)\n\ntype RequestPayload struct {\n\tProductCategory          string `json:\"product_category\"\
+          `\n\tPartnerTransactionNumber string `json:\"partner_transaction_number\"`\n\t// ... other fields\n\
+          }\n\nfunc main() {\n\t// Construct the URL\n\tapiUrl := \"https://{{HOST_QOALA}}/api/v1/quotation\"\
+          \n\n\t// Create the request payload\n\tpayload := RequestPayload{\n\t\tProductCategory:    \
+          \      \"TRAVEL\",\n\t\tPartnerTransactionNumber: \"FL-01\",\n\t\t// ... initialize other fields\n\
+          \t}\n\n\t// Convert the payload to JSON\n\tpayloadBytes, err := json.Marshal(payload)\n\tif\
+          \ err != nil {\n\t\tfmt.Println(\"Error encoding JSON:\", err)\n\t\treturn\n\t}\n\n\t// Create\
+          \ a new POST request with the payload\n\treq, err := http.NewRequest(\"POST\", apiUrl, bytes.NewBuffer(payloadBytes))\n\
+          \tif err != nil {\n\t\tfmt.Println(\"Error creating request:\", err)\n\t\treturn\n\t}\n\n\t\
+          // Set headers\n\treq.Header.Set(\"x-api-key\", \"abcdefg\")\n\treq.Header.Set(\"Content-Type\"\
+          , \"application/json\")\n\n\t// Send the request\n\tclient := http.Client{}\n\tresp, err :=\
+          \ client.Do(req)\n\tif err != nil {\n\t\tfmt.Println(\"Error sending request:\", err)\n\t\t\
+          return\n\t}\n\tdefer resp.Body.Close()\n\n\t// Print the response status code\n\tfmt.Println(\"\
+          Response Status:\", resp.Status)\n}\n"
+      - lang: PHP
+        source: "<?php\n\nclass RequestPayload {\n    public $product_category;\n    public $partner_transaction_number;\n\
+          \   public $purchased_at;\n    public $premium;\n    public $pool_amount;\n    public $addons;\n\
+          \    public $policy_holder;\n    public $insureds;\n}\n\nclass Addons {\n    public $code;\n\
+          \    public $unit;\n    public $sum_insured;\n}\n\nclass PolicyHolder {\n    public $identity_type;\n\
+          \    public $identity_number;\n    public $full_name;\n    public $email;\n    public $phone_number;\n\
+          \    public $birth_date;\n    public $gender;\n    public $relationship;\n    public $address;\n\
+          \    public $documents;\n}\n\nclass Document {\n    public $file_name;\n    public $type;\n\
+          \    public $url;\n}\n\nclass Insureds {\n    public $type;\n    public $details; // This can\
+          \ be either InsuredTravel or InsuredUser\n    public $documents;\n}\n\nclass InsuredTravel {\n\
+          \    public $identity_type;\n    public $identity_number;\n    public $booking_time;\n    public\
+          \ $name;\n    public $number;\n    // ... other fields\n}\n\nclass InsuredUser {\n    public\
+          \ $identity_type;\n    public $identity_number;\n    public $full_name;\n    public $email;\n\
+          \    public $phone_number;\n    public $birth_date;\n    public $gender;\n    // ... other fields\n\
+          }\n\n// Construct the URL\n$apiUrl = \"https://{{HOST_QOALA}}/api/v1/quotation\";\n\n// Create\
+          \ the request payload\n$payload = new RequestPayload();\n$payload->product_category = \"TRAVEL\"\
+          ;\n$payload->partner_transaction_number = \"FL-01\";\n// ... initialize other fields\n\n// Convert\
+          \ the payload to JSON\n$payloadJson = json_encode($payload);\n\n// Create headers\n$headers\
+          \ = [\n    \"x-api-key: abcdefg\",\n    \"Content-Type: application/json\"\n];\n\n// Initialize\
+          \ cURL session\n$ch = curl_init();\n\n// Set cURL options\ncurl_setopt($ch, CURLOPT_URL, $apiUrl);\n\
+          curl_setopt($ch, CURLOPT_POST, true);\ncurl_setopt($ch, CURLOPT_POSTFIELDS, $payloadJson);\n\
+          curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);\ncurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n\
+          \n// Execute cURL session\n$response = curl_exec($ch);\n\n// Check for cURL errors\nif (curl_errno($ch))\
+          \ {\n    echo \"cURL Error: \" . curl_error($ch);\n} else {\n    // Print response\n    echo\
+          \ \"Response: \" . $response;\n}\n\n// Close cURL session\ncurl_close($ch);\n\n?>\n"
+      - lang: Node.js
+        source: "const axios = require('axios');\n\nasync function createPolicy() {\n    const apiUrl\
+          \ = 'https://{{HOST_QOALA}}/api/v1/quotation';\n    \n    const payload = {\n        product_category:\
+          \ 'TRAVEL',\n        partner_transaction_number: 'FL-01',\n        // ... other fields\n   \
+          \ };\n\n    const headers = {\n        'x-api-key': 'abcdefg',\n        'Content-Type': 'application/json'\n\
+          \    };\n\n    try {\n        const response = await axios.post(apiUrl, payload, { headers });\n\
+          \        console.log('Response:', response.data);\n    } catch (error) {\n        console.error('Error:',\
+          \ error.message);\n    }\n}\n\ncreatePolicy();\n"
+      - lang: Python
+        source: "import requests\nimport json\n\ndef create_policy():\n    api_url = 'https://{{HOST_QOALA}}/api/v1/quotation'\n\
+          \n    payload = {\n        \"product_category\": \"TRAVEL\",\n        \"partner_transaction_number\"\
+          : \"FL-01\",\n        # ... other fields\n    }\n\n    headers = {\n        'x-api-key': 'abcdefg',\n\
+          \        'Content-Type': 'application/json'\n    }\n\n    try:\n        response = requests.post(api_url,\
+          \ data=json.dumps(payload), headers=headers)\n        response_data = response.json()\n    \
+          \    print('Response:', response_data)\n    except requests.exceptions.RequestException as e:\n\
+          \        print('Error:', e)\n\ncreate_policy()\n"
+  /api/v2/quotation/quotes/partner/status:
+    get:
+      tags:
+      - API Specification
+      summary: Get Policy Detail
+      description: Policy detail
+      operationId: detailPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200detailPolicy'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  error_code:
+                    type: string
+                    example: POLCE-ERR-001
+                  message:
+                    type: string
+                    example: invalid request
+                  status:
+                    type: string
+                    example: failed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorizer Access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  error_code:
+                    type: string
+                    example: QEC-ERR-REST-003
+                  message:
+                    type: string
+                    example: product code T-TBUS-PARTNER-001 not found
+                  status:
+                    type: string
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      parameters:
+      - in: query
+        name: partner_transaction_number
+        required: true
+        description: The Transaction ID serves as a unique identifier for each transaction initiated through
+          the API. Partners are responsible for generating this ID and ensuring its uniqueness across
+          all of their transactions.
+        schema:
+          type: string
+          example: 5099e32c-5c75-4587
+      - in: query
+        name: product_code
+        required: true
+        description: Defined by Qoala, this field plays a pivotal role in the API, providing contextual
+          information about certain aspects of the product. However, the details for this field will be
+          shared at a later stage, when the product is ready for testing in the staging environment.
+        schema:
+          type: string
+          example: T-TBUS-1029
+      - in: query
+        name: quotation_number
+        required: true
+        description: Unique identity number generated by qoala system as transaction identifier for each
+          transaction that received by qoala.
+        schema:
+          type: string
+          example: QS-230802-5K9I8
+  /api/v2/policies/partner/cancel:
+    patch:
+      tags:
+      - API Specification
+      summary: Cancel Policy
+      description: Policy cancellation
+      operationId: cancelPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Success update policy status
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      policy_number:
+                        type: string
+                        example: T-TBUS-PARTNER-001-20230828-OM94T
+                      status:
+                        type: string
+                        example: POLICY_CANCELLED
+                      reason:
+                        type: string
+                        example: explain reason why do you cancel this policy
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  error_code:
+                    type: string
+                    example: POLCE-ERR-001
+                  message:
+                    type: string
+                    example: invalid request
+                  status:
+                    type: string
+                    example: failed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorizer Access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  error_code:
+                    type: string
+                    example: QEC-ERR-REST-003
+                  message:
+                    type: string
+                    example: product code T-TBUS-PARTNER-001 not found
+                  status:
+                    type: string
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policy_number
+              - reason
+              properties:
+                policy_number:
+                  type: string
+                  description: policy number generated by qoala
+                reason:
+                  type: string
+                  description: reason why do we need to cancel the policy
+components:
+  schemas:
+    Document:
+      type: object
+      properties:
+        file_name:
+          description: name of the fale, you can provide the filename include its extention.
+          type: string
+          example: T-TBUS-PARTNER-001-20230824-OM94T.pdf
+        type:
+          description: type of document, it is just constant value that categorize of the document.
+          type: string
+          examples:
+          - POLICY_CERTIFICATE
+          - POLICY_WORDING
+          - KTP
+          - ID
+          - TICKET
+          - and soon
+        url:
+          description: full url to access the document, this is should be public url
+          type: string
+          example: '{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/T-TBUS-PARTNER-001-20230824-OM94T.pdf'
+        alias:
+          description: document alias
+          type: string
+          example: policy_certificate.pdf
+    PolicyHolderRequest:
+      required:
+      - full_name
+      - email
+      properties:
+        identity_type:
+          description: type of data identity
+          type: string
+          example: BOOKING_NUMBER
+          enum:
+          - KTP
+          - PASSPORT
+          - DRIVING_LICENSE
+          - NATIONAL_ID
+        identity_number:
+          description: identity value
+          type: string
+          example: 1234567890
+        full_name:
+          description: fullname of policy holder
+          type: string
+          example: Budi
+        email:
+          description: email of policy holder, this email will receive policy certificate
+          type: string
+          example: john.doe@qoala.id
+        phone_number:
+          description: The phone number must start with the country code, prefixed by a '+' sign.
+          type: string
+          example: '+6281234567890'
+        birth_date:
+          description: birth date information in format yyyy-mm-dd
+          type: string
+          example: '1990-01-01'
+        gender:
+          description: Policy Holder Gender
+          type: string
+          example: FEMALE
+          enum:
+          - FEMALE
+          - MALE
+        relationship:
+          description: status of relationship
+          type: string
+          example: SINGLE
+        address:
+          description: detail of address
+          type: string
+          example: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI
+            Jakarta 10310
+        occupation:
+          description: occupation of person
+          type: string
+          example: Pilot
+        documents:
+          description: supporting documents
+          $ref: '#/components/schemas/Document'
+    InsuredTravel:
+      required:
+      - identity_type
+      - identity_number
+      - booking_time
+      - name
+      - departure_time
+      - arrival_time
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: BOOKING_NUMBER
+        identity_number:
+          type: string
+          example: 280323142127
+        booking_time:
+          type: string
+          example: '2023-02-15T10:00:00Z'
+          format: date-time
+        name:
+          type: string
+          example: Garuda Indonesia
+        number:
+          type: string
+          example: GA-654
+        departure:
+          type: string
+          example: CGK
+        departure_time:
+          type: string
+          example: '2023-03-01T22:15:00+07:00'
+          format: date-time
+        arrival:
+          type: string
+          example: UPG
+        arrival_time:
+          type: string
+          example: '2023-03-02T01:50:00+09:00'
+        class:
+          type: string
+          example: Economy
+        sub_class:
+          type: string
+          example: J
+        city_origin:
+          type: string
+          example: Jakarta
+        city_destination:
+          type: string
+          example: Makassar
+        country_origin:
+          type: string
+          example: Indonesia
+        country_destination:
+          type: string
+          example: Indonesia
+        timezone_origin:
+          type: string
+          example: Asia/Jakarta
+        timezone_destination:
+          type: string
+          example: Asia/Pontianak
+        total_price_ticket:
+          type: number
+          format: float64
+          example: 4145300
+        sub_total_price_ticket:
+          type: number
+          format: float64
+          example: 4145300
+        trip_type:
+          type: string
+          description: trip information
+          enum:
+          - SINGLETRIP
+          - ROUNDTRIP-1
+          - ROUNDTRIP-2
+        trip_order:
+          type: number
+          format: int
+          example: 1
+        number_of_room:
+          type: number
+          format: int
+          example: 2
+        additional_info:
+          type: object
+    InsuredUser:
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: ID_CARD
+          description: identifier type of user information
+        identity_number:
+          type: string
+          example: 12010367678988002
+          description: unique identifier of user information
+        full_name:
+          type: string
+          example: Judiwara Samson
+          description: full name of user information
+        email:
+          type: string
+          example: john.doe@qoala.id
+          description: email address of user information
+        phone_number:
+          type: string
+          example: 81245678910
+          description: phone number of user
+        birth_date:
+          type: string
+          example: 13-11-2000
+          description: birth date of user
+        gender:
+          description: User Gender
+          type: string
+          example: FEMALE
+          enum:
+          - FEMALE
+          - MALE
+        relationship:
+          type: string
+          example: Wife
+          description: relationship of user within group of insured user in one transaction
+        address:
+          type: string
+          example: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI
+            Jakarta 10310
+          description: detail address of user
+        occupation:
+          type: string
+          example: Software Engineer
+          description: occupation of user
+        additional_info:
+          type: object
+          example:
+            passenger_type: ADULT
+            city: Jakarta
+            country: Indonesia
+            zipcode: '14045'
+            subject: sender
+          description: additional optional information
+    Insured:
+      type: object
+      required:
+      - type
+      - details
+      properties:
+        type:
+          description: type of insureds
+          type: string
+          example: USER
+          enum:
+          - USER
+          - TRAVEL
+        details:
+          description: detail information of insureds
+          type: object
+          anyOf:
+          - $ref: '#/components/schemas/InsuredTravel'
+          - $ref: '#/components/schemas/InsuredUser'
+        documents:
+          description: insured's supporting documents
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+    200detailPolicy:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: success get quote policy
+        code:
+          type: number
+          example: 200
+        data:
+          type: object
+          properties:
+            partner_transaction_number:
+              type: string
+              example: 1234
+            quotation_number:
+              type: string
+              example: QS-230828-5CL9NB47
+            product_code:
+              type: string
+              example: T-TBUS-PARTNER-001
+            policies:
+              type: array
+              items:
+                type: object
+                properties:
+                  number:
+                    type: string
+                    example: T-TBUS-PARTNER-001-20230824-OM94T
+                  status:
+                    type: string
+                    enum:
+                    - POLICY_ACTIVE
+                    - POLICY_ISSUING
+                    example: POLICY_ACTIVE
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Document'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+  examples:
+    createPolicyBus:
+      value:
+        product_category: TRAVEL
+        partner_transaction_number: '1067652488.1'
+        product_code: T-TBUS-001
+        premium: 8600
+        policy_holder:
+          full_name: PT Sample Travel
+          email: john.doe@qoala.id
+          phone_number: '+6281234567890'
+          identity_type: KTP
+          identity_number: '1234567890123456'
+          birth_date: ''
+          gender: MALE
+          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI
+            Jakarta 10310
+          occupation: ''
+        insureds:
+        - type: USER
+          details:
+            identity_type: KTP
+            identity_number: '3456789076543456'
+            full_name: Jim Doe
+            email: jane.doe@qoala.id
+            phone_number: '+6281234567890'
+            birth_date: ''
+            gender: MALE
+            address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI
+              Jakarta 10310
+            occupation: ''
+            additional_info:
+              passenger_type: ADULT
+        - type: TRAVEL
+          details:
+            identity_type: BOOKING_NUMBER
+            identity_number: '1067652488'
+            booking_time: '2023-09-08T10:20:53Z'
+            name: Sample Bus Operator
+            number: BUS-01
+            departure: p5696
+            departure_time: '2023-09-11T12:15:00+07:00'
+            arrival: p1247
+            arrival_time: '2023-09-11T15:30:00+07:00'
+            sub_class: ''
+            city_origin: Bandung
+            city_destination: Jakarta
+            country_origin: Indonesia
+            country_destination: Indonesia
+            timezone_origin: ''
+            timezone_destination: ''
+            total_price_ticket: 105000
+            sub_total_price_ticket: 105000
+            trip_type: ROUNDTRIP-1
+            trip_order: 1
+            class: AWAY
+        purchased_at: '2023-09-08T10:49:29Z'
+  responses:
+    200createQuotation:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: status of response, it will contain success
+                example: success
+              message:
+                type: string
+                description: short message explains about the success response
+                example: success get quote policy
+              code:
+                type: number
+                description: http code response
+                example: 200
+              data:
+                type: object
+                description: showing data response
+                properties:
+                  partner_transaction_number:
+                    type: string
+                    description: The transaction ID serves as a unique identifier for each transaction
+                      initiated through the API. Partners are responsible for generating this ID and ensuring
+                      its uniqueness across their transactions.
+                    example: 1234
+                  transaction_number:
+                    type: string
+                    description: Unique transaction number generated in qoala system
+                    example: 1234
+                  product_code:
+                    type: string
+                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual
+                      information about certain aspects of the product. However, as of now, the details
+                      for this field will be shared at a later stage when the product is ready for testing.
+                    example: T-TBUS-PARTNER-001
+                  policies:
+                    items:
+                      type: object
+                      description: policy information contains about its identifier, status and so on.
+                      properties:
+                        number:
+                          type: string
+                          description: unique identifier for policy which is autogenerated by qoala system
+                          example: T-TBUS-PARTNER-001-20230824-OM94T
+                        status:
+                          type: string
+                          description: status of policy, we have set of statuses but we can support mapping
+                            status from partner if needed.
+                          enum:
+                          - POLICY_ACTIVE
+                          - POLICY_ISSUING
+                          - DATA_VERIFICATION_NEEDED
+                          example: POLICY_ACTIVE
+                        documents:
+                          type: array
+                          description: information regarding to policy document like certificate and policy
+                            wording stated by insurer
+                          items:
+                            $ref: '#/components/schemas/Document'
+    202createQuotation:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: status of response, it will contain success
+                example: success
+              message:
+                type: string
+                description: short message explains about the success response
+                example: success to create quotes
+              code:
+                type: number
+                description: http code response
+                example: 202
+              data:
+                type: object
+                description: showing data response
+                properties:
+                  partner_transaction_number:
+                    type: string
+                    description: The transaction ID serves as a unique identifier for each transaction
+                      initiated through the API. Partners are responsible for generating this ID and ensuring
+                      its uniqueness across their transactions.
+                    example: 1234
+                  quotation_number:
+                    type: string
+                    description: Unique transaction number generated in qoala system
+                    example: QS-230828-5CL9NB47
+                  product_code:
+                    type: string
+                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual
+                      information about certain aspects of the product. However, as of now, the details
+                      for this field will be shared at a later stage when the product is ready for testing.
+                    example: T-TBUS-002
+    400createQuotation:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 400
+              error_code:
+                type: string
+                description: "qoala system error code for bad request\n\n### List of Error Code detail\n\
+                  \n| Error Code | HTTP Status | Description |\n|---|---|---|  \n| QEC-ERR-001 | 400 |\
+                  \ Invalid Request From the partner |\n"
+                example: QEC-ERR-001
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: invalid request
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    401createQuotation:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 401
+              error_code:
+                type: string
+                description: 'qoala system error code for invalid token
+
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QC-CLT-KEYA-V1-003 | 401 | Invalid Permission |
+
+                  '
+                example: QEC-ERR-401-01
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: invalid unauthorized
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    404createQuotation:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 404
+              error_code:
+                type: string
+                description: 'qoala system error code for error classification
+
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QEC-ERR-REST-003 | 404 | Wrong Product Code |
+
+                  '
+                example: QEC-ERR-REST-003
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: product code T-TBUS-PARTNER-001 not found
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    500createQuotation:
+      description: Internal Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 500
+              error_code:
+                type: string
+                description: 'qoala system error code for error classification
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QEC-ERR-REST-001 | 500 | Internal Server Error |
+
+                  '
+                example: QEC-ERR-REST-001
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: internal server error
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed

@@ -1,0 +1,48 @@
+generated: '2026-08-05'
+method: searched
+source: openapi/qoala-bus-insurance-openapi.yml, openapi/qoala-claim-api-alt-openapi.yml, openapi/qoala-claim-api-openapi.yml,
+  openapi/qoala-credit-insurance-openapi.yml, openapi/qoala-credit-life-insurance-openapi.yml, openapi/qoala-experience-event-insurance-openapi.yml,
+  openapi/qoala-flight-insurance-openapi.yml, openapi/qoala-gadget-insurance-openapi.yml, openapi/qoala-goods-insurance-openapi.yml,
+  openapi/qoala-hotel-insurance-openapi.yml, openapi/qoala-logistic-insurance-openapi.yml, openapi/qoala-micro-health-insurance-openapi.yml
+  ...
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  sources:
+  - openapi/qoala-bus-insurance-openapi.yml
+  - openapi/qoala-claim-api-alt-openapi.yml
+  - openapi/qoala-claim-api-openapi.yml
+  - openapi/qoala-credit-insurance-openapi.yml
+  - openapi/qoala-credit-life-insurance-openapi.yml
+  - openapi/qoala-experience-event-insurance-openapi.yml
+  - openapi/qoala-flight-insurance-openapi.yml
+  - openapi/qoala-gadget-insurance-openapi.yml
+  - openapi/qoala-goods-insurance-openapi.yml
+  - openapi/qoala-hotel-insurance-openapi.yml
+  - openapi/qoala-logistic-insurance-openapi.yml
+  - openapi/qoala-micro-health-insurance-openapi.yml
+  - openapi/qoala-train-insurance-openapi.yml
+  - openapi/qoala-vehicle-insurance-openapi.yml
+docs: https://docs.qoala.app/reference/authentication
+issuance: Partner API keys are issued by Qoala Engineering during integration onboarding; there is no self-service key
+  request.
+header_example: 'x-api-key: <partner-api-key>'
+platform_session_api:
+  note: Separate from partner API-key auth. The Authentication API (openapi/qoala-authentication-api-openapi.yml) issues
+    a JWT access token and refresh token for the Qoala for Enterprise platform via passwordless email + security code.
+  operations:
+  - createSession (POST /v2/sessions)
+  - refreshSession (POST /v2/sessions/refresh)
+  required_headers:
+  - priority
+  - x-captcha-token (createSession only)
+  note_security: This spec is the only Qoala specification that does not declare the ApiKeyAuth scheme.
+oauth2: false
+openid_connect: false

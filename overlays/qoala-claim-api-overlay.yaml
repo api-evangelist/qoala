@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Qoala Claim API
+  version: 1.0.0
+extends: openapi/qoala-claim-api-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: qoala
+    x-apievangelist-harvest:
+      method: mcp
+      source: 'https://docs.qoala.app/mcp (tools: list-specs, list-endpoints, get-endpoint)'
+      harvested: '2026-08-05'
+      note: Reassembled operation-by-operation from the provider-published specification exposed by Qoala's own documentation
+        MCP server. Content is verbatim per operation; only the document envelope was rebuilt.
+    x-apievangelist-artifacts:
+      authentication: authentication/qoala-authentication.yml
+      conventions: conventions/qoala-conventions.yml
+      errors: errors/qoala-problem-types.yml
+      webhooks: asyncapi/qoala-webhooks.yml
+      lifecycle: lifecycle/qoala-lifecycle.yml
+- target: $
+  update:
+    x-apievangelist-operation-count: 6

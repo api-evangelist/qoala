@@ -1,0 +1,60 @@
+generated: '2026-08-05'
+method: probed
+source: live GET of /.well-known/* on every Qoala host in apis.yml and every OpenAPI servers[] host
+result: no /.well-known/ discovery document is published on any Qoala host
+hosts:
+- host: https://qoala.com
+  note: S3/CloudFront-backed SPA; every unknown path returns an S3 AccessDenied 403
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+- host: https://www.qoala.app
+  note: Nuxt consumer site; returns 404 for all well-known paths
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://api.qoala.app
+  note: Production API host; gateway returns 403 {"message":"Err 4XX"} for unauthenticated paths
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+- host: https://docs.qoala.app
+  note: ReadMe-hosted developer portal; returns 404 for all well-known paths
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+security_txt:
+  found: false
+  note: No RFC 9116 security.txt on any host.
