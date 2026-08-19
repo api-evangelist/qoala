@@ -1,0 +1,3113 @@
+{
+  "item": [
+    {
+      "id": "76695457-0421-4501-b4af-cedfe9466a1f",
+      "name": "API Specification",
+      "description": {
+        "content": "Policy API documentation consist of create policy, get policy detail or status, policy cancellation and policy activation.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "16f17b67-7e9b-45f1-83ab-c16619443dcf",
+          "name": "Create Policy",
+          "request": {
+            "name": "Create Policy",
+            "description": {
+              "content": "This API is used by partner to create policy",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "quotation",
+                "quotes"
+              ],
+              "host": [
+                "{{api-v2-quotation-quotes-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_category\": \"<string>\",\n  \"partner_transaction_number\": \"<string>\",\n  \"product_code\": \"<string>\",\n  \"policy_holder\": {\n    \"full_name\": \"<string>\",\n    \"email\": \"<string>\",\n    \"identity_type\": \"<string>\",\n    \"identity_number\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"birth_date\": \"<string>\",\n    \"gender\": \"<string>\",\n    \"relationship\": \"<string>\",\n    \"address\": \"<string>\",\n    \"occupation\": \"<string>\",\n    \"documents\": {\n      \"file_name\": \"<string>\",\n      \"type\": \"<string>\",\n      \"url\": \"<string>\",\n      \"alias\": \"<string>\"\n    }\n  },\n  \"purchased_at\": \"<dateTime>\",\n  \"premium\": \"<float64>\",\n  \"insureds\": [\n    {\n      \"type\": \"<string>\",\n      \"details\": {\n        \"identity_type\": \"<string>\",\n        \"identity_number\": \"<string>\",\n        \"booking_time\": \"<dateTime>\",\n        \"name\": \"<string>\",\n        \"departure_time\": \"<dateTime>\",\n        \"arrival_time\": \"<string>\",\n        \"number\": \"<string>\",\n        \"departure\": \"<string>\",\n        \"arrival\": \"<string>\",\n        \"class\": \"<string>\",\n        \"sub_class\": \"<string>\",\n        \"city_origin\": \"<string>\",\n        \"city_destination\": \"<string>\",\n        \"country_origin\": \"<string>\",\n        \"country_destination\": \"<string>\",\n        \"timezone_origin\": \"<string>\",\n        \"timezone_destination\": \"<string>\",\n        \"total_price_ticket\": \"<float64>\",\n        \"sub_total_price_ticket\": \"<float64>\",\n        \"trip_type\": \"<string>\",\n        \"trip_order\": \"<int>\",\n        \"number_of_room\": \"<int>\",\n        \"additional_info\": \"<object>\"\n      },\n      \"documents\": [\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        },\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"details\": {\n        \"identity_type\": \"<string>\",\n        \"identity_number\": \"<string>\",\n        \"booking_time\": \"<dateTime>\",\n        \"name\": \"<string>\",\n        \"departure_time\": \"<dateTime>\",\n        \"arrival_time\": \"<string>\",\n        \"number\": \"<string>\",\n        \"departure\": \"<string>\",\n        \"arrival\": \"<string>\",\n        \"class\": \"<string>\",\n        \"sub_class\": \"<string>\",\n        \"city_origin\": \"<string>\",\n        \"city_destination\": \"<string>\",\n        \"country_origin\": \"<string>\",\n        \"country_destination\": \"<string>\",\n        \"timezone_origin\": \"<string>\",\n        \"timezone_destination\": \"<string>\",\n        \"total_price_ticket\": \"<float64>\",\n        \"sub_total_price_ticket\": \"<float64>\",\n        \"trip_type\": \"<string>\",\n        \"trip_order\": \"<int>\",\n        \"number_of_room\": \"<int>\",\n        \"additional_info\": \"<object>\"\n      },\n      \"documents\": [\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        },\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        }\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7b96861d-9a2d-4469-bce3-48ed3873dc8f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_category\": \"TRAVEL\",\n  \"partner_transaction_number\": \"1067652488.1\",\n  \"product_code\": \"T-TBUS-001\",\n  \"premium\": 8600,\n  \"policy_holder\": {\n    \"full_name\": \"PT Sample Travel\",\n    \"email\": \"john.doe@qoala.id\",\n    \"phone_number\": \"+6281234567890\",\n    \"identity_type\": \"KTP\",\n    \"identity_number\": \"1234567890123456\",\n    \"birth_date\": \"\",\n    \"gender\": \"MALE\",\n    \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n    \"occupation\": \"\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"3456789076543456\",\n        \"full_name\": \"Jim Doe\",\n        \"email\": \"jane.doe@qoala.id\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n        \"occupation\": \"\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    },\n    {\n      \"type\": \"TRAVEL\",\n      \"details\": {\n        \"identity_type\": \"BOOKING_NUMBER\",\n        \"identity_number\": \"1067652488\",\n        \"booking_time\": \"2023-09-08T10:20:53Z\",\n        \"name\": \"Sample Bus Operator\",\n        \"number\": \"BUS-01\",\n        \"departure\": \"p5696\",\n        \"departure_time\": \"2023-09-11T12:15:00+07:00\",\n        \"arrival\": \"p1247\",\n        \"arrival_time\": \"2023-09-11T15:30:00+07:00\",\n        \"sub_class\": \"\",\n        \"city_origin\": \"Bandung\",\n        \"city_destination\": \"Jakarta\",\n        \"country_origin\": \"Indonesia\",\n        \"country_destination\": \"Indonesia\",\n        \"timezone_origin\": \"\",\n        \"timezone_destination\": \"\",\n        \"total_price_ticket\": 105000,\n        \"sub_total_price_ticket\": 105000,\n        \"trip_type\": \"ROUNDTRIP-1\",\n        \"trip_order\": 1,\n        \"class\": \"AWAY\"\n      }\n    }\n  ],\n  \"purchased_at\": \"2023-09-08T10:49:29Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"success get quote policy\",\n  \"code\": 200,\n  \"data\": {\n    \"partner_transaction_number\": \"string\",\n    \"transaction_number\": \"string\",\n    \"product_code\": \"T-TBUS-PARTNER-001\",\n    \"policies\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "040ecad5-b4a3-4fd7-a56e-cd338bc98c02",
+              "name": "Accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_category\": \"TRAVEL\",\n  \"partner_transaction_number\": \"1067652488.1\",\n  \"product_code\": \"T-TBUS-001\",\n  \"premium\": 8600,\n  \"policy_holder\": {\n    \"full_name\": \"PT Sample Travel\",\n    \"email\": \"john.doe@qoala.id\",\n    \"phone_number\": \"+6281234567890\",\n    \"identity_type\": \"KTP\",\n    \"identity_number\": \"1234567890123456\",\n    \"birth_date\": \"\",\n    \"gender\": \"MALE\",\n    \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n    \"occupation\": \"\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"3456789076543456\",\n        \"full_name\": \"Jim Doe\",\n        \"email\": \"jane.doe@qoala.id\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n        \"occupation\": \"\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    },\n    {\n      \"type\": \"TRAVEL\",\n      \"details\": {\n        \"identity_type\": \"BOOKING_NUMBER\",\n        \"identity_number\": \"1067652488\",\n        \"booking_time\": \"2023-09-08T10:20:53Z\",\n        \"name\": \"Sample Bus Operator\",\n        \"number\": \"BUS-01\",\n        \"departure\": \"p5696\",\n        \"departure_time\": \"2023-09-11T12:15:00+07:00\",\n        \"arrival\": \"p1247\",\n        \"arrival_time\": \"2023-09-11T15:30:00+07:00\",\n        \"sub_class\": \"\",\n        \"city_origin\": \"Bandung\",\n        \"city_destination\": \"Jakarta\",\n        \"country_origin\": \"Indonesia\",\n        \"country_destination\": \"Indonesia\",\n        \"timezone_origin\": \"\",\n        \"timezone_destination\": \"\",\n        \"total_price_ticket\": 105000,\n        \"sub_total_price_ticket\": 105000,\n        \"trip_type\": \"ROUNDTRIP-1\",\n        \"trip_order\": 1,\n        \"class\": \"AWAY\"\n      }\n    }\n  ],\n  \"purchased_at\": \"2023-09-08T10:49:29Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"success to create quotes\",\n  \"code\": 202,\n  \"data\": {\n    \"partner_transaction_number\": \"string\",\n    \"quotation_number\": \"QS-230828-5CL9NB47\",\n    \"product_code\": \"T-TBUS-002\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1722e7fa-e26e-422a-8a43-6d2193868453",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_category\": \"TRAVEL\",\n  \"partner_transaction_number\": \"1067652488.1\",\n  \"product_code\": \"T-TBUS-001\",\n  \"premium\": 8600,\n  \"policy_holder\": {\n    \"full_name\": \"PT Sample Travel\",\n    \"email\": \"john.doe@qoala.id\",\n    \"phone_number\": \"+6281234567890\",\n    \"identity_type\": \"KTP\",\n    \"identity_number\": \"1234567890123456\",\n    \"birth_date\": \"\",\n    \"gender\": \"MALE\",\n    \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n    \"occupation\": \"\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"3456789076543456\",\n        \"full_name\": \"Jim Doe\",\n        \"email\": \"jane.doe@qoala.id\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n        \"occupation\": \"\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    },\n    {\n      \"type\": \"TRAVEL\",\n      \"details\": {\n        \"identity_type\": \"BOOKING_NUMBER\",\n        \"identity_number\": \"1067652488\",\n        \"booking_time\": \"2023-09-08T10:20:53Z\",\n        \"name\": \"Sample Bus Operator\",\n        \"number\": \"BUS-01\",\n        \"departure\": \"p5696\",\n        \"departure_time\": \"2023-09-11T12:15:00+07:00\",\n        \"arrival\": \"p1247\",\n        \"arrival_time\": \"2023-09-11T15:30:00+07:00\",\n        \"sub_class\": \"\",\n        \"city_origin\": \"Bandung\",\n        \"city_destination\": \"Jakarta\",\n        \"country_origin\": \"Indonesia\",\n        \"country_destination\": \"Indonesia\",\n        \"timezone_origin\": \"\",\n        \"timezone_destination\": \"\",\n        \"total_price_ticket\": 105000,\n        \"sub_total_price_ticket\": 105000,\n        \"trip_type\": \"ROUNDTRIP-1\",\n        \"trip_order\": 1,\n        \"class\": \"AWAY\"\n      }\n    }\n  ],\n  \"purchased_at\": \"2023-09-08T10:49:29Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"error_code\": \"QEC-ERR-001\",\n  \"message\": \"invalid request\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c33bc04c-03d5-4d52-b742-f89656e6e276",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_category\": \"TRAVEL\",\n  \"partner_transaction_number\": \"1067652488.1\",\n  \"product_code\": \"T-TBUS-001\",\n  \"premium\": 8600,\n  \"policy_holder\": {\n    \"full_name\": \"PT Sample Travel\",\n    \"email\": \"john.doe@qoala.id\",\n    \"phone_number\": \"+6281234567890\",\n    \"identity_type\": \"KTP\",\n    \"identity_number\": \"1234567890123456\",\n    \"birth_date\": \"\",\n    \"gender\": \"MALE\",\n    \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n    \"occupation\": \"\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"3456789076543456\",\n        \"full_name\": \"Jim Doe\",\n        \"email\": \"jane.doe@qoala.id\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n        \"occupation\": \"\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    },\n    {\n      \"type\": \"TRAVEL\",\n      \"details\": {\n        \"identity_type\": \"BOOKING_NUMBER\",\n        \"identity_number\": \"1067652488\",\n        \"booking_time\": \"2023-09-08T10:20:53Z\",\n        \"name\": \"Sample Bus Operator\",\n        \"number\": \"BUS-01\",\n        \"departure\": \"p5696\",\n        \"departure_time\": \"2023-09-11T12:15:00+07:00\",\n        \"arrival\": \"p1247\",\n        \"arrival_time\": \"2023-09-11T15:30:00+07:00\",\n        \"sub_class\": \"\",\n        \"city_origin\": \"Bandung\",\n        \"city_destination\": \"Jakarta\",\n        \"country_origin\": \"Indonesia\",\n        \"country_destination\": \"Indonesia\",\n        \"timezone_origin\": \"\",\n        \"timezone_destination\": \"\",\n        \"total_price_ticket\": 105000,\n        \"sub_total_price_ticket\": 105000,\n        \"trip_type\": \"ROUNDTRIP-1\",\n        \"trip_order\": 1,\n        \"class\": \"AWAY\"\n      }\n    }\n  ],\n  \"purchased_at\": \"2023-09-08T10:49:29Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 401,\n  \"error_code\": \"QEC-ERR-401-01\",\n  \"message\": \"invalid unauthorized\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7019718-0fb1-44bf-9774-02b967ac2feb",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_category\": \"TRAVEL\",\n  \"partner_transaction_number\": \"1067652488.1\",\n  \"product_code\": \"T-TBUS-001\",\n  \"premium\": 8600,\n  \"policy_holder\": {\n    \"full_name\": \"PT Sample Travel\",\n    \"email\": \"john.doe@qoala.id\",\n    \"phone_number\": \"+6281234567890\",\n    \"identity_type\": \"KTP\",\n    \"identity_number\": \"1234567890123456\",\n    \"birth_date\": \"\",\n    \"gender\": \"MALE\",\n    \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n    \"occupation\": \"\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"3456789076543456\",\n        \"full_name\": \"Jim Doe\",\n        \"email\": \"jane.doe@qoala.id\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n        \"occupation\": \"\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    },\n    {\n      \"type\": \"TRAVEL\",\n      \"details\": {\n        \"identity_type\": \"BOOKING_NUMBER\",\n        \"identity_number\": \"1067652488\",\n        \"booking_time\": \"2023-09-08T10:20:53Z\",\n        \"name\": \"Sample Bus Operator\",\n        \"number\": \"BUS-01\",\n        \"departure\": \"p5696\",\n        \"departure_time\": \"2023-09-11T12:15:00+07:00\",\n        \"arrival\": \"p1247\",\n        \"arrival_time\": \"2023-09-11T15:30:00+07:00\",\n        \"sub_class\": \"\",\n        \"city_origin\": \"Bandung\",\n        \"city_destination\": \"Jakarta\",\n        \"country_origin\": \"Indonesia\",\n        \"country_destination\": \"Indonesia\",\n        \"timezone_origin\": \"\",\n        \"timezone_destination\": \"\",\n        \"total_price_ticket\": 105000,\n        \"sub_total_price_ticket\": 105000,\n        \"trip_type\": \"ROUNDTRIP-1\",\n        \"trip_order\": 1,\n        \"class\": \"AWAY\"\n      }\n    }\n  ],\n  \"purchased_at\": \"2023-09-08T10:49:29Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"error_code\": \"QEC-ERR-REST-003\",\n  \"message\": \"product code T-TBUS-PARTNER-001 not found\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d0ef4be9-6c8b-4a86-8554-35d87c00c822",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_category\": \"TRAVEL\",\n  \"partner_transaction_number\": \"1067652488.1\",\n  \"product_code\": \"T-TBUS-001\",\n  \"premium\": 8600,\n  \"policy_holder\": {\n    \"full_name\": \"PT Sample Travel\",\n    \"email\": \"john.doe@qoala.id\",\n    \"phone_number\": \"+6281234567890\",\n    \"identity_type\": \"KTP\",\n    \"identity_number\": \"1234567890123456\",\n    \"birth_date\": \"\",\n    \"gender\": \"MALE\",\n    \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n    \"occupation\": \"\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"3456789076543456\",\n        \"full_name\": \"Jim Doe\",\n        \"email\": \"jane.doe@qoala.id\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310\",\n        \"occupation\": \"\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    },\n    {\n      \"type\": \"TRAVEL\",\n      \"details\": {\n        \"identity_type\": \"BOOKING_NUMBER\",\n        \"identity_number\": \"1067652488\",\n        \"booking_time\": \"2023-09-08T10:20:53Z\",\n        \"name\": \"Sample Bus Operator\",\n        \"number\": \"BUS-01\",\n        \"departure\": \"p5696\",\n        \"departure_time\": \"2023-09-11T12:15:00+07:00\",\n        \"arrival\": \"p1247\",\n        \"arrival_time\": \"2023-09-11T15:30:00+07:00\",\n        \"sub_class\": \"\",\n        \"city_origin\": \"Bandung\",\n        \"city_destination\": \"Jakarta\",\n        \"country_origin\": \"Indonesia\",\n        \"country_destination\": \"Indonesia\",\n        \"timezone_origin\": \"\",\n        \"timezone_destination\": \"\",\n        \"total_price_ticket\": 105000,\n        \"sub_total_price_ticket\": 105000,\n        \"trip_type\": \"ROUNDTRIP-1\",\n        \"trip_order\": 1,\n        \"class\": \"AWAY\"\n      }\n    }\n  ],\n  \"purchased_at\": \"2023-09-08T10:49:29Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"QEC-ERR-REST-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "861c74ac-65bf-4703-9568-f5059b307b3c",
+          "name": "Get Policy Detail",
+          "request": {
+            "name": "Get Policy Detail",
+            "description": {
+              "content": "Policy detail",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "quotation",
+                "quotes",
+                "partner",
+                "status"
+              ],
+              "host": [
+                "{{api-v2-quotation-quotes-partner-status-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "partner_transaction_number",
+                  "value": "<string>",
+                  "description": "(Required) The Transaction ID serves as a unique identifier for each transaction initiated through the API. Partners are responsible for generating this ID and ensuring its uniqueness across all of their transactions."
+                },
+                {
+                  "disabled": false,
+                  "key": "product_code",
+                  "value": "<string>",
+                  "description": "(Required) Defined by Qoala, this field plays a pivotal role in the API, providing contextual information about certain aspects of the product. However, the details for this field will be shared at a later stage, when the product is ready for testing in the staging environment."
+                },
+                {
+                  "disabled": false,
+                  "key": "quotation_number",
+                  "value": "<string>",
+                  "description": "(Required) Unique identity number generated by qoala system as transaction identifier for each transaction that received by qoala."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ed9e22f1-48e4-4050-a956-2b9bf846182c",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "partner_transaction_number",
+                      "value": "5099e32c-5c75-4587"
+                    },
+                    {
+                      "key": "product_code",
+                      "value": "T-TBUS-1029"
+                    },
+                    {
+                      "key": "quotation_number",
+                      "value": "QS-230802-5K9I8"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"success get quote policy\",\n  \"code\": 200,\n  \"data\": {\n    \"partner_transaction_number\": \"string\",\n    \"quotation_number\": \"QS-230828-5CL9NB47\",\n    \"product_code\": \"T-TBUS-PARTNER-001\",\n    \"policies\": [\n      {\n        \"number\": \"T-TBUS-PARTNER-001-20230824-OM94T\",\n        \"status\": \"POLICY_ACTIVE\",\n        \"documents\": [\n          {\n            \"file_name\": \"T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"type\": \"<string>\",\n            \"url\": \"{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"alias\": \"policy_certificate.pdf\"\n          },\n          {\n            \"file_name\": \"T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"type\": \"<string>\",\n            \"url\": \"{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"alias\": \"policy_certificate.pdf\"\n          }\n        ]\n      },\n      {\n        \"number\": \"T-TBUS-PARTNER-001-20230824-OM94T\",\n        \"status\": \"POLICY_ACTIVE\",\n        \"documents\": [\n          {\n            \"file_name\": \"T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"type\": \"<string>\",\n            \"url\": \"{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"alias\": \"policy_certificate.pdf\"\n          },\n          {\n            \"file_name\": \"T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"type\": \"<string>\",\n            \"url\": \"{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/T-TBUS-PARTNER-001-20230824-OM94T.pdf\",\n            \"alias\": \"policy_certificate.pdf\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73a2dba4-8a8d-42ef-aad3-6d5065dd267f",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "partner_transaction_number",
+                      "value": "5099e32c-5c75-4587"
+                    },
+                    {
+                      "key": "product_code",
+                      "value": "T-TBUS-1029"
+                    },
+                    {
+                      "key": "quotation_number",
+                      "value": "QS-230802-5K9I8"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"error_code\": \"POLCE-ERR-001\",\n  \"message\": \"invalid request\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b086c064-7f31-46c7-8018-b76a75991e0a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "partner_transaction_number",
+                      "value": "5099e32c-5c75-4587"
+                    },
+                    {
+                      "key": "product_code",
+                      "value": "T-TBUS-1029"
+                    },
+                    {
+                      "key": "quotation_number",
+                      "value": "QS-230802-5K9I8"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorizer Access\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d024a89-a546-4b7b-bc79-b241257dab08",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "partner_transaction_number",
+                      "value": "5099e32c-5c75-4587"
+                    },
+                    {
+                      "key": "product_code",
+                      "value": "T-TBUS-1029"
+                    },
+                    {
+                      "key": "quotation_number",
+                      "value": "QS-230802-5K9I8"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"error_code\": \"QEC-ERR-REST-003\",\n  \"message\": \"product code T-TBUS-PARTNER-001 not found\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "92ee3fd0-5e78-4783-b9e5-8928b7c6cd03",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "quotation",
+                    "quotes",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-quotation-quotes-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "partner_transaction_number",
+                      "value": "5099e32c-5c75-4587"
+                    },
+                    {
+                      "key": "product_code",
+                      "value": "T-TBUS-1029"
+                    },
+                    {
+                      "key": "quotation_number",
+                      "value": "QS-230802-5K9I8"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"QES-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a26eaa5b-9f07-4c00-90b3-dfe762a83ca1",
+          "name": "Cancel Policy",
+          "request": {
+            "name": "Cancel Policy",
+            "description": {
+              "content": "Policy cancellation",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "policies",
+                "partner",
+                "cancel"
+              ],
+              "host": [
+                "{{api-v2-policies-partner-cancel-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"policy_number\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "678445a8-123b-451b-8d05-ab7201fcf236",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Success update policy status\",\n  \"code\": 200,\n  \"data\": {\n    \"policy_number\": \"T-TBUS-PARTNER-001-20230828-OM94T\",\n    \"status\": \"POLICY_CANCELLED\",\n    \"reason\": \"explain reason why do you cancel this policy\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65757cb1-48db-4a6d-8afe-1e4bdf550a7e",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"error_code\": \"POLCE-ERR-001\",\n  \"message\": \"invalid request\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6db14b55-69a1-4a3a-a8b2-9256f2ff20c5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorizer Access\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b5589376-2bc4-4a1b-8114-72f8724ba908",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"error_code\": \"QEC-ERR-REST-003\",\n  \"message\": \"product code T-TBUS-PARTNER-001 not found\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0d16437-b4a1-4a2a-87c7-4ba33c969532",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"QES-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "945c6293-90f2-4f0c-b4a6-e107b05ef1dc",
+          "name": "Create Claim",
+          "request": {
+            "name": "Create Claim",
+            "description": {
+              "content": "Partners could use this endpoint to generate and create a new claim. Qoala will validate and make sure the policy is claimable. Qoala will share the claim number in the response and if needed could also notify the partner via callback Integration.\n### List of Claim Status\n\n| Status Code                | Claim Status (Subject)          | Description                                     |\n| --------------------------- | ------------------------------- | ----------------------------------------------- |\n| `CLAIM_INITIATE`            | Claim initiated                 | When the claimer successfully submitted a claim |\n| `QOALA_CLAIM_APPROVE`       | Claim received by Qoala         | Qoala approved the claim                        |\n| `QOALA_CLAIM_REJECT`        | Claim rejected by Qoala         | Qoala rejects the claim                         |\n| `INSURANCE_CLAIM_APPROVE`   | Claim approved by Insurance      | Insurance approved the claim                    |\n| `INSURANCE_CLAIM_REJECT`    | Claim rejected by Insurance      | Insurance rejected the claim                    |\n| `INSURANCE_CLAIM_PAID`      | Claim paid by Insurance           | Claim already paid by insurance                 |\n| `INSURANCE_CLAIM_WAITING_PAID` | Claim Waiting paid            | Claim already approved by insurance and waiting for paid |\n\nEach status code corresponds to a specific claim status, providing information about the state of the claim in the system.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "claims",
+                "partner",
+                "create"
+              ],
+              "host": [
+                "{{api-v2-claims-partner-create-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency_code\": \"<string>\",\n  \"country_code\": \"<string>\",\n  \"policy_number\": \"<string>\",\n  \"user_channel\": \"<string>\",\n  \"partner_code\": \"<string>\",\n  \"product\": {\n    \"category\": \"<string>\",\n    \"code\": \"<string>\",\n    \"benefit_code\": \"<string>\"\n  },\n  \"total_amount\": \"<number>\",\n  \"partner_claim_id\": \"<string>\",\n  \"claimant_data\": {\n    \"full_name\": \"<string>\",\n    \"phone_number\": \"<string>\"\n  },\n  \"form_data\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"covered_data\": [\n    {\n      \"type\": \"<string>\",\n      \"details\": {\n        \"identity_type\": \"<string>\",\n        \"identity_number\": \"<string>\",\n        \"booking_time\": \"<dateTime>\",\n        \"name\": \"<string>\",\n        \"departure_time\": \"<dateTime>\",\n        \"arrival_time\": \"<string>\",\n        \"number\": \"<string>\",\n        \"departure\": \"<string>\",\n        \"arrival\": \"<string>\",\n        \"class\": \"<string>\",\n        \"sub_class\": \"<string>\",\n        \"city_origin\": \"<string>\",\n        \"city_destination\": \"<string>\",\n        \"country_origin\": \"<string>\",\n        \"country_destination\": \"<string>\",\n        \"timezone_origin\": \"<string>\",\n        \"timezone_destination\": \"<string>\",\n        \"total_price_ticket\": \"<float64>\",\n        \"sub_total_price_ticket\": \"<float64>\",\n        \"trip_type\": \"<string>\",\n        \"trip_order\": \"<int>\",\n        \"number_of_room\": \"<int>\",\n        \"additional_info\": \"<object>\"\n      },\n      \"documents\": [\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        },\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"details\": {\n        \"identity_type\": \"<string>\",\n        \"identity_number\": \"<string>\",\n        \"booking_time\": \"<dateTime>\",\n        \"name\": \"<string>\",\n        \"departure_time\": \"<dateTime>\",\n        \"arrival_time\": \"<string>\",\n        \"number\": \"<string>\",\n        \"departure\": \"<string>\",\n        \"arrival\": \"<string>\",\n        \"class\": \"<string>\",\n        \"sub_class\": \"<string>\",\n        \"city_origin\": \"<string>\",\n        \"city_destination\": \"<string>\",\n        \"country_origin\": \"<string>\",\n        \"country_destination\": \"<string>\",\n        \"timezone_origin\": \"<string>\",\n        \"timezone_destination\": \"<string>\",\n        \"total_price_ticket\": \"<float64>\",\n        \"sub_total_price_ticket\": \"<float64>\",\n        \"trip_type\": \"<string>\",\n        \"trip_order\": \"<int>\",\n        \"number_of_room\": \"<int>\",\n        \"additional_info\": \"<object>\"\n      },\n      \"documents\": [\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        },\n        {\n          \"file_name\": \"<string>\",\n          \"type\": \"<string>\",\n          \"url\": \"<string>\",\n          \"alias\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"claim_additional_info\": {\n    \"loan_id\": \"<string>\",\n    \"borrower_name\": \"<string>\",\n    \"beneficiary_name\": \"<string>\",\n    \"last_payment_date\": \"<string>\",\n    \"last_collection_date\": \"<string>\",\n    \"outstanding_amount\": \"<number>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "841985b4-d1f8-4719-b992-bfef5633736c",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "create"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-create-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currency_code\": \"IDR\",\n  \"country_code\": \"ID\",\n  \"user_channel\": \"PARTNERSHIP\",\n  \"partner_code\": \"ABC\",\n  \"partner_claim_id\": \"C12345\",\n  \"policy_number\": \"F-CRDC-001-20230802\",\n  \"total_amount\": 100000,\n  \"product\": {\n    \"category\": \"TRAVEL\",\n    \"code\": \"PA-123\",\n    \"benefit_code\": \"BENEFIT_CODE\"\n  },\n  \"claimant_data\": {\n    \"full_name\": \"string\",\n    \"phone_number\": \"string\"\n  },\n  \"form_data\": [\n    {\n      \"name\": \"Alamat\",\n      \"value\": \"85778\"\n    }\n  ],\n  \"covered_data\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"1234567890\",\n        \"full_name\": \"Test\",\n        \"email\": \"test@gmail.com\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"1990-01-01\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jakarta\",\n        \"occupation\": \"Software Engineer\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Claim Service success\",\n  \"code\": 200,\n  \"data\": {\n    \"number\": \"C-123445\",\n    \"last_status\": \"CLAIM_INITIATED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "316e7f86-3bba-4177-b99b-9a97b492ded0",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "create"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-create-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currency_code\": \"IDR\",\n  \"country_code\": \"ID\",\n  \"user_channel\": \"PARTNERSHIP\",\n  \"partner_code\": \"ABC\",\n  \"partner_claim_id\": \"C12345\",\n  \"policy_number\": \"F-CRDC-001-20230802\",\n  \"total_amount\": 100000,\n  \"product\": {\n    \"category\": \"TRAVEL\",\n    \"code\": \"PA-123\",\n    \"benefit_code\": \"BENEFIT_CODE\"\n  },\n  \"claimant_data\": {\n    \"full_name\": \"string\",\n    \"phone_number\": \"string\"\n  },\n  \"form_data\": [\n    {\n      \"name\": \"Alamat\",\n      \"value\": \"85778\"\n    }\n  ],\n  \"covered_data\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"1234567890\",\n        \"full_name\": \"Test\",\n        \"email\": \"test@gmail.com\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"1990-01-01\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jakarta\",\n        \"occupation\": \"Software Engineer\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"error_code\": \"CLAIM-CREATE-006\",\n  \"message\": \"failed claim, reach maximum limitation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "270d4705-dd06-43e2-a8a6-ecab4d7c3a10",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "create"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-create-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currency_code\": \"IDR\",\n  \"country_code\": \"ID\",\n  \"user_channel\": \"PARTNERSHIP\",\n  \"partner_code\": \"ABC\",\n  \"partner_claim_id\": \"C12345\",\n  \"policy_number\": \"F-CRDC-001-20230802\",\n  \"total_amount\": 100000,\n  \"product\": {\n    \"category\": \"TRAVEL\",\n    \"code\": \"PA-123\",\n    \"benefit_code\": \"BENEFIT_CODE\"\n  },\n  \"claimant_data\": {\n    \"full_name\": \"string\",\n    \"phone_number\": \"string\"\n  },\n  \"form_data\": [\n    {\n      \"name\": \"Alamat\",\n      \"value\": \"85778\"\n    }\n  ],\n  \"covered_data\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"1234567890\",\n        \"full_name\": \"Test\",\n        \"email\": \"test@gmail.com\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"1990-01-01\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jakarta\",\n        \"occupation\": \"Software Engineer\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 401,\n  \"error_code\": \"QEC-ERR-401-01\",\n  \"message\": \"invalid unauthorized\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ad9d4bb-7919-4fc4-ad12-a7621afa0ee4",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "create"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-create-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"currency_code\": \"IDR\",\n  \"country_code\": \"ID\",\n  \"user_channel\": \"PARTNERSHIP\",\n  \"partner_code\": \"ABC\",\n  \"partner_claim_id\": \"C12345\",\n  \"policy_number\": \"F-CRDC-001-20230802\",\n  \"total_amount\": 100000,\n  \"product\": {\n    \"category\": \"TRAVEL\",\n    \"code\": \"PA-123\",\n    \"benefit_code\": \"BENEFIT_CODE\"\n  },\n  \"claimant_data\": {\n    \"full_name\": \"string\",\n    \"phone_number\": \"string\"\n  },\n  \"form_data\": [\n    {\n      \"name\": \"Alamat\",\n      \"value\": \"85778\"\n    }\n  ],\n  \"covered_data\": [\n    {\n      \"type\": \"USER\",\n      \"details\": {\n        \"identity_type\": \"KTP\",\n        \"identity_number\": \"1234567890\",\n        \"full_name\": \"Test\",\n        \"email\": \"test@gmail.com\",\n        \"phone_number\": \"+6281234567890\",\n        \"birth_date\": \"1990-01-01\",\n        \"gender\": \"MALE\",\n        \"address\": \"Jakarta\",\n        \"occupation\": \"Software Engineer\",\n        \"additional_info\": {\n          \"passenger_type\": \"ADULT\"\n        }\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"CLAIM-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a455880-b8cd-4177-90d3-f572d58eb81c",
+          "name": "Cancel Claim",
+          "request": {
+            "name": "Cancel Claim",
+            "description": {
+              "content": "Claim cancellation",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "claims",
+                "partner",
+                "cancel"
+              ],
+              "host": [
+                "{{api-v2-claims-partner-cancel-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"claim_number\": \"<string>\",\n  \"parent_category\": \"<string>\",\n  \"reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "51b8099f-d88b-429c-b837-f46aea056f6c",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"claim_number\": \"C-123455\",\n  \"parent_category\": \"microhealth\",\n  \"reason\": \"wrong claim number\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Claim Service success\",\n  \"code\": 200,\n  \"data\": {\n    \"claim_number\": \"C-123445\",\n    \"status\": \"CLAIM_CANCELLED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec15d54b-96ae-4487-85dc-cacb35e8bb8b",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"claim_number\": \"C-123455\",\n  \"parent_category\": \"microhealth\",\n  \"reason\": \"wrong claim number\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"status\": \"failed\",\n  \"message\": \"Unauthorized token\",\n  \"error_code\": \"QC-CLT-KEYA-V1-003\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52b75d97-54b7-446f-b318-8b9ad0d84828",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-cancel-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"claim_number\": \"C-123455\",\n  \"parent_category\": \"microhealth\",\n  \"reason\": \"wrong claim number\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"CLAIM-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c8ae14e-4783-440a-a5d1-7b00ac50c305",
+          "name": "Upload claim documents",
+          "request": {
+            "name": "Upload claim documents",
+            "description": {
+              "content": "Presign url to upload document",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "claims",
+                "partner",
+                "update",
+                "presign"
+              ],
+              "host": [
+                "{{api-v2-claims-partner-update-presign-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"claim_number\": \"<string>\",\n  \"file_name\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1339727b-5b26-46a6-a658-46cca8be2336",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "update",
+                    "presign"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-update-presign-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"claim_number\": \"C-123455\",\n  \"file_name\": \"fileName-1234.png\",\n  \"type\": \"NATIONAL_ID\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Claim Service success\",\n  \"code\": 200,\n  \"data\": {\n    \"claim_number\": \"C-123445\",\n    \"status\": \"CLAIM_SUBMITTED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1949f53-4bb7-43c1-b32b-5de01f5ef17c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "update",
+                    "presign"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-update-presign-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"claim_number\": \"C-123455\",\n  \"file_name\": \"fileName-1234.png\",\n  \"type\": \"NATIONAL_ID\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"status\": \"failed\",\n  \"message\": \"Unauthorized token\",\n  \"error_code\": \"QC-CLT-KEYA-V1-003\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "219f88a5-4860-47c8-b59d-86ee0b3afd7b",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "update",
+                    "presign"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-update-presign-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"claim_number\": \"C-123455\",\n  \"file_name\": \"fileName-1234.png\",\n  \"type\": \"NATIONAL_ID\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"CLAIM-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "913d33ad-80ed-4b3f-b7cc-f0fca073487c",
+          "name": "Update claim documents",
+          "request": {
+            "name": "Update claim documents",
+            "description": {
+              "content": "Presign url to upload document",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "claims",
+                "partner",
+                "update",
+                "presign"
+              ],
+              "host": [
+                "{{api-v2-claims-partner-update-presign-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/octet-stream"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "file"
+            }
+          },
+          "response": [
+            {
+              "id": "0754edf7-abeb-4748-b0df-3fae6a8731a1",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "update",
+                    "presign"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-update-presign-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Claim Service success\",\n  \"code\": 200,\n  \"data\": {\n    \"claim_number\": \"C-123445\",\n    \"status\": \"CLAIM_SUBMITTED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9895d2fc-ba6a-4d8d-8a05-fcd03935f940",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "update",
+                    "presign"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-update-presign-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"status\": \"failed\",\n  \"message\": \"Unauthorized token\",\n  \"error_code\": \"QC-CLT-KEYA-V1-003\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f65ef27a-2d47-4b16-bbb4-dcf22d17d954",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "update",
+                    "presign"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-update-presign-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"CLAIM-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "34d942af-aecc-4f6b-b451-3cd8b5920026",
+          "name": "Get Claim Pool",
+          "request": {
+            "name": "Get Claim Pool",
+            "description": {
+              "content": "this endpoint can be used by the partner to get the claim pool balance",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "products",
+                "finance",
+                "partner",
+                "products",
+                "stoploss",
+                ":claim_pool_code"
+              ],
+              "host": [
+                "{{api-v2-products-finance-partner-products-stoploss-claim_pool_code-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "claim_pool_code",
+                  "description": "(Required) Claim Pool code generated by Qoala"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "61d4a1e6-1fc2-46ad-af56-dac1ca58bd72",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "products",
+                    "finance",
+                    "partner",
+                    "products",
+                    "stoploss",
+                    ":claim_pool_code"
+                  ],
+                  "host": [
+                    "{{api-v2-products-finance-partner-products-stoploss-claim_pool_code-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_pool_code",
+                      "description": "(Required) Claim Pool code generated by Qoala"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Success get stoploss detail\",\n  \"code\": 200,\n  \"data\": {\n    \"code\": \"CLAIM_POOL_CODE\",\n    \"partner_code\": \"PARTNER_CODE\",\n    \"insurance_code\": \"INSURANCE_CODE\",\n    \"total_stoploss_amount\": 1621256,\n    \"total_pending_claim_amount\": 1621256,\n    \"total_claim_amount\": 1621256,\n    \"total_balance\": 1621256,\n    \"total_available_claim_pool\": 1621256,\n    \"products_code\": [\n      \"PRODUCT_CODE1\",\n      \"PRODUCT_CODE2\"\n    ],\n    \"created_at\": \"1962-12-06T03:19:10.096Z\",\n    \"updated_at\": \"2004-10-21T16:06:05.798Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fa11ee93-145d-4048-a62c-7dd979e27ce8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "products",
+                    "finance",
+                    "partner",
+                    "products",
+                    "stoploss",
+                    ":claim_pool_code"
+                  ],
+                  "host": [
+                    "{{api-v2-products-finance-partner-products-stoploss-claim_pool_code-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_pool_code",
+                      "description": "(Required) Claim Pool code generated by Qoala"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"error_code\": \"CLAIM-CREATE-006\",\n  \"message\": \"failed claim, reach maximum limitation\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec446d1e-d7a4-487a-9439-b2b3b6403b85",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "products",
+                    "finance",
+                    "partner",
+                    "products",
+                    "stoploss",
+                    ":claim_pool_code"
+                  ],
+                  "host": [
+                    "{{api-v2-products-finance-partner-products-stoploss-claim_pool_code-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_pool_code",
+                      "description": "(Required) Claim Pool code generated by Qoala"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"status\": \"failed\",\n  \"message\": \"Unauthorized request\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce9df298-e17d-4761-848e-fee23537ca73",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "products",
+                    "finance",
+                    "partner",
+                    "products",
+                    "stoploss",
+                    ":claim_pool_code"
+                  ],
+                  "host": [
+                    "{{api-v2-products-finance-partner-products-stoploss-claim_pool_code-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "claim_pool_code",
+                      "description": "(Required) Claim Pool code generated by Qoala"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"QES-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a992a7c1-837b-4afe-90d0-56fdf3463b3a",
+          "name": "Get Claim Status",
+          "request": {
+            "name": "Get Claim Status",
+            "description": {
+              "content": "Get claim status",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "claims",
+                "partner",
+                "status"
+              ],
+              "host": [
+                "{{api-v2-claims-partner-status-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "policy_number",
+                  "value": "<string>",
+                  "description": "Unique identifier for policy generated by qoala system. Policy number is optinal parameter only if claim number is provided in the URL."
+                },
+                {
+                  "disabled": false,
+                  "key": "claim_number",
+                  "value": "<string>",
+                  "description": "(Required) Unique identifier for claim created by qoala system. Claim number is optional parameter only if policy number is provided in the URL"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "badca445-6cba-4c4d-a47c-c9c555f26313",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "policy_number",
+                      "value": "F-CRDC-1029"
+                    },
+                    {
+                      "key": "claim_number",
+                      "value": "C-20211213-GIPC7"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"success get claim\",\n  \"code\": 200,\n  \"data\": {\n    \"policy_number\": \"string\",\n    \"claims\": [\n      {\n        \"number\": \"C-20211213-GIPCA\",\n        \"status\": {},\n        \"created_at\": \"2023-10-11 20:00:00\",\n        \"benefit_code\": \"BENEFIT_CODE\"\n      },\n      {\n        \"number\": \"C-20211213-GIPCA\",\n        \"status\": {},\n        \"created_at\": \"2023-10-11 20:00:00\",\n        \"benefit_code\": \"BENEFIT_CODE\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc9da4f4-01b5-4150-ab2e-372dc4617e84",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "policy_number",
+                      "value": "F-CRDC-1029"
+                    },
+                    {
+                      "key": "claim_number",
+                      "value": "C-20211213-GIPC7"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"error_code\": \"CLAIM-GET-001\",\n  \"message\": \"Invalid Params\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13b80722-dd39-4af1-9c71-b13afec642e5",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "policy_number",
+                      "value": "F-CRDC-1029"
+                    },
+                    {
+                      "key": "claim_number",
+                      "value": "C-20211213-GIPC7"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 401,\n  \"error_code\": \"QC-CLT-KEYA-V1-003\",\n  \"message\": \"Invalid Permission\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8fcab6ff-0f1e-4e7c-b268-b8db3aabb54c",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "policy_number",
+                      "value": "F-CRDC-1029"
+                    },
+                    {
+                      "key": "claim_number",
+                      "value": "C-20211213-GIPC7"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"error_code\": \"CLAIM-GET-005\",\n  \"message\": \"not found\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a11359a6-b935-43db-8f01-8a748d2bf70b",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "claims",
+                    "partner",
+                    "status"
+                  ],
+                  "host": [
+                    "{{api-v2-claims-partner-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "policy_number",
+                      "value": "F-CRDC-1029"
+                    },
+                    {
+                      "key": "claim_number",
+                      "value": "C-20211213-GIPC7"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"CLAIM-GET-003\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "edf7ab15-eef7-4541-8b6e-70a8834b501a",
+          "name": "Activate Policy",
+          "request": {
+            "name": "Activate Policy",
+            "description": {
+              "content": "API policy activation is needed when the object to be insured needs to be verified. For example, this usually applies to used, second-hand gadgets, but is not needed for new gadgets.  Only policies with a status of non POLICY_ACTIVE can be activated..",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v2",
+                "policies",
+                "documents",
+                "activation"
+              ],
+              "host": [
+                "{{api-v2-policies-documents-activation-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"policy_number\": \"<string>\",\n  \"status\": \"<string>\",\n  \"activated_at\": \"<string>\",\n  \"upload_activation_at\": \"<string>\",\n  \"supporting_documents\": {\n    \"url\": \"<string>\",\n    \"key\": \"<string>\",\n    \"type\": \"<string>\",\n    \"filename\": \"<string>\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"<string>\",\n      \"details\": [\n        {\n          \"identity_type\": \"<string>\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"<string>\",\n          \"manufacturer\": \"<string>\",\n          \"brand\": \"<string>\",\n          \"series\": \"<string>\",\n          \"sum_insured\": \"<number>\",\n          \"device_category\": \"<string>\"\n        },\n        {\n          \"identity_type\": \"<string>\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"<string>\",\n          \"manufacturer\": \"<string>\",\n          \"brand\": \"<string>\",\n          \"series\": \"<string>\",\n          \"sum_insured\": \"<number>\",\n          \"device_category\": \"<string>\"\n        }\n      ]\n    },\n    {\n      \"type\": \"<string>\",\n      \"details\": [\n        {\n          \"identity_type\": \"<string>\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"<string>\",\n          \"manufacturer\": \"<string>\",\n          \"brand\": \"<string>\",\n          \"series\": \"<string>\",\n          \"sum_insured\": \"<number>\",\n          \"device_category\": \"<string>\"\n        },\n        {\n          \"identity_type\": \"<string>\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"<string>\",\n          \"manufacturer\": \"<string>\",\n          \"brand\": \"<string>\",\n          \"series\": \"<string>\",\n          \"sum_insured\": \"<number>\",\n          \"device_category\": \"<string>\"\n        }\n      ]\n    }\n  ],\n  \"additional_info\": {\n    \"activation_number\": \"<string>\",\n    \"external_url\": \"<string>\",\n    \"result\": \"<string>\",\n    \"imei\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "10a70107-117d-4f0c-86a6-bda6b2b80e1c",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "documents",
+                    "activation"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-documents-activation-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"SCS30-001-20220418\",\n  \"status\": \"DATA_VERIFICATION_SUBMITTED\",\n  \"activated_at\": \"2006-01-02T15:04:05+0700\",\n  \"upload_activation_at\": \"2006-01-02T15:04:05+0700\",\n  \"supporting_documents\": {\n    \"url\": \"URL_DOCUMENT\",\n    \"key\": \"PRIVATE/POLICIES/PARTNER/GADGET/SCREEN_PROTECTION/example.mp4\",\n    \"type\": \"POLICY_ACTIVATION\",\n    \"filename\": \"example.mp4\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    },\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    }\n  ],\n  \"additional_info\": {\n    \"activation_number\": \"15SS9Nxm1650255314\",\n    \"external_url\": \"https://smartphone-frame-be-dot-qoala-217505.el.r.appspot.com\",\n    \"result\": \"70%\",\n    \"imei\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"message\": \"Activation submitted\",\n  \"code\": 200,\n  \"data\": {\n    \"policy_number\": \"G-ADLD-PARTNER-001-20251004-OM94T\",\n    \"status\": \"DATA_VERIFICATION_SUBMITTED\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a949ad3-23ae-4b32-af50-2d9478d6b169",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "documents",
+                    "activation"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-documents-activation-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"SCS30-001-20220418\",\n  \"status\": \"DATA_VERIFICATION_SUBMITTED\",\n  \"activated_at\": \"2006-01-02T15:04:05+0700\",\n  \"upload_activation_at\": \"2006-01-02T15:04:05+0700\",\n  \"supporting_documents\": {\n    \"url\": \"URL_DOCUMENT\",\n    \"key\": \"PRIVATE/POLICIES/PARTNER/GADGET/SCREEN_PROTECTION/example.mp4\",\n    \"type\": \"POLICY_ACTIVATION\",\n    \"filename\": \"example.mp4\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    },\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    }\n  ],\n  \"additional_info\": {\n    \"activation_number\": \"15SS9Nxm1650255314\",\n    \"external_url\": \"https://smartphone-frame-be-dot-qoala-217505.el.r.appspot.com\",\n    \"result\": \"70%\",\n    \"imei\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 400,\n  \"message\": \"Invalid request payload\",\n  \"status\": \"failed\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b2659a31-e7ca-459f-9577-6ab09bb76dba",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "documents",
+                    "activation"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-documents-activation-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"SCS30-001-20220418\",\n  \"status\": \"DATA_VERIFICATION_SUBMITTED\",\n  \"activated_at\": \"2006-01-02T15:04:05+0700\",\n  \"upload_activation_at\": \"2006-01-02T15:04:05+0700\",\n  \"supporting_documents\": {\n    \"url\": \"URL_DOCUMENT\",\n    \"key\": \"PRIVATE/POLICIES/PARTNER/GADGET/SCREEN_PROTECTION/example.mp4\",\n    \"type\": \"POLICY_ACTIVATION\",\n    \"filename\": \"example.mp4\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    },\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    }\n  ],\n  \"additional_info\": {\n    \"activation_number\": \"15SS9Nxm1650255314\",\n    \"external_url\": \"https://smartphone-frame-be-dot-qoala-217505.el.r.appspot.com\",\n    \"result\": \"70%\",\n    \"imei\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 401,\n  \"message\": \"Unauthorized request\",\n  \"status\": \"failed\",\n  \"data\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab90a9e7-b158-4c9d-b445-64cd2257ca2e",
+              "name": "Internal Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v2",
+                    "policies",
+                    "documents",
+                    "activation"
+                  ],
+                  "host": [
+                    "{{api-v2-policies-documents-activation-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"policy_number\": \"SCS30-001-20220418\",\n  \"status\": \"DATA_VERIFICATION_SUBMITTED\",\n  \"activated_at\": \"2006-01-02T15:04:05+0700\",\n  \"upload_activation_at\": \"2006-01-02T15:04:05+0700\",\n  \"supporting_documents\": {\n    \"url\": \"URL_DOCUMENT\",\n    \"key\": \"PRIVATE/POLICIES/PARTNER/GADGET/SCREEN_PROTECTION/example.mp4\",\n    \"type\": \"POLICY_ACTIVATION\",\n    \"filename\": \"example.mp4\"\n  },\n  \"insureds\": [\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    },\n    {\n      \"type\": \"GADGET\",\n      \"details\": [\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        },\n        {\n          \"identity_type\": \"IMEI\",\n          \"identity_number\": \"<string>\",\n          \"model\": \"Iphone 8\",\n          \"manufacturer\": \"Apple\",\n          \"brand\": \"Apple\",\n          \"series\": \"Iphone 8\",\n          \"sum_insured\": 1000000,\n          \"device_category\": \"SMARTPHONE\"\n        }\n      ]\n    }\n  ],\n  \"additional_info\": {\n    \"activation_number\": \"15SS9Nxm1650255314\",\n    \"external_url\": \"https://smartphone-frame-be-dot-qoala-217505.el.r.appspot.com\",\n    \"result\": \"70%\",\n    \"imei\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 500,\n  \"error_code\": \"QES-ERR-001\",\n  \"message\": \"internal server error\",\n  \"status\": \"failed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-quotation-quotes-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-quotation-quotes-partner-status-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-policies-partner-cancel-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-claims-partner-create-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-claims-partner-cancel-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-claims-partner-update-presign-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-products-finance-partner-products-stoploss-claim_pool_code-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-claims-partner-status-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "api-v2-policies-documents-activation-Url"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a660b16c-f2b8-4844-b906-500df12f1a37",
+    "name": "Qoala API Specification API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged API Specification across 14 of this provider's published API definitions: qoala-bus-insurance-openapi.yml, qoala-claim-api-alt-openapi.yml, qoala-claim-api-openapi.yml, qoala-credit-insurance-openapi.yml, qoala-credit-life-insurance-openapi.yml, qoala-experience-event-insurance-openapi.yml, qoala-flight-insurance-openapi.yml, qoala-gadget-insurance-openapi.yml, qoala-goods-insurance-openapi.yml, qoala-hotel-insurance-openapi.yml, qoala-logistic-insurance-openapi.yml, qoala-micro-health-insurance-openapi.yml, qoala-train-insurance-openapi.yml, qoala-vehicle-insurance-openapi.yml. Each path carries the servers of the definition it was published in.",
+      "type": "text/plain"
+    }
+  }
+}

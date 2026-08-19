@@ -1,12 +1,11 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Authentication API
   version: v1.3
   description: '# Introduction
 
 
-    Welcome to the Qoala Authentication API! This API provides authentication and session management functionality
-    for the Qoala platform.
+    Welcome to the Qoala Authentication API! This API provides authentication and session management functionality for the Qoala platform.
 
 
     # Authentication Endpoints
@@ -33,9 +32,7 @@ info:
     # Authentication
 
 
-    The session endpoints use captcha tokens and other security measures to protect against automated
-    attacks. After successful authentication, you will receive JWT tokens that can be used to access protected
-    resources.
+    The session endpoints use captcha tokens and other security measures to protect against automated attacks. After successful authentication, you will receive JWT tokens that can be used to access protected resources.
 
     '
 servers:
@@ -128,40 +125,6 @@ paths:
                 $ref: '#/components/schemas/SessionResponse'
 components:
   schemas:
-    SessionResponse:
-      type: object
-      required:
-      - camel
-      - data
-      - status
-      - message
-      properties:
-        camel:
-          type: boolean
-          description: Indicates if response keys are in camelCase
-        status:
-          type: string
-          example: success
-          description: Response status
-        message:
-          type: string
-          example: Session created successfully
-          description: Response message
-        data:
-          type: object
-          required:
-          - user
-          - token
-          - refresh
-          properties:
-            token:
-              type: string
-              description: JWT access token
-            refresh:
-              type: string
-              description: JWT refresh token
-            user:
-              $ref: '#/components/schemas/User'
     User:
       type: object
       required:
@@ -284,6 +247,163 @@ components:
         totp:
           type: integer
           description: TOTP status (1 = enabled, 0 = disabled)
+    ContactPerson:
+      type: object
+      required:
+      - name
+      - phoneNumber
+      - email
+      properties:
+        name:
+          type: string
+          description: Contact person name
+        phoneNumber:
+          type: string
+          description: Contact person phone number
+        email:
+          type: string
+          format: email
+          description: Contact person email
+    ApiKey:
+      type: object
+      required:
+      - key
+      - secret
+      - isActive
+      - createdAt
+      - updatedAt
+      - plainSecret
+      - createdBy
+      properties:
+        key:
+          type: string
+          nullable: true
+          description: API key
+        secret:
+          type: string
+          description: API secret (hashed)
+        plainSecret:
+          type: string
+          description: API secret (plain text)
+        isActive:
+          type: integer
+          description: Whether API key is active
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        createdBy:
+          type: string
+          description: Creator user ID
+    SessionResponse:
+      type: object
+      required:
+      - camel
+      - data
+      - status
+      - message
+      properties:
+        camel:
+          type: boolean
+          description: Indicates if response keys are in camelCase
+        status:
+          type: string
+          example: success
+          description: Response status
+        message:
+          type: string
+          example: Session created successfully
+          description: Response message
+        data:
+          type: object
+          required:
+          - user
+          - token
+          - refresh
+          properties:
+            token:
+              type: string
+              description: JWT access token
+            refresh:
+              type: string
+              description: JWT refresh token
+            user:
+              $ref: '#/components/schemas/User'
+    Partner:
+      type: object
+      required:
+      - id
+      - type
+      - name
+      - alias
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: Partner ID
+        type:
+          type: string
+          description: Partner type
+        name:
+          type: string
+          description: Partner name
+        alias:
+          type: string
+          description: Partner alias
+    ColorTheme:
+      type: object
+      required:
+      - primary
+      - secondary
+      properties:
+        primary:
+          type: string
+          description: Primary color
+        secondary:
+          type: string
+          description: Secondary color
+    Product:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - description
+      - industry
+      - icon
+      - isDraft
+      - config
+      properties:
+        id:
+          type: string
+          description: Product ID
+        slug:
+          type: string
+          description: Product slug
+        name:
+          type: string
+          description: Product name
+        description:
+          type: string
+          nullable: true
+          description: Product description
+        industry:
+          type: string
+          description: Industry
+        icon:
+          type: string
+          description: Icon URL
+        isDraft:
+          type: integer
+          description: Draft status
+        config:
+          type: object
+          nullable: true
+          description: Product configuration
     RoleDetail:
       type: object
       required:
@@ -308,6 +428,109 @@ components:
         isLock:
           type: integer
           description: Whether role is locked (1 = locked, 0 = unlocked)
+    ProductCategory:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - description
+      - industry
+      - icon
+      - isDraft
+      properties:
+        id:
+          type: string
+          description: Product category ID
+        slug:
+          type: string
+          description: Product category slug
+        name:
+          type: string
+          description: Product category name
+        description:
+          type: string
+          nullable: true
+          description: Product category description
+        industry:
+          type: string
+          description: Industry
+        icon:
+          type: string
+          description: Icon URL
+        isDraft:
+          type: integer
+          description: Draft status
+    OrganizationConfig:
+      type: object
+      required:
+      - hasLevel
+      - loginMethods
+      - hasAgent
+      - hasCommission
+      properties:
+        hasLevel:
+          type: boolean
+          description: Whether organization has level structure
+        hasAgent:
+          type: boolean
+          description: Whether organization has agents
+        hasCommission:
+          type: boolean
+          description: Whether organization has commission structure
+        loginMethods:
+          type: array
+          items:
+            type: string
+          description: Available login methods
+    Contact:
+      type: object
+      required:
+      - mainPic
+      - reconPic
+      properties:
+        mainPic:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPerson'
+        reconPic:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPerson'
+    Relation:
+      type: object
+      required:
+      - id
+      - name
+      - code
+      - codeAlias
+      - type
+      - partnerId
+      - products
+      properties:
+        id:
+          type: string
+          description: Relation ID
+        name:
+          type: string
+          description: Relation name
+        code:
+          type: string
+          description: Relation code
+        codeAlias:
+          type: string
+          description: Relation code alias
+        type:
+          type: string
+          description: Relation type
+        partnerId:
+          type: string
+          nullable: true
+          description: Partner ID
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
     Organization:
       type: object
       required:
@@ -411,229 +634,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Relation'
-    OrganizationConfig:
-      type: object
-      required:
-      - hasLevel
-      - loginMethods
-      - hasAgent
-      - hasCommission
-      properties:
-        hasLevel:
-          type: boolean
-          description: Whether organization has level structure
-        hasAgent:
-          type: boolean
-          description: Whether organization has agents
-        hasCommission:
-          type: boolean
-          description: Whether organization has commission structure
-        loginMethods:
-          type: array
-          items:
-            type: string
-          description: Available login methods
-    ColorTheme:
-      type: object
-      required:
-      - primary
-      - secondary
-      properties:
-        primary:
-          type: string
-          description: Primary color
-        secondary:
-          type: string
-          description: Secondary color
-    Contact:
-      type: object
-      required:
-      - mainPic
-      - reconPic
-      properties:
-        mainPic:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContactPerson'
-        reconPic:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContactPerson'
-    ContactPerson:
-      type: object
-      required:
-      - name
-      - phoneNumber
-      - email
-      properties:
-        name:
-          type: string
-          description: Contact person name
-        phoneNumber:
-          type: string
-          description: Contact person phone number
-        email:
-          type: string
-          format: email
-          description: Contact person email
-    ApiKey:
-      type: object
-      required:
-      - key
-      - secret
-      - isActive
-      - createdAt
-      - updatedAt
-      - plainSecret
-      - createdBy
-      properties:
-        key:
-          type: string
-          nullable: true
-          description: API key
-        secret:
-          type: string
-          description: API secret (hashed)
-        plainSecret:
-          type: string
-          description: API secret (plain text)
-        isActive:
-          type: integer
-          description: Whether API key is active
-        createdAt:
-          type: string
-          format: date-time
-          description: Creation timestamp
-        updatedAt:
-          type: string
-          format: date-time
-          description: Last update timestamp
-        createdBy:
-          type: string
-          description: Creator user ID
-    Partner:
-      type: object
-      required:
-      - id
-      - type
-      - name
-      - alias
-      properties:
-        id:
-          type: string
-          nullable: true
-          description: Partner ID
-        type:
-          type: string
-          description: Partner type
-        name:
-          type: string
-          description: Partner name
-        alias:
-          type: string
-          description: Partner alias
-    ProductCategory:
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      - description
-      - industry
-      - icon
-      - isDraft
-      properties:
-        id:
-          type: string
-          description: Product category ID
-        slug:
-          type: string
-          description: Product category slug
-        name:
-          type: string
-          description: Product category name
-        description:
-          type: string
-          nullable: true
-          description: Product category description
-        industry:
-          type: string
-          description: Industry
-        icon:
-          type: string
-          description: Icon URL
-        isDraft:
-          type: integer
-          description: Draft status
-    Relation:
-      type: object
-      required:
-      - id
-      - name
-      - code
-      - codeAlias
-      - type
-      - partnerId
-      - products
-      properties:
-        id:
-          type: string
-          description: Relation ID
-        name:
-          type: string
-          description: Relation name
-        code:
-          type: string
-          description: Relation code
-        codeAlias:
-          type: string
-          description: Relation code alias
-        type:
-          type: string
-          description: Relation type
-        partnerId:
-          type: string
-          nullable: true
-          description: Partner ID
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-    Product:
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      - description
-      - industry
-      - icon
-      - isDraft
-      - config
-      properties:
-        id:
-          type: string
-          description: Product ID
-        slug:
-          type: string
-          description: Product slug
-        name:
-          type: string
-          description: Product name
-        description:
-          type: string
-          nullable: true
-          description: Product description
-        industry:
-          type: string
-          description: Industry
-        icon:
-          type: string
-          description: Icon URL
-        isDraft:
-          type: integer
-          description: Draft status
-        config:
-          type: object
-          nullable: true
-          description: Product configuration

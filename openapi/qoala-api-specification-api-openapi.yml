@@ -1,0 +1,2583 @@
+openapi: 3.2.0
+info:
+  title: Qoala API Specification API
+  version: v1.3
+  description: 'Operations tagged API Specification across 14 of this provider''s published API definitions: qoala-bus-insurance-openapi.yml, qoala-claim-api-alt-openapi.yml, qoala-claim-api-openapi.yml, qoala-credit-insurance-openapi.yml, qoala-credit-life-insurance-openapi.yml, qoala-experience-event-insurance-openapi.yml, qoala-flight-insurance-openapi.yml, qoala-gadget-insurance-openapi.yml, qoala-goods-insurance-openapi.yml, qoala-hotel-insurance-openapi.yml, qoala-logistic-insurance-openapi.yml, qoala-micro-health-insurance-openapi.yml, qoala-train-insurance-openapi.yml, qoala-vehicle-insurance-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api-staging.qoala.app
+- url: https://api.uat.qoala.app
+- url: https://api.qoala.app
+security:
+- ApiKeyAuth: []
+tags:
+- name: API Specification
+  description: Policy API documentation consist of create policy, get policy detail or status, policy cancellation and policy activation.
+paths:
+  /api/v2/quotation/quotes:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    post:
+      tags:
+      - API Specification
+      summary: Create Policy
+      description: This API is used by partner to create policy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/200createQuotation'
+        '202':
+          $ref: '#/components/responses/202createQuotation'
+        '400':
+          $ref: '#/components/responses/400createQuotation'
+        '401':
+          $ref: '#/components/responses/401createQuotation'
+        '404':
+          $ref: '#/components/responses/404createQuotation'
+        '500':
+          $ref: '#/components/responses/500createQuotation'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Bus:
+                $ref: '#/components/examples/createPolicyBus'
+            schema:
+              type: object
+              required:
+              - product_category
+              - partner_transaction_number
+              - product_code
+              - policy_holder
+              properties:
+                product_category:
+                  description: product classification will be provided by Qoala
+                  type: string
+                  enum:
+                  - TRAVEL
+                partner_transaction_number:
+                  description: The Transaction ID serves as a unique identifier for each transaction initiated through the API. Partners are responsible for generating this ID and ensuring its uniqueness across their transactions.
+                  type: string
+                  maxLength: 100
+                  example: 1234567890
+                product_code:
+                  description: Defined by Qoala, plays a pivotal role in the API, providing contextual information about certain aspects of the product. However, as of now, the details for this field will be shared at a later stage when the product is ready for testing.
+                  type: string
+                  example: T-TBUS-PARTNER-001
+                purchased_at:
+                  description: A timestamp indicating when a product was purchased. This field is of the time type and is not mandatory. By default, if no value is provided, it is set to the current time. The timestamp is formatted using the ISO 8601 date format.
+                  type: string
+                  example: '2023-09-04T06:38:00Z'
+                  format: date-time
+                premium:
+                  description: A vital component of the API, representing the cost of an insurance product in its respective currency.
+                  type: number
+                  example: 2000
+                  format: float64
+                policy_holder:
+                  description: The policy_holder field serves as a container for essential data regarding the holder of the policy.  This data provides insight into the individual or organization that is associated with the policy.
+                  type: object
+                  $ref: '#/components/schemas/PolicyHolderRequest'
+                insureds:
+                  description: 'Insured''s object. The object can be different depending on the product. For example: covered user, car, smartphone, flight, hotel, etc.'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Insured'
+        description: The following list explains body payload for creating policy
+        required: true
+      x-codeSamples:
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"bytes\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\n)\n\ntype RequestPayload struct {\n\tProductCategory          string `json:\"product_category\"`\n\tPartnerTransactionNumber string `json:\"partner_transaction_number\"`\n\t// ... other fields\n}\n\nfunc main() {\n\t// Construct the URL\n\tapiUrl := \"https://{{HOST_QOALA}}/api/v1/quotation\"\n\n\t// Create the request payload\n\tpayload := RequestPayload{\n\t\tProductCategory:          \"TRAVEL\",\n\t\tPartnerTransactionNumber: \"FL-01\",\n\t\t// ... initialize other fields\n\t}\n\n\t// Convert the payload to JSON\n\tpayloadBytes, err := json.Marshal(payload)\n\tif err != nil {\n\t\tfmt.Println(\"Error encoding JSON:\", err)\n\t\treturn\n\t}\n\n\t// Create a new POST request with the payload\n\treq, err := http.NewRequest(\"POST\", apiUrl, bytes.NewBuffer(payloadBytes))\n\tif err != nil {\n\t\tfmt.Println(\"Error creating request:\", err)\n\t\treturn\n\t}\n\n\t// Set headers\n\treq.Header.Set(\"x-api-key\", \"abcdefg\")\n\treq.Header.Set(\"Content-Type\", \"application/json\")\n\n\t// Send the request\n\tclient := http.Client{}\n\tresp, err := client.Do(req)\n\tif err != nil {\n\t\tfmt.Println(\"Error sending request:\", err)\n\t\treturn\n\t}\n\tdefer resp.Body.Close()\n\n\t// Print the response status code\n\tfmt.Println(\"Response Status:\", resp.Status)\n}\n"
+      - lang: PHP
+        source: "<?php\n\nclass RequestPayload {\n    public $product_category;\n    public $partner_transaction_number;\n   public $purchased_at;\n    public $premium;\n    public $pool_amount;\n    public $addons;\n    public $policy_holder;\n    public $insureds;\n}\n\nclass Addons {\n    public $code;\n    public $unit;\n    public $sum_insured;\n}\n\nclass PolicyHolder {\n    public $identity_type;\n    public $identity_number;\n    public $full_name;\n    public $email;\n    public $phone_number;\n    public $birth_date;\n    public $gender;\n    public $relationship;\n    public $address;\n    public $documents;\n}\n\nclass Document {\n    public $file_name;\n    public $type;\n    public $url;\n}\n\nclass Insureds {\n    public $type;\n    public $details; // This can be either InsuredTravel or InsuredUser\n    public $documents;\n}\n\nclass InsuredTravel {\n    public $identity_type;\n    public $identity_number;\n    public $booking_time;\n    public $name;\n    public $number;\n    // ... other fields\n}\n\nclass InsuredUser {\n    public $identity_type;\n    public $identity_number;\n    public $full_name;\n    public $email;\n    public $phone_number;\n    public $birth_date;\n    public $gender;\n    // ... other fields\n}\n\n// Construct the URL\n$apiUrl = \"https://{{HOST_QOALA}}/api/v1/quotation\";\n\n// Create the request payload\n$payload = new RequestPayload();\n$payload->product_category = \"TRAVEL\";\n$payload->partner_transaction_number = \"FL-01\";\n// ... initialize other fields\n\n// Convert the payload to JSON\n$payloadJson = json_encode($payload);\n\n// Create headers\n$headers = [\n    \"x-api-key: abcdefg\",\n    \"Content-Type: application/json\"\n];\n\n// Initialize cURL session\n$ch = curl_init();\n\n// Set cURL options\ncurl_setopt($ch, CURLOPT_URL, $apiUrl);\ncurl_setopt($ch, CURLOPT_POST, true);\ncurl_setopt($ch, CURLOPT_POSTFIELDS, $payloadJson);\ncurl_setopt($ch, CURLOPT_HTTPHEADER, $headers);\ncurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n\n// Execute cURL session\n$response = curl_exec($ch);\n\n// Check for cURL errors\nif (curl_errno($ch)) {\n    echo \"cURL Error: \" . curl_error($ch);\n} else {\n    // Print response\n    echo \"Response: \" . $response;\n}\n\n// Close cURL session\ncurl_close($ch);\n\n?>\n"
+      - lang: Node.js
+        source: "const axios = require('axios');\n\nasync function createPolicy() {\n    const apiUrl = 'https://{{HOST_QOALA}}/api/v1/quotation';\n    \n    const payload = {\n        product_category: 'TRAVEL',\n        partner_transaction_number: 'FL-01',\n        // ... other fields\n    };\n\n    const headers = {\n        'x-api-key': 'abcdefg',\n        'Content-Type': 'application/json'\n    };\n\n    try {\n        const response = await axios.post(apiUrl, payload, { headers });\n        console.log('Response:', response.data);\n    } catch (error) {\n        console.error('Error:', error.message);\n    }\n}\n\ncreatePolicy();\n"
+      - lang: Python
+        source: "import requests\nimport json\n\ndef create_policy():\n    api_url = 'https://{{HOST_QOALA}}/api/v1/quotation'\n\n    payload = {\n        \"product_category\": \"TRAVEL\",\n        \"partner_transaction_number\": \"FL-01\",\n        # ... other fields\n    }\n\n    headers = {\n        'x-api-key': 'abcdefg',\n        'Content-Type': 'application/json'\n    }\n\n    try:\n        response = requests.post(api_url, data=json.dumps(payload), headers=headers)\n        response_data = response.json()\n        print('Response:', response_data)\n    except requests.exceptions.RequestException as e:\n        print('Error:', e)\n\ncreate_policy()\n"
+  /api/v2/quotation/quotes/partner/status:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    get:
+      tags:
+      - API Specification
+      summary: Get Policy Detail
+      description: Policy detail
+      operationId: detailPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200detailPolicy'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  error_code:
+                    type: string
+                    example: POLCE-ERR-001
+                  message:
+                    type: string
+                    example: invalid request
+                  status:
+                    type: string
+                    example: failed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorizer Access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  error_code:
+                    type: string
+                    example: QEC-ERR-REST-003
+                  message:
+                    type: string
+                    example: product code T-TBUS-PARTNER-001 not found
+                  status:
+                    type: string
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      parameters:
+      - in: query
+        name: partner_transaction_number
+        required: true
+        description: The Transaction ID serves as a unique identifier for each transaction initiated through the API. Partners are responsible for generating this ID and ensuring its uniqueness across all of their transactions.
+        schema:
+          type: string
+          example: 5099e32c-5c75-4587
+      - in: query
+        name: product_code
+        required: true
+        description: Defined by Qoala, this field plays a pivotal role in the API, providing contextual information about certain aspects of the product. However, the details for this field will be shared at a later stage, when the product is ready for testing in the staging environment.
+        schema:
+          type: string
+          example: T-TBUS-1029
+      - in: query
+        name: quotation_number
+        required: true
+        description: Unique identity number generated by qoala system as transaction identifier for each transaction that received by qoala.
+        schema:
+          type: string
+          example: QS-230802-5K9I8
+  /api/v2/policies/partner/cancel:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    patch:
+      tags:
+      - API Specification
+      summary: Cancel Policy
+      description: Policy cancellation
+      operationId: cancelPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Success update policy status
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      policy_number:
+                        type: string
+                        example: T-TBUS-PARTNER-001-20230828-OM94T
+                      status:
+                        type: string
+                        example: POLICY_CANCELLED
+                      reason:
+                        type: string
+                        example: explain reason why do you cancel this policy
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  error_code:
+                    type: string
+                    example: POLCE-ERR-001
+                  message:
+                    type: string
+                    example: invalid request
+                  status:
+                    type: string
+                    example: failed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthorizer Access
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  error_code:
+                    type: string
+                    example: QEC-ERR-REST-003
+                  message:
+                    type: string
+                    example: product code T-TBUS-PARTNER-001 not found
+                  status:
+                    type: string
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policy_number
+              - reason
+              properties:
+                policy_number:
+                  type: string
+                  description: policy number generated by qoala
+                reason:
+                  type: string
+                  description: reason why do we need to cancel the policy
+  /api/v2/claims/partner/create:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    post:
+      tags:
+      - API Specification
+      summary: Create Claim
+      description: 'Partners could use this endpoint to generate and create a new claim. Qoala will validate and make sure the policy is claimable. Qoala will share the claim number in the response and if needed could also notify the partner via callback Integration.
+
+        ### List of Claim Status
+
+
+        | Status Code                | Claim Status (Subject)          | Description                                     |
+
+        | --------------------------- | ------------------------------- | ----------------------------------------------- |
+
+        | `CLAIM_INITIATE`            | Claim initiated                 | When the claimer successfully submitted a claim |
+
+        | `QOALA_CLAIM_APPROVE`       | Claim received by Qoala         | Qoala approved the claim                        |
+
+        | `QOALA_CLAIM_REJECT`        | Claim rejected by Qoala         | Qoala rejects the claim                         |
+
+        | `INSURANCE_CLAIM_APPROVE`   | Claim approved by Insurance      | Insurance approved the claim                    |
+
+        | `INSURANCE_CLAIM_REJECT`    | Claim rejected by Insurance      | Insurance rejected the claim                    |
+
+        | `INSURANCE_CLAIM_PAID`      | Claim paid by Insurance           | Claim already paid by insurance                 |
+
+        | `INSURANCE_CLAIM_WAITING_PAID` | Claim Waiting paid            | Claim already approved by insurance and waiting for paid |
+
+
+        Each status code corresponds to a specific claim status, providing information about the state of the claim in the system.
+
+        '
+      operationId: createClaim
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Claim Service success
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      number:
+                        type: string
+                        example: C-123445
+                      last_status:
+                        type: string
+                        example: CLAIM_INITIATED
+        '400':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: http code response
+                    example: 400
+                  error_code:
+                    type: string
+                    description: "qoala system error code for error classification\n    \n### List of Error Code detail\n\n|Error Code | HTTP Status | Description|\n|----------|-------------|------------|\n|CLAIM-CREATE-001 | 400 | Invalid Body request|\n|CLAIM-CREATE-003 | 400 | Policy Not Available|\n|CLAIM-CREATE-004 | 400 | Product Not Found|\n|CLAIM-CREATE-006 | 400 | Failed claim Reach maximum Limitation|\n|CLAIM-CREATE-007 | 400 | Invalid Time|\n|CLAIM-CREATE-018 | 400 | Benefit Code Not Valid|\n"
+                    example: CLAIM-CREATE-006
+                  message:
+                    type: string
+                    description: status of response, it will contain failed
+                    example: failed claim, reach maximum limitation
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    description: http code response
+                    example: 401
+                  error_code:
+                    type: string
+                    description: 'qoala system error code for invalid token
+
+
+                      ### List of Error Code detail
+
+                      | Error Code | HTTP Status | Description |
+
+                      |---|---|---|
+
+                      | QC-CLT-KEYA-V1-003 | 401 | Invalid Permission |
+
+                      '
+                    example: QEC-ERR-401-01
+                  message:
+                    type: string
+                    description: short message explains about the failed response
+                    example: invalid unauthorized
+                  status:
+                    type: string
+                    description: status of response, it will contain failed
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    description: http code response
+                    example: 500
+                  error_code:
+                    type: string
+                    description: 'qoala system error code for error classification
+
+
+                      ### List of Error Code detail
+
+                      |Error Code | HTTP Status | Description|
+
+                      |----------|-------------|------------|
+
+                      |CLAIM-CREATE-008 | 500 | Failed claim Reach maximum Limitation in Benefit Level|
+
+                      '
+                    example: CLAIM-ERR-001
+                  message:
+                    type: string
+                    description: short message explains about the failed response
+                    example: internal server error
+                  status:
+                    type: string
+                    description: status of response, it will contain failed
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Claim for Travel Product:
+                $ref: '#/components/examples/createClaimTravelProduct'
+              Claim for Credit Insurance With Reinstatement:
+                $ref: '#/components/examples/createClaimCreditInsuranceWithReinstatement'
+            schema:
+              type: object
+              required:
+              - currency_code
+              - country_code
+              - policy_number
+              - user_channel
+              - partner_code
+              - product
+              - total_amount
+              properties:
+                currency_code:
+                  description: Claim currency
+                  type: string
+                  example: IDR
+                country_code:
+                  description: Claim country code
+                  type: string
+                  example: ID
+                total_amount:
+                  type: number
+                  description: "Total Claim amount\n *for finance product the value is equal to outstanding amount"
+                user_channel:
+                  description: Channel where the claim comes from
+                  type: string
+                  example: PARTNERSHIP
+                partner_code:
+                  description: Partner code predefined by Qoala
+                  type: string
+                  example: ABC
+                partner_claim_id:
+                  description: Unique claim identifier generated by the partner system
+                  type: string
+                  example: C12345
+                policy_number:
+                  description: Unique policy number generated by the Qoala system
+                  type: string
+                  example: F-CRDC-001-20230802
+                product:
+                  description: Product information
+                  type: object
+                  required:
+                  - category
+                  - code
+                  - benefit_code
+                  properties:
+                    category:
+                      type: string
+                      enum:
+                      - GADGET
+                      - TRAVEL
+                      - FINANCE
+                      - MICROHEALTH
+                    code:
+                      type: string
+                      example: PA-123
+                      description: Product code generated by Qoala
+                    benefit_code:
+                      type: string
+                      example: BE-1234
+                      description: Benefit Code generated by Qoala
+                claimant_data:
+                  description: Claimant information
+                  type: object
+                  required:
+                  - full_name
+                  properties:
+                    full_name:
+                      type: string
+                      description: Claimant full name
+                    phone_number:
+                      type: string
+                      description: Claimant phone number
+                form_data:
+                  description: Claim form Data
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Alamat
+                        description: name of data
+                      value:
+                        type: string
+                        example: 85778
+                        description: value of data
+                covered_data:
+                  description: insureds information
+                  type: array
+                  items:
+                    type: object
+                    $ref: '#/components/schemas/Insured_2'
+                claim_additional_info:
+                  description: Claim additional info only applicable for specific product category
+                  type: object
+                  properties:
+                    loan_id:
+                      type: string
+                      description: partner transaction number or loan id // required for Credit Insurance with reinstatement product
+                    borrower_name:
+                      type: string
+                      description: Borrower name // required for Credit Insurance with reinstatement product
+                    beneficiary_name:
+                      type: string
+                      description: Beneficiary or lender name // required for Credit Insurance with reinstatement product
+                    last_payment_date:
+                      type: string
+                      description: last payment date, if the loan hasnt been paid or loan is less than 30 days please put loan start date // required for Credit Insurance with reinstatement product
+                    last_collection_date:
+                      type: string
+                      description: last collection date from the partner // required for Credit Insurance with reinstatement product
+                    outstanding_amount:
+                      type: number
+                      description: remaining loan
+        description: Payload for creating claim // required for Credit Insurance with reinstatement product
+        required: true
+  /api/v2/claims/partner/cancel:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    patch:
+      tags:
+      - API Specification
+      summary: Cancel Claim
+      description: Claim cancellation
+      operationId: cancelClaim
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Claim Service success
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      claim_number:
+                        type: string
+                        example: C-123445
+                      status:
+                        type: string
+                        example: CLAIM_CANCELLED
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: 401
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Unauthorized token
+                  error_code:
+                    type: string
+                    example: QC-CLT-KEYA-V1-003
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: CLAIM-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                claim_number:
+                  type: string
+                  description: unique identifier for claim created by qoala system
+                  example: C-123455
+                parent_category:
+                  type: string
+                  example: microhealth
+                  description: category of product
+                  enum:
+                  - microhealth
+                  - finance
+                  - gadget
+                  - travel
+                reason:
+                  type: string
+                  description: explain the reason for cancellation briefly
+                  example: wrong claim number
+        description: Payload for cancelling claim
+        required: true
+  /api/v2/claims/partner/update/presign:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    post:
+      tags:
+      - API Specification
+      summary: Upload claim documents
+      description: Presign url to upload document
+      operationId: presignCreateClaim
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Claim Service success
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      claim_number:
+                        type: string
+                        description: claim unique number generated by qoala system
+                        example: C-123445
+                      status:
+                        type: string
+                        description: last status of claim
+                        example: CLAIM_SUBMITTED
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: 401
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Unauthorized token
+                  error_code:
+                    type: string
+                    example: QC-CLT-KEYA-V1-003
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: CLAIM-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                claim_number:
+                  type: string
+                  description: unique identifier for claim created by qoala system
+                  example: C-123455
+                file_name:
+                  type: string
+                  example: fileName-1234.png
+                  description: Document name
+                type:
+                  type: string
+                  description: type of document
+                  example: NATIONAL_ID
+        description: Payload for creating presigned url claim
+        required: true
+    put:
+      tags:
+      - API Specification
+      summary: Update claim documents
+      description: Presign url to upload document
+      operationId: presignUploadClaim
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Claim Service success
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      claim_number:
+                        type: string
+                        description: claim unique number generated by qoala system
+                        example: C-123445
+                      status:
+                        type: string
+                        description: last status of claim
+                        example: CLAIM_SUBMITTED
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: 401
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Unauthorized token
+                  error_code:
+                    type: string
+                    example: QC-CLT-KEYA-V1-003
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: CLAIM-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+              maxLength: 12345
+        description: Payload for creating presigned url claim
+        required: true
+  /api/v2/products/finance/partner/products/stoploss/{claim_pool_code}:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    get:
+      tags:
+      - API Specification
+      summary: Get Claim Pool
+      description: this endpoint can be used by the partner to get the claim pool balance
+      operationId: getPool
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Success get stoploss detail
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        description: unique code for certain claim pool
+                        example: CLAIM_POOL_CODE
+                      partner_code:
+                        type: string
+                        description: partner code associated for certain claim pool
+                        example: PARTNER_CODE
+                      insurance_code:
+                        type: string
+                        description: insurance code associated for certain claim pool
+                        example: INSURANCE_CODE
+                      total_stoploss_amount:
+                        type: number
+                        description: Total claim pool collected
+                        format: float64
+                        example: 1621256
+                      total_pending_claim_amount:
+                        type: number
+                        description: Total approved claim but haven't been disbursed (will be disburse in the next day)
+                        format: float64
+                        example: 1621256
+                      total_claim_amount:
+                        type: number
+                        description: Total claim pool has been claimed
+                        format: float64
+                        example: 1621256
+                      total_balance:
+                        type: number
+                        description: Available amount claim pool
+                        format: float64
+                        example: 1621256
+                      total_available_claim_pool:
+                        type: number
+                        format: float64
+                        example: 1621256
+                      products_code:
+                        type: array
+                        description: List of products associated with this claim pool code
+                        items:
+                          type: string
+                        example:
+                        - PRODUCT_CODE1
+                        - PRODUCT_CODE2
+                      created_at:
+                        type: string
+                        description: when the claim pool is created
+                        format: date-time
+                      updated_at:
+                        type: string
+                        description: when the last update claim pool
+                        format: date-time
+        '400':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: 400
+                  error_code:
+                    type: string
+                    example: CLAIM-CREATE-006
+                  message:
+                    type: string
+                    example: failed claim, reach maximum limitation
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: 401
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: Unauthorized request
+                  data:
+                    type: object
+                    example: null
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      parameters:
+      - in: path
+        name: claim_pool_code
+        required: true
+        description: Claim Pool code generated by Qoala
+        schema:
+          type: string
+          example: CLAIM_POOL_CODE
+  /api/v2/claims/partner/status:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    get:
+      tags:
+      - API Specification
+      summary: Get Claim Status
+      description: Get claim status
+      operationId: statusClaim
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  error_code:
+                    type: string
+                    example: CLAIM-GET-001
+                  message:
+                    type: string
+                    example: Invalid Params
+                  status:
+                    type: string
+                    example: failed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 401
+                  error_code:
+                    type: string
+                    example: QC-CLT-KEYA-V1-003
+                  message:
+                    type: string
+                    example: Invalid Permission
+                  status:
+                    type: string
+                    example: failed
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 404
+                  error_code:
+                    type: string
+                    example: CLAIM-GET-005
+                  message:
+                    type: string
+                    example: not found
+                  status:
+                    type: string
+                    example: failed
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: CLAIM-GET-003
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      parameters:
+      - in: query
+        name: policy_number
+        required: false
+        description: Unique identifier for policy generated by qoala system. Policy number is optinal parameter only if claim number is provided in the URL.
+        schema:
+          type: string
+          example: F-CRDC-1029
+      - in: query
+        name: claim_number
+        required: true
+        description: Unique identifier for claim created by qoala system. Claim number is optional parameter only if policy number is provided in the URL
+        schema:
+          type: string
+          example: C-20211213-GIPC7
+  /api/v2/policies/documents/activation:
+    servers:
+    - url: https://api-staging.qoala.app
+    - url: https://api.uat.qoala.app
+    - url: https://api.qoala.app
+    post:
+      tags:
+      - API Specification
+      summary: Activate Policy
+      description: API policy activation is needed when the object to be insured needs to be verified. For example, this usually applies to used, second-hand gadgets, but is not needed for new gadgets.  Only policies with a status of non POLICY_ACTIVE can be activated..
+      operationId: activationPolicy
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Activation submitted
+                  code:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      policy_number:
+                        type: string
+                        example: G-ADLD-PARTNER-001-20251004-OM94T
+                      status:
+                        type: string
+                        example: DATA_VERIFICATION_SUBMITTED
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 400
+                  message:
+                    type: string
+                    example: Invalid request payload
+                  status:
+                    type: string
+                    example: failed
+                  data:
+                    type: object
+                    example: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 401
+                  message:
+                    type: string
+                    example: Unauthorized request
+                  status:
+                    type: string
+                    example: failed
+                  data:
+                    type: object
+                    example: null
+        '500':
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                    example: 500
+                  error_code:
+                    type: string
+                    example: QES-ERR-001
+                  message:
+                    type: string
+                    example: internal server error
+                  status:
+                    type: string
+                    example: failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - policy_number
+              - status
+              properties:
+                policy_number:
+                  type: string
+                  example: SCS30-001-20220418
+                  description: policy number generated by qoala
+                status:
+                  type: string
+                  description: status of activation
+                  example: DATA_VERIFICATION_SUBMITTED
+                  enum:
+                  - DATA_VERIFICATION_SUBMITTED
+                  - DATA_VERIFICATION_IN_PROCESS
+                activated_at:
+                  type: string
+                  example: 2006-01-02T15:04:05+0700
+                  description: Activation date time that passed from partner or 3rd party service. Date time format follow ISO8601
+                upload_activation_at:
+                  type: string
+                  example: 2006-01-02T15:04:05+0700
+                  description: Uploaded date time of evidence or activation file for insurance to review. Date time format follow ISO8601
+                supporting_documents:
+                  type: object
+                  description: Data of uploaded activation document using provided presigned url for activation
+                  properties:
+                    url:
+                      type: string
+                      example: URL_DOCUMENT
+                      description: S3 URL of uploaded activation document
+                    key:
+                      type: string
+                      example: PRIVATE/POLICIES/PARTNER/GADGET/SCREEN_PROTECTION/example.mp4
+                      description: S3 URL key path of uploaded activation document
+                    type:
+                      type: string
+                      description: Enum value type of uploaded document
+                      example: POLICY_ACTIVATION
+                      enum:
+                      - POLICY_ACTIVATION
+                    filename:
+                      type: string
+                      example: example.mp4
+                      description: File name of uploaded activation document
+                insureds:
+                  type: array
+                  description: Detailed data of the insured gadget
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: GADGET
+                        description: The product category type of the insured detailed data
+                      details:
+                        type: array
+                        description: Detail information about the insured
+                        items:
+                          type: object
+                          properties:
+                            identity_type:
+                              type: string
+                              example: IMEI
+                              description: Identity type used for the insured
+                            identity_number:
+                              type: string
+                              example: 865769845678
+                              description: Identity number used for the insured
+                            model:
+                              type: string
+                              example: Iphone 8
+                              description: The model of the insured gadget
+                            manufacturer:
+                              type: string
+                              example: Apple
+                              description: The manufacturer of the insured gadget
+                            brand:
+                              type: string
+                              example: Apple
+                              description: The brand which produce the insured gadget
+                            series:
+                              type: string
+                              example: Iphone 8
+                              description: The product series of the insured gadget
+                            sum_insured:
+                              type: number
+                              example: 1000000
+                              description: The amount insured with the gadget
+                            device_category:
+                              type: string
+                              example: SMARTPHONE
+                              description: The insured gadget device’s category
+                additional_info:
+                  type: object
+                  description: Standard additional info object json passed from partner or 3rd party services for policy service to capture
+                  properties:
+                    activation_number:
+                      type: string
+                      example: 15SS9Nxm1650255314
+                      description: Identifier number of activation process returned from partner or 3rd party service
+                    external_url:
+                      type: string
+                      example: https://smartphone-frame-be-dot-qoala-217505.el.r.appspot.com
+                      description: Accessible external resource url that policy service will store this url as activation evidence from partner or 3rd party service.  If external url more than one value than separated by semicolon as separator.
+                    result:
+                      type: string
+                      example: 70%
+                      description: Value of crack result in this case is smartphone activation i.e 70%
+                    imei:
+                      type: string
+                      example: 1234567
+                      description: Value of detected imei during activation process. If imei more than one value than separated by semicolon as separator
+components:
+  examples:
+    createClaimCreditInsuranceWithReinstatement:
+      value:
+        user_channel: PARTNERSHIP
+        policy_number: QOALA_POLICY_NUMBER
+        partner_code: PARTNER_CODE
+        currency_code: IDR
+        total_amount: 200000
+        country_code: ID
+        product:
+          category: FINANCE
+          code: PRODUCT_CODE
+          benefit_code: BENEFIT_CODE
+        claim_additional_info:
+          loan_id: LOAN_ID
+          borrower_name: BORROWERNAME
+          beneficiary_name: BENEFICIARY_NAME
+          last_payment_date: '2023-05-14T00:00:00.000Z'
+          last_collection_date: '2023-05-14T00:00:00.000Z'
+          outstanding_amount: 200000
+    createClaimTravelProduct:
+      value:
+        currency_code: IDR
+        country_code: ID
+        user_channel: PARTNERSHIP
+        partner_code: ABC
+        partner_claim_id: C12345
+        policy_number: F-CRDC-001-20230802
+        total_amount: 100000
+        product:
+          category: TRAVEL
+          code: PA-123
+          benefit_code: BENEFIT_CODE
+        claimant_data:
+          full_name: string
+          phone_number: string
+        form_data:
+        - name: Alamat
+          value: '85778'
+        covered_data:
+        - type: USER
+          details:
+            identity_type: KTP
+            identity_number: '1234567890'
+            full_name: Test
+            email: test@gmail.com
+            phone_number: '+6281234567890'
+            birth_date: '1990-01-01'
+            gender: MALE
+            address: Jakarta
+            occupation: Software Engineer
+            additional_info:
+              passenger_type: ADULT
+    createPolicyBus:
+      value:
+        product_category: TRAVEL
+        partner_transaction_number: '1067652488.1'
+        product_code: T-TBUS-001
+        premium: 8600
+        policy_holder:
+          full_name: PT Sample Travel
+          email: john.doe@qoala.id
+          phone_number: '+6281234567890'
+          identity_type: KTP
+          identity_number: '1234567890123456'
+          birth_date: ''
+          gender: MALE
+          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
+          occupation: ''
+        insureds:
+        - type: USER
+          details:
+            identity_type: KTP
+            identity_number: '3456789076543456'
+            full_name: Jim Doe
+            email: jane.doe@qoala.id
+            phone_number: '+6281234567890'
+            birth_date: ''
+            gender: MALE
+            address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
+            occupation: ''
+            additional_info:
+              passenger_type: ADULT
+        - type: TRAVEL
+          details:
+            identity_type: BOOKING_NUMBER
+            identity_number: '1067652488'
+            booking_time: '2023-09-08T10:20:53Z'
+            name: Sample Bus Operator
+            number: BUS-01
+            departure: p5696
+            departure_time: '2023-09-11T12:15:00+07:00'
+            arrival: p1247
+            arrival_time: '2023-09-11T15:30:00+07:00'
+            sub_class: ''
+            city_origin: Bandung
+            city_destination: Jakarta
+            country_origin: Indonesia
+            country_destination: Indonesia
+            timezone_origin: ''
+            timezone_destination: ''
+            total_price_ticket: 105000
+            sub_total_price_ticket: 105000
+            trip_type: ROUNDTRIP-1
+            trip_order: 1
+            class: AWAY
+        purchased_at: '2023-09-08T10:49:29Z'
+  schemas:
+    InsuredGadget:
+      required:
+      - identity_type
+      - identity_number
+      - sum_insured
+      - brand
+      - model
+      - device_category
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: IMEI
+          description: type of device identification
+        identity_number:
+          type: string
+          example: 517236118991231800
+          description: value of device identification
+        sum_insured:
+          type: number
+          format: float64
+          example: 100000
+          description: amount of insured
+        manufacturer:
+          type: string
+          example: Apple
+          description: manufacture of device
+        brand:
+          type: string
+          example: Apple
+          description: brand of device
+        series:
+          type: string
+          example: A2643
+          description: series of device
+        model:
+          type: string
+          example: Iphone 13 Pro Max
+          description: model of device
+        activation_number:
+          type: string
+          example: 876543345687654
+          description: activation number of device
+        external_url:
+          type: string
+          example: http://url_here
+          description: external url for activation
+        upload_activation_at:
+          type: string
+          format: date-time
+          example: '2022-10-11T00:00:00Z'
+          description: time of activation
+        device_category:
+          type: string
+          example: SMARTPHONE
+          enum:
+          - SMARTPHONE
+          - TABLET
+          - SMARTWATCH
+          - LAPTOP
+          - OTHERS
+          description: category of device
+        device_price:
+          type: number
+          format: float64
+          example: 10000000
+          description: price of device
+        deductible_info:
+          type: object
+          description: information of deduction
+          properties:
+            unit_fee:
+              type: string
+              enum:
+              - STATIC
+              - PERCENTAGE
+            unit_fee_amount:
+              type: number
+              format: float64
+              example: 910
+        covered_type_unit:
+          type: string
+          example: MONTH
+          description: unit of covered type
+          enum:
+          - DAY
+          - MONTH
+          - YEAR
+        covered_type_max:
+          type: number
+          example: 1
+          description: maximum number of covered period or tenure
+    200status:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: success get claim
+        code:
+          type: number
+          example: 200
+        data:
+          type: object
+          properties:
+            policy_number:
+              type: string
+              example: 1234
+            claims:
+              type: array
+              items:
+                type: object
+                properties:
+                  number:
+                    type: string
+                    example: C-20211213-GIPCA
+                  status:
+                    type: string
+                    example: INSURANCE_CLAIM_APPROVE
+                    oneOf:
+                    - title: CLAIM_INITIATE
+                      description: When the claimer successfully submitted a claim
+                    - title: QOALA_CLAIM_APPROVE
+                      description: Qoala approved the claim
+                    - title: QOALA_CLAIM_REJECT
+                      description: Qoala rejected the claim
+                    - title: INSURANCE_CLAIM_APPROVE
+                      description: Insurer approved the claim
+                    - title: INSURANCE_CLAIM_REJECT
+                      description: Insurer rejected the claim
+                    - title: INSURANCE_CLAIM_PAID
+                      description: Claim already paid by insurer
+                  created_at:
+                    type: string
+                    example: '2023-10-11 20:00:00'
+                    format: date-time
+                  benefit_code:
+                    type: string
+                    example: BENEFIT_CODE
+    Document_2:
+      type: object
+      properties:
+        file_name:
+          description: name of the fale, you can provide the filename include its extention.
+          type: string
+          example: T-FLIGHT-001-20230824-OM94T.pdf
+        type:
+          description: type of document, it is just constant value that categorize of the document.
+          type: string
+          examples:
+          - POLICY_CERTIFICATE
+          - POLICY_WORDING
+          - KTP
+          - ID
+          - TICKET
+          - and soon
+        url:
+          description: full url to access the document, this is should be public url
+          type: string
+          example: https://api-staging.qoala.app/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/T-FLIGHT-001-20230824-OM94T.pdf
+        alias:
+          description: document alias
+          type: string
+          example: policy_certificate.pdf
+    Insured:
+      type: object
+      required:
+      - type
+      - details
+      properties:
+        type:
+          description: type of insureds
+          type: string
+          example: USER
+          enum:
+          - USER
+          - TRAVEL
+        details:
+          description: detail information of insureds
+          type: object
+          anyOf:
+          - $ref: '#/components/schemas/InsuredTravel'
+          - $ref: '#/components/schemas/InsuredUser'
+        documents:
+          description: insured's supporting documents
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+    InsuredUser:
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: ID_CARD
+          description: identifier type of user information
+        identity_number:
+          type: string
+          example: 12010367678988002
+          description: unique identifier of user information
+        full_name:
+          type: string
+          example: Judiwara Samson
+          description: full name of user information
+        email:
+          type: string
+          example: john.doe@qoala.id
+          description: email address of user information
+        phone_number:
+          type: string
+          example: 81245678910
+          description: phone number of user
+        birth_date:
+          type: string
+          example: 13-11-2000
+          description: birth date of user
+        gender:
+          description: User Gender
+          type: string
+          example: FEMALE
+          enum:
+          - FEMALE
+          - MALE
+        relationship:
+          type: string
+          example: Wife
+          description: relationship of user within group of insured user in one transaction
+        address:
+          type: string
+          example: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
+          description: detail address of user
+        occupation:
+          type: string
+          example: Software Engineer
+          description: occupation of user
+        additional_info:
+          type: object
+          example:
+            passenger_type: ADULT
+            city: Jakarta
+            country: Indonesia
+            zipcode: '14045'
+            subject: sender
+          description: additional optional information
+    Document:
+      type: object
+      properties:
+        file_name:
+          description: name of the fale, you can provide the filename include its extention.
+          type: string
+          example: T-TBUS-PARTNER-001-20230824-OM94T.pdf
+        type:
+          description: type of document, it is just constant value that categorize of the document.
+          type: string
+          examples:
+          - POLICY_CERTIFICATE
+          - POLICY_WORDING
+          - KTP
+          - ID
+          - TICKET
+          - and soon
+        url:
+          description: full url to access the document, this is should be public url
+          type: string
+          example: '{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/T-TBUS-PARTNER-001-20230824-OM94T.pdf'
+        alias:
+          description: document alias
+          type: string
+          example: policy_certificate.pdf
+    Insured_2:
+      type: object
+      required:
+      - type
+      - details
+      properties:
+        type:
+          description: type of insureds
+          type: string
+          example: USER
+          enum:
+          - USER
+          - TRAVEL
+          - EXPERIENCE
+          - HOSPITALITY
+          - LOAN
+          - USER_LENDER
+          - USER_BORROWER
+          - GADGET
+          - SHIPPING
+          - PACKAGE
+          - GOODS
+          - VEHICLE
+          - AGENT
+        details:
+          description: detail information of insureds
+          type: object
+          anyOf:
+          - $ref: '#/components/schemas/InsuredTravel'
+          - $ref: '#/components/schemas/InsuredUser_2'
+          - $ref: '#/components/schemas/InsuredLoan'
+          - $ref: '#/components/schemas/InsuredGadget'
+          - $ref: '#/components/schemas/InsuredMotor'
+          - $ref: '#/components/schemas/InsuredShipping'
+          - $ref: '#/components/schemas/InsuredPackage'
+          - $ref: '#/components/schemas/InsuredVehicle'
+          - $ref: '#/components/schemas/InsuredGoods'
+          - $ref: '#/components/schemas/InsuredAgent'
+        documents:
+          description: insured's supporting documents
+          type: array
+          items:
+            $ref: '#/components/schemas/Document_2'
+    InsuredLoan:
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: LOAN_NUMBER
+        identity_number:
+          type: string
+          example: LOAN-NUMBER123456
+        loan_amount:
+          type: number
+          format: float64
+          example: 100000000
+        loan_total_principal:
+          type: number
+          format: float64
+          example: 10000
+        loan_total_principal_percentage:
+          type: number
+          format: float64
+          example: 10000
+        tenure_value:
+          type: number
+          format: float64
+          example: 90
+        tenure_period:
+          type: string
+          example: DAYS
+        interest_rate:
+          type: number
+          format: float64
+          example: 9.4
+        interest_period:
+          type: string
+          example: YEAR
+        additional_info:
+          type: object
+          example: {}
+    InsuredPackage:
+      required:
+      - identity_type
+      - identity_number
+      type: object
+      properties:
+        name:
+          type: string
+          example: TV Samsung 12"
+          description: Name of product
+        identity_type:
+          type: string
+          example: BARCODE_NUMBER
+          description: Identifier type of product
+        identity_number:
+          type: string
+          example: '280323142127'
+          description: Unique value as identifier number to differentiate each product
+        price:
+          type: number
+          example: 20000
+          description: Price of product
+    InsuredUser_2:
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: ID_CARD
+          description: identifier type of user information
+        identity_number:
+          type: string
+          example: 12010367678988002
+          description: unique identifier of user information
+        full_name:
+          type: string
+          example: Judiwara Samson
+          description: full name of user information
+        email:
+          type: string
+          example: judiwara123@gmail.com
+          description: email address of user information
+        phone_number:
+          type: string
+          example: 81245678910
+          description: phone number of user
+        birth_date:
+          type: string
+          example: 13-11-2000
+          description: birth date of user
+        gender:
+          description: Policy Holder Gender
+          type: string
+          example: FEMALE
+          enum:
+          - FEMALE
+          - MALE
+        relationship:
+          type: string
+          example: Wife
+          description: relationship of user within group of insured user in one transaction
+        address:
+          type: string
+          example: Jl. Gatot Subroto no 10, Jakarta
+          description: detail address of user
+        occupation:
+          type: string
+          example: Software Engineer
+          description: occupation of user
+        additional_info:
+          type: object
+          example:
+            passenger_type: ADULT
+            city: Jakarta
+            country: Indonesia
+            zipcode: '14045'
+            subject: sender
+          description: additional optional information
+    InsuredAgent:
+      required:
+      - identity_type
+      - identity_number
+      - store_id
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: AGENT_ID
+          description: identifier type of user information
+        identity_number:
+          type: string
+          example: 12010367678988002
+          description: unique identifier of user information
+        full_name:
+          type: string
+          example: Judiwara Samson
+          description: full name of user information
+        email:
+          type: string
+          example: judiwara123@gmail.com
+          description: email address of user information
+        phone_number:
+          type: string
+          example: 81245678910
+          description: phone number of user
+        store_location:
+          type: string
+          example: Indonesian Mall, Jakarta
+          description: Address of the store
+        store_name:
+          type: string
+          example: Eyewear Store
+          description: Store Name
+        store_id:
+          type: string
+          example: 12349
+          description: Store Id
+    InsuredGoods:
+      required:
+      - identity_type
+      - identity_number
+      - sum_insured
+      - brand
+      - model
+      - category
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: SERIAL_NUMBER
+          enum:
+          - SERIAL_NUMBER
+          - PURCHASE_ID
+          description: type of Goods identification
+        identity_number:
+          type: string
+          example: 517236118991231800
+          description: value of Goodse identification
+        sum_insured:
+          type: number
+          format: float64
+          example: 100000
+          description: amount of insured
+        price:
+          type: number
+          format: float64
+          example: 100000
+          description: goods price
+        manufacturer:
+          type: string
+          example: Apple
+          description: manufacture of device
+        brand:
+          type: string
+          example: Rayban
+          description: brand of goods
+        model:
+          type: string
+          example: Iphone 13 Pro Max
+          description: Goods Brand
+        category:
+          type: string
+          example: EYWR
+          description: Goods Category
+          enum:
+          - EYWR
+          - FURN
+          - MCHD
+          - AUTO
+          - TDMP
+          - HOBY
+          - RSKG
+          - MBKG
+    PolicyHolderRequest:
+      required:
+      - full_name
+      - email
+      properties:
+        identity_type:
+          description: type of data identity
+          type: string
+          example: BOOKING_NUMBER
+          enum:
+          - KTP
+          - PASSPORT
+          - DRIVING_LICENSE
+          - NATIONAL_ID
+        identity_number:
+          description: identity value
+          type: string
+          example: 1234567890
+        full_name:
+          description: fullname of policy holder
+          type: string
+          example: Budi
+        email:
+          description: email of policy holder, this email will receive policy certificate
+          type: string
+          example: john.doe@qoala.id
+        phone_number:
+          description: The phone number must start with the country code, prefixed by a '+' sign.
+          type: string
+          example: '+6281234567890'
+        birth_date:
+          description: birth date information in format yyyy-mm-dd
+          type: string
+          example: '1990-01-01'
+        gender:
+          description: Policy Holder Gender
+          type: string
+          example: FEMALE
+          enum:
+          - FEMALE
+          - MALE
+        relationship:
+          description: status of relationship
+          type: string
+          example: SINGLE
+        address:
+          description: detail of address
+          type: string
+          example: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
+        occupation:
+          description: occupation of person
+          type: string
+          example: Pilot
+        documents:
+          description: supporting documents
+          $ref: '#/components/schemas/Document'
+    InsuredMotor:
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: LOAN_NUMBER
+        identity_number:
+          type: string
+          example: LOAN-NUMBER123456
+        manufacturer:
+          type: string
+          example: Yamaha
+        brand:
+          type: string
+          example: Yamaha
+        series:
+          type: string
+          example: R6
+        condition:
+          type: string
+          example: new
+        chasis_number:
+          type: string
+          example: 2
+        engine_number:
+          type: string
+          example: 5647890356765432
+        registration_number:
+          type: string
+          example: 82347694354533
+        year:
+          type: number
+          format: int
+          example: 2022
+        price:
+          type: number
+          format: float64
+          example: 20000000
+    InsuredShipping:
+      required:
+      - identity_type
+      - identity_number
+      type: object
+      properties:
+        carrier:
+          type: string
+          example: JNE
+          description: 'Name of carrier that provide shipping service example: JNE, FEDEX, etc'
+        identity_type:
+          type: string
+          example: TRACKING_NUMBER
+          description: Identifier type of shipping
+        identity_number:
+          type: string
+          example: 280323142127
+          description: Unique value as identifier number to differentiate each shipping
+        service:
+          type: string
+          example: Reguler, Sameday, Instant
+          description: Type of service offered by shipping provide
+        cost:
+          type: number
+          example: 10000
+          description: Price of shipping service
+        total_package_price:
+          type: number
+          example: 50000
+          description: Total package price
+        estimated_delivery_time:
+          type: string
+          example: '2023-02-15T10:00:00Z'
+          format: date-time
+          description: Time estimation when the package will be received by the recipient
+    InsuredVehicle:
+      properties:
+        identity_type:
+          type: string
+          example: PLATE_NUMBER
+          description: Plate Number
+        identity_number:
+          type: string
+          example: B1234QLA
+          description: Identity number of the vehicle
+        category:
+          type: string
+          example: CAR
+          enum:
+          - CAR
+          - TRUCK
+          - EV_MOTOR
+          - MOTOR
+          - EV_CAR
+          description: category of vehicle
+        manufacture:
+          type: number
+          format: string
+          example: HONDA
+          description: Vehicle Manufacturer
+        model:
+          type: string
+          example: Ayla
+          description: Vehicle Model
+        manufacture_year:
+          type: string
+          example: '2023'
+          description: Vehicle Manufacture Year
+        color:
+          type: string
+          example: Blue
+          description: Vehicle Color
+        condition:
+          type: string
+          example: NEW
+          description: Vehicle Condition
+          enum:
+          - NEW
+          - USED
+        plate_expiry_date:
+          type: string
+          example: 11/2024
+          description: Plate Expiry Date
+        chassis_number:
+          type: string
+          example: KSO1302345
+          description: Chassis Number
+        engine_number:
+          type: string
+          example: '1293293029300932'
+          description: Engine Number
+        accessories_note:
+          type: string
+          example: Spion, Roof Bar
+          description: Accessories Note
+        accessories_price:
+          type: number
+          example: 100000
+          description: Accessories Price
+        price:
+          type: number
+          example: 10000000
+          description: Vehicle Price
+        sum_insured:
+          type: number
+          example: 10000000
+          description: Vehicle Sum Insured
+        series:
+          type: string
+          example: 1.0 M/T-1000cc
+          description: Vehicle Series
+        engine:
+          type: string
+          example: '10000'
+          description: Vehicle Engine Capacity
+        inspection_type:
+          type: string
+          example: manual
+          description: Inspection Type
+        usage_type:
+          type: string
+          example: PERSONAL
+          description: "Vehicle Usage type \n - Personal: The vehicle is used for personal, non-commercial purposes. \n - Commercial: The vehicle is used for commercial purposes, such as business or professional use."
+          enum:
+          - PERSONAL
+          - COMMERCIAL
+    InsuredTravel:
+      required:
+      - identity_type
+      - identity_number
+      - booking_time
+      - name
+      - departure_time
+      - arrival_time
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: BOOKING_NUMBER
+        identity_number:
+          type: string
+          example: 280323142127
+        booking_time:
+          type: string
+          example: '2023-02-15T10:00:00Z'
+          format: date-time
+        name:
+          type: string
+          example: Garuda Indonesia
+        number:
+          type: string
+          example: GA-654
+        departure:
+          type: string
+          example: CGK
+        departure_time:
+          type: string
+          example: '2023-03-01T22:15:00+07:00'
+          format: date-time
+        arrival:
+          type: string
+          example: UPG
+        arrival_time:
+          type: string
+          example: '2023-03-02T01:50:00+09:00'
+        class:
+          type: string
+          example: Economy
+        sub_class:
+          type: string
+          example: J
+        city_origin:
+          type: string
+          example: Jakarta
+        city_destination:
+          type: string
+          example: Makassar
+        country_origin:
+          type: string
+          example: Indonesia
+        country_destination:
+          type: string
+          example: Indonesia
+        timezone_origin:
+          type: string
+          example: Asia/Jakarta
+        timezone_destination:
+          type: string
+          example: Asia/Pontianak
+        total_price_ticket:
+          type: number
+          format: float64
+          example: 4145300
+        sub_total_price_ticket:
+          type: number
+          format: float64
+          example: 4145300
+        trip_type:
+          type: string
+          description: trip information
+          enum:
+          - SINGLETRIP
+          - ROUNDTRIP-1
+          - ROUNDTRIP-2
+        trip_order:
+          type: number
+          format: int
+          example: 1
+        number_of_room:
+          type: number
+          format: int
+          example: 2
+        additional_info:
+          type: object
+    200detailPolicy:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: success get quote policy
+        code:
+          type: number
+          example: 200
+        data:
+          type: object
+          properties:
+            partner_transaction_number:
+              type: string
+              example: 1234
+            quotation_number:
+              type: string
+              example: QS-230828-5CL9NB47
+            product_code:
+              type: string
+              example: T-TBUS-PARTNER-001
+            policies:
+              type: array
+              items:
+                type: object
+                properties:
+                  number:
+                    type: string
+                    example: T-TBUS-PARTNER-001-20230824-OM94T
+                  status:
+                    type: string
+                    enum:
+                    - POLICY_ACTIVE
+                    - POLICY_ISSUING
+                    example: POLICY_ACTIVE
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Document'
+  responses:
+    404createQuotation:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 404
+              error_code:
+                type: string
+                description: 'qoala system error code for error classification
+
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QEC-ERR-REST-003 | 404 | Wrong Product Code |
+
+                  '
+                example: QEC-ERR-REST-003
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: product code T-TBUS-PARTNER-001 not found
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    202createQuotation:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: status of response, it will contain success
+                example: success
+              message:
+                type: string
+                description: short message explains about the success response
+                example: success to create quotes
+              code:
+                type: number
+                description: http code response
+                example: 202
+              data:
+                type: object
+                description: showing data response
+                properties:
+                  partner_transaction_number:
+                    type: string
+                    description: The transaction ID serves as a unique identifier for each transaction initiated through the API. Partners are responsible for generating this ID and ensuring its uniqueness across their transactions.
+                    example: 1234
+                  quotation_number:
+                    type: string
+                    description: Unique transaction number generated in qoala system
+                    example: QS-230828-5CL9NB47
+                  product_code:
+                    type: string
+                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual information about certain aspects of the product. However, as of now, the details for this field will be shared at a later stage when the product is ready for testing.
+                    example: T-TBUS-002
+    500createQuotation:
+      description: Internal Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 500
+              error_code:
+                type: string
+                description: 'qoala system error code for error classification
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QEC-ERR-REST-001 | 500 | Internal Server Error |
+
+                  '
+                example: QEC-ERR-REST-001
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: internal server error
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    401createQuotation:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 401
+              error_code:
+                type: string
+                description: 'qoala system error code for invalid token
+
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QC-CLT-KEYA-V1-003 | 401 | Invalid Permission |
+
+                  '
+                example: QEC-ERR-401-01
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: invalid unauthorized
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    400createQuotation:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 400
+              error_code:
+                type: string
+                description: "qoala system error code for bad request\n\n### List of Error Code detail\n\n| Error Code | HTTP Status | Description |\n|---|---|---|  \n| QEC-ERR-001 | 400 | Invalid Request From the partner |\n"
+                example: QEC-ERR-001
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: invalid request
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    200createQuotation:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: status of response, it will contain success
+                example: success
+              message:
+                type: string
+                description: short message explains about the success response
+                example: success get quote policy
+              code:
+                type: number
+                description: http code response
+                example: 200
+              data:
+                type: object
+                description: showing data response
+                properties:
+                  partner_transaction_number:
+                    type: string
+                    description: The transaction ID serves as a unique identifier for each transaction initiated through the API. Partners are responsible for generating this ID and ensuring its uniqueness across their transactions.
+                    example: 1234
+                  transaction_number:
+                    type: string
+                    description: Unique transaction number generated in qoala system
+                    example: 1234
+                  product_code:
+                    type: string
+                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual information about certain aspects of the product. However, as of now, the details for this field will be shared at a later stage when the product is ready for testing.
+                    example: T-TBUS-PARTNER-001
+                  policies:
+                    items:
+                      type: object
+                      description: policy information contains about its identifier, status and so on.
+                      properties:
+                        number:
+                          type: string
+                          description: unique identifier for policy which is autogenerated by qoala system
+                          example: T-TBUS-PARTNER-001-20230824-OM94T
+                        status:
+                          type: string
+                          description: status of policy, we have set of statuses but we can support mapping status from partner if needed.
+                          enum:
+                          - POLICY_ACTIVE
+                          - POLICY_ISSUING
+                          - DATA_VERIFICATION_NEEDED
+                          example: POLICY_ACTIVE
+                        documents:
+                          type: array
+                          description: information regarding to policy document like certificate and policy wording stated by insurer
+                          items:
+                            $ref: '#/components/schemas/Document'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+x-refined-from:
+- qoala-bus-insurance-openapi.yml
+- qoala-claim-api-alt-openapi.yml
+- qoala-claim-api-openapi.yml
+- qoala-credit-insurance-openapi.yml
+- qoala-credit-life-insurance-openapi.yml
+- qoala-experience-event-insurance-openapi.yml
+- qoala-flight-insurance-openapi.yml
+- qoala-gadget-insurance-openapi.yml
+- qoala-goods-insurance-openapi.yml
+- qoala-hotel-insurance-openapi.yml
+- qoala-logistic-insurance-openapi.yml
+- qoala-micro-health-insurance-openapi.yml
+- qoala-train-insurance-openapi.yml
+- qoala-vehicle-insurance-openapi.yml

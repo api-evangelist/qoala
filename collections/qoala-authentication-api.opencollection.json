@@ -1,0 +1,64 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Authentication API",
+    "version": "v1.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-staging.qoala.app/v2/sessions",
+            "headers": [
+              {
+                "name": "priority",
+                "value": ""
+              },
+              {
+                "name": "x-captcha-token",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new authentication session using email and security code"
+        },
+        {
+          "info": {
+            "name": "Refresh Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-staging.qoala.app/v2/sessions/refresh",
+            "headers": [
+              {
+                "name": "priority",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Refresh an existing authentication session using a refresh token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,20 @@
+{
+  "provider": "qoala",
+  "sources": [
+    "qoala-api-specification-api-openapi.yml",
+    "qoala-authentication-api-openapi.yml"
+  ],
+  "outputs": [
+    "qoala-api-specification-api-openapi.yml",
+    "qoala-authentication-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "qoala-api-specification-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "qoala-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

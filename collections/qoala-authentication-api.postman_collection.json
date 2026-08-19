@@ -1,0 +1,256 @@
+{
+  "item": [
+    {
+      "id": "fceed587-4ae9-4d4b-b0c6-bfb36ea64a95",
+      "name": "Authentication",
+      "description": {
+        "content": "Authentication and session management endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0188b3ca-04a3-4dbe-80a2-6f9b0ee635e9",
+          "name": "Create Session",
+          "request": {
+            "name": "Create Session",
+            "description": {
+              "content": "Create a new authentication session using email and security code",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Request priority header",
+                "key": "priority",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Captcha token for security verification",
+                "key": "x-captcha-token",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<email>\",\n  \"securityCode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d0b9fc5b-00db-4b91-8b2d-e524b0a2d261",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Request priority header",
+                    "key": "priority",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Captcha token for security verification",
+                    "key": "x-captcha-token",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"securityCode\": \"123456\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"camel\": true,\n  \"data\": {\n    \"user\": {\n      \"id\": 5998,\n      \"uuid\": \"6e169baf-d9b4-dc6c-d8d3-1848b0c94741\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"fullName\": \"string\",\n      \"gender\": \"string\",\n      \"lang\": \"string\",\n      \"nationality\": \"string\",\n      \"email\": \"2JQwVlB9@qlhytZVNYnkcGmmGulHeNmSzz.yhc\",\n      \"phoneNumber\": \"string\",\n      \"isActive\": 8925,\n      \"locked\": 6044,\n      \"isIdentityVerified\": \"string\",\n      \"isBankVerified\": \"string\",\n      \"isEmailVerified\": \"string\",\n      \"isPhoneVerified\": \"string\",\n      \"createdAt\": \"1990-04-17T23:39:02.929Z\",\n      \"organization\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"code\": \"string\",\n        \"codeAlias\": \"string\",\n        \"country\": \"string\",\n        \"description\": \"string\",\n        \"type\": \"string\",\n        \"logo\": \"string\",\n        \"logoSmall\": \"string\",\n        \"config\": {\n          \"hasLevel\": true,\n          \"loginMethods\": [\n            \"string\",\n            \"string\"\n          ],\n          \"hasAgent\": false,\n          \"hasCommission\": false\n        },\n        \"contact\": {\n          \"mainPic\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"reconPic\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"address\": \"string\",\n        \"partnerId\": \"string\",\n        \"alternative\": \"string\",\n        \"bu\": \"string\",\n        \"colorTheme\": {\n          \"primary\": \"string\",\n          \"secondary\": \"string\"\n        },\n        \"deletedAt\": \"2002-03-01T19:02:00.682Z\",\n        \"sectionLevelId\": \"string\",\n        \"apiKey\": {\n          \"key\": \"string\",\n          \"secret\": \"string\",\n          \"isActive\": 4606,\n          \"createdAt\": \"1954-08-15T03:16:58.048Z\",\n          \"updatedAt\": \"1975-11-15T04:17:43.294Z\",\n          \"plainSecret\": \"string\",\n          \"createdBy\": \"string\"\n        },\n        \"partner\": {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"name\": \"string\",\n          \"alias\": \"string\"\n        },\n        \"productCategories\": [\n          {\n            \"id\": \"string\",\n            \"slug\": \"string\",\n            \"name\": \"string\",\n            \"description\": \"string\",\n            \"industry\": \"string\",\n            \"icon\": \"string\",\n            \"isDraft\": 4444\n          },\n          {\n            \"id\": \"string\",\n            \"slug\": \"string\",\n            \"name\": \"string\",\n            \"description\": \"string\",\n            \"industry\": \"string\",\n            \"icon\": \"string\",\n            \"isDraft\": 9679\n          }\n        ],\n        \"industries\": [\n          \"string\",\n          \"string\"\n        ],\n        \"relations\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"code\": \"string\",\n            \"codeAlias\": \"string\",\n            \"type\": \"string\",\n            \"partnerId\": \"string\",\n            \"products\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"code\": \"string\",\n            \"codeAlias\": \"string\",\n            \"type\": \"string\",\n            \"partnerId\": \"string\",\n            \"products\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"bank\": \"string\"\n      },\n      \"role\": \"string\",\n      \"roleDetail\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"rank\": 5969,\n        \"description\": \"string\",\n        \"isLock\": 4148\n      },\n      \"bankAccount\": {},\n      \"groups\": [\n        \"string\",\n        \"string\"\n      ],\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"profileImage\": \"string\",\n      \"lastLogin\": \"1971-05-21T14:24:04.687Z\",\n      \"externalId\": \"string\",\n      \"totp\": 6049\n    },\n    \"token\": \"string\",\n    \"refresh\": \"string\"\n  },\n  \"status\": \"success\",\n  \"message\": \"Session created successfully\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e98bba7-da26-4090-89d5-8f422eabc8c0",
+          "name": "Refresh Session",
+          "request": {
+            "name": "Refresh Session",
+            "description": {
+              "content": "Refresh an existing authentication session using a refresh token",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "sessions",
+                "refresh"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Request priority header",
+                "key": "priority",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fa7707f2-8cbf-4960-a63c-f1f3bad54d2d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "sessions",
+                    "refresh"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) Request priority header",
+                    "key": "priority",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"camel\": false,\n  \"data\": {\n    \"user\": {\n      \"id\": 8358,\n      \"uuid\": \"021d9c72-7917-11b1-1d60-888502df3305\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"fullName\": \"string\",\n      \"gender\": \"string\",\n      \"lang\": \"string\",\n      \"nationality\": \"string\",\n      \"email\": \"M4Kw6LJYXplgFFN@tPCxmzZrjgbXOJvJtBvH.ebwm\",\n      \"phoneNumber\": \"string\",\n      \"isActive\": 805,\n      \"locked\": 9595,\n      \"isIdentityVerified\": \"string\",\n      \"isBankVerified\": \"string\",\n      \"isEmailVerified\": \"string\",\n      \"isPhoneVerified\": \"string\",\n      \"createdAt\": \"1977-02-09T02:59:07.725Z\",\n      \"organization\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"code\": \"string\",\n        \"codeAlias\": \"string\",\n        \"country\": \"string\",\n        \"description\": \"string\",\n        \"type\": \"string\",\n        \"logo\": \"string\",\n        \"logoSmall\": \"string\",\n        \"config\": {\n          \"hasLevel\": true,\n          \"loginMethods\": [\n            \"string\",\n            \"string\"\n          ],\n          \"hasAgent\": false,\n          \"hasCommission\": false\n        },\n        \"contact\": {\n          \"mainPic\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"reconPic\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"address\": \"string\",\n        \"partnerId\": \"string\",\n        \"alternative\": \"string\",\n        \"bu\": \"string\",\n        \"colorTheme\": {\n          \"primary\": \"string\",\n          \"secondary\": \"string\"\n        },\n        \"deletedAt\": \"1971-11-20T00:59:21.066Z\",\n        \"sectionLevelId\": \"string\",\n        \"apiKey\": {\n          \"key\": \"string\",\n          \"secret\": \"string\",\n          \"isActive\": 6501,\n          \"createdAt\": \"2012-10-21T01:46:48.494Z\",\n          \"updatedAt\": \"2009-01-29T08:47:20.762Z\",\n          \"plainSecret\": \"string\",\n          \"createdBy\": \"string\"\n        },\n        \"partner\": {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"name\": \"string\",\n          \"alias\": \"string\"\n        },\n        \"productCategories\": [\n          {\n            \"id\": \"string\",\n            \"slug\": \"string\",\n            \"name\": \"string\",\n            \"description\": \"string\",\n            \"industry\": \"string\",\n            \"icon\": \"string\",\n            \"isDraft\": 9797\n          },\n          {\n            \"id\": \"string\",\n            \"slug\": \"string\",\n            \"name\": \"string\",\n            \"description\": \"string\",\n            \"industry\": \"string\",\n            \"icon\": \"string\",\n            \"isDraft\": 9842\n          }\n        ],\n        \"industries\": [\n          \"string\",\n          \"string\"\n        ],\n        \"relations\": [\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"code\": \"string\",\n            \"codeAlias\": \"string\",\n            \"type\": \"string\",\n            \"partnerId\": \"string\",\n            \"products\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"id\": \"string\",\n            \"name\": \"string\",\n            \"code\": \"string\",\n            \"codeAlias\": \"string\",\n            \"type\": \"string\",\n            \"partnerId\": \"string\",\n            \"products\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"bank\": \"string\"\n      },\n      \"role\": \"string\",\n      \"roleDetail\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"rank\": 8590,\n        \"description\": \"string\",\n        \"isLock\": 6447\n      },\n      \"bankAccount\": {},\n      \"groups\": [\n        \"string\",\n        \"string\"\n      ],\n      \"permissions\": [\n        \"string\",\n        \"string\"\n      ],\n      \"profileImage\": \"string\",\n      \"lastLogin\": \"2014-12-04T22:41:56.189Z\",\n      \"externalId\": \"string\",\n      \"totp\": 1100\n    },\n    \"token\": \"string\",\n    \"refresh\": \"string\"\n  },\n  \"status\": \"success\",\n  \"message\": \"Session created successfully\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-staging.qoala.app",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5508e000-5b2c-4ef3-9090-021f0374945e",
+    "name": "Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\nWelcome to the Qoala Authentication API! This API provides authentication and session management functionality for the Qoala platform.\n\n# Authentication Endpoints\n\nThis API provides the following authentication capabilities:\n\n1. **Session Creation** - Create a new session using email and security code\n2. **Session Refresh** - Refresh an existing session using a refresh token\n\n# Host\n\nEnvironment|Host Address\n------------- | -------------\nStaging|https://api-staging.qoala.app\n\n# Authentication\n\nThe session endpoints use captcha tokens and other security measures to protect against automated attacks. After successful authentication, you will receive JWT tokens that can be used to access protected resources.\n",
+      "type": "text/plain"
+    }
+  }
+}

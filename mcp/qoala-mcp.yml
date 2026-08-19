@@ -9,10 +9,10 @@ server:
   url: https://docs.qoala.app/mcp
   protocol_version: '2025-06-18'
   auth: none (anonymous tools/list and tools/call succeeded)
-  note: Documentation-plane MCP server hosted by Qoala on its ReadMe-powered developer portal. It exposes the 15
-    published Qoala OpenAPI specifications to agents for discovery and request execution; it is not a business-capability
-    server (there is no create_policy / create_claim tool). Calling the Qoala business API through execute-request
-    still requires a partner x-api-key.
+  note: Documentation-plane MCP server hosted by Qoala on its ReadMe-powered developer portal. It exposes
+    the 15 published Qoala OpenAPI specifications to agents for discovery and request execution; it is
+    not a business-capability server (there is no create_policy / create_claim tool). Calling the Qoala
+    business API through execute-request still requires a partner x-api-key.
 x-evidence:
   fetched: '2026-08-05'
   url: https://docs.qoala.app/mcp
@@ -40,17 +40,19 @@ specs_exposed:
 - Qoala Claim API
 tools:
 - name: list-endpoints
-  description: Lists all API paths and their HTTP methods with summaries, organized by path. Results can be passed
-    directly into 'get-endpoint'.
+  description: Lists all API paths and their HTTP methods with summaries, organized by path. Results can
+    be passed directly into 'get-endpoint'.
   input_schema:
     required:
     - title
     properties:
       title:
         type: string
-        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available specs.
+        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available
+          specs.
 - name: get-endpoint
-  description: Gets detailed information about a specific API endpoint, including security schemes and servers
+  description: Gets detailed information about a specific API endpoint, including security schemes and
+    servers
   input_schema:
     required:
     - path
@@ -65,11 +67,12 @@ tools:
         description: The HTTP method (e.g. GET, POST, PUT, DELETE).
       title:
         type: string
-        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available specs.
+        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available
+          specs.
 - name: search-endpoints
-  description: Performs a deep search through paths, operations, and parameters to discover relevant API endpoints.
-    Use this tool to find specific API capabilities, required parameters, or data models based on search keywords.
-    Results can be passed directly into 'get-endpoint'.
+  description: Performs a deep search through paths, operations, and parameters to discover relevant API
+    endpoints. Use this tool to find specific API capabilities, required parameters, or data models based
+    on search keywords. Results can be passed directly into 'get-endpoint'.
   input_schema:
     required:
     - pattern
@@ -94,7 +97,8 @@ tools:
         description: HAR request object
       title:
         type: string
-        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available specs.
+        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available
+          specs.
 - name: get-server-variables
   description: Gets the server variables for each server within a specific OpenAPI spec.
   input_schema:
@@ -103,4 +107,11 @@ tools:
     properties:
       title:
         type: string
-        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available specs.
+        description: Title of the OpenAPI spec. Use tool 'list-specs' or 'search-endpoints' to see available
+          specs.
+deployment:
+  mode: remote
+  verified: searched
+  tools: 6
+  checked: '2026-08-12'
+  source: catalog MCP census
