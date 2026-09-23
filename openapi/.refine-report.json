@@ -1,7 +1,8 @@
 {
   "provider": "qoala",
   "sources": [
-    "qoala-api-specification-api-openapi.yml",
+    "_original/qoala-claim-api-alt-openapi.yml",
+    "_original/qoala-gadget-insurance-openapi.yml",
     "qoala-authentication-api-openapi.yml"
   ],
   "outputs": [
@@ -10,11 +11,30 @@
   ],
   "archived": [],
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "qoala-authentication-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /v2/sessions post, /v2/sessions/refresh post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
   "notes": [
-    "qoala-api-specification-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "qoala-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "12 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "qoala-claim-api-alt-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "qoala-gadget-insurance-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "tag 'API Specification' spans 2 source specs (qoala-claim-api-alt-openapi.yml, qoala-gadget-insurance-openapi.yml): per-path servers applied",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/qoala-vehicle-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-train-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-micro-health-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-logistic-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-hotel-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-goods-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-flight-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-experience-event-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-credit-life-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-credit-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-claim-api-openapi.yml: archived document superseded by a larger archived document",
+    "_original/qoala-bus-insurance-openapi.yml: archived document superseded by a larger archived document",
+    "qoala-api-specification-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
