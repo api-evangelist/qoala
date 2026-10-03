@@ -96,113 +96,181 @@ paths:
                 $ref: '#/components/schemas/SessionResponse'
 components:
   schemas:
-    ApiKey:
-      type: object
-      required:
-      - key
-      - secret
-      - isActive
-      - createdAt
-      - updatedAt
-      - plainSecret
-      - createdBy
-      properties:
-        key:
-          type: string
-          nullable: true
-          description: API key
-        secret:
-          type: string
-          description: API secret (hashed)
-        plainSecret:
-          type: string
-          description: API secret (plain text)
-        isActive:
-          type: integer
-          description: Whether API key is active
-        createdAt:
-          type: string
-          format: date-time
-          description: Creation timestamp
-        updatedAt:
-          type: string
-          format: date-time
-          description: Last update timestamp
-        createdBy:
-          type: string
-          description: Creator user ID
-    Product:
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      - description
-      - industry
-      - icon
-      - isDraft
-      - config
-      properties:
-        id:
-          type: string
-          description: Product ID
-        slug:
-          type: string
-          description: Product slug
-        name:
-          type: string
-          description: Product name
-        description:
-          type: string
-          nullable: true
-          description: Product description
-        industry:
-          type: string
-          description: Industry
-        icon:
-          type: string
-          description: Icon URL
-        isDraft:
-          type: integer
-          description: Draft status
-        config:
-          type: object
-          nullable: true
-          description: Product configuration
-    Relation:
+    Organization:
       type: object
       required:
       - id
       - name
       - code
       - codeAlias
+      - country
+      - description
       - type
+      - logo
+      - logoSmall
+      - config
+      - contact
+      - address
       - partnerId
-      - products
+      - alternative
+      - bu
+      - colorTheme
+      - deletedAt
+      - sectionLevelId
+      - apiKey
+      - partner
+      - productCategories
+      - industries
+      - relations
+      - bank
       properties:
         id:
           type: string
-          description: Relation ID
+          description: Organization ID
         name:
           type: string
-          description: Relation name
+          description: Organization name
         code:
           type: string
-          description: Relation code
+          description: Organization code
         codeAlias:
           type: string
-          description: Relation code alias
+          description: Organization code alias
+        country:
+          type: string
+          description: Organization country
+        description:
+          type: string
+          description: Organization description
         type:
           type: string
-          description: Relation type
+          description: Organization type
+        logo:
+          type: string
+          description: Organization logo URL
+        logoSmall:
+          type: string
+          description: Organization small logo URL
+        address:
+          type: string
+          description: Organization address
+        alternative:
+          type: string
+          description: Alternative name
+        bu:
+          type: string
+          description: Business unit
         partnerId:
           type: string
           nullable: true
           description: Partner ID
-        products:
+        deletedAt:
+          type: string
+          nullable: true
+          format: date-time
+          description: Deletion timestamp
+        sectionLevelId:
+          type: string
+          nullable: true
+          description: Section level ID
+        bank:
+          type: string
+          nullable: true
+          description: Bank information
+        config:
+          $ref: '#/components/schemas/OrganizationConfig'
+        colorTheme:
+          $ref: '#/components/schemas/ColorTheme'
+        contact:
+          $ref: '#/components/schemas/Contact'
+        apiKey:
+          $ref: '#/components/schemas/ApiKey'
+        partner:
+          $ref: '#/components/schemas/Partner'
+        productCategories:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: '#/components/schemas/ProductCategory'
+        industries:
+          type: array
+          items:
+            type: string
+        relations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Relation'
+    Contact:
+      type: object
+      required:
+      - mainPic
+      - reconPic
+      properties:
+        mainPic:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPerson'
+        reconPic:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPerson'
+    RoleDetail:
+      type: object
+      required:
+      - id
+      - name
+      - rank
+      - description
+      - isLock
+      properties:
+        id:
+          type: string
+          description: Role ID
+        name:
+          type: string
+          description: Role name
+        rank:
+          type: integer
+          description: Role rank/priority
+        description:
+          type: string
+          description: Role description
+        isLock:
+          type: integer
+          description: Whether role is locked (1 = locked, 0 = unlocked)
+    SessionResponse:
+      type: object
+      required:
+      - camel
+      - data
+      - status
+      - message
+      properties:
+        camel:
+          type: boolean
+          description: Indicates if response keys are in camelCase
+        status:
+          type: string
+          example: success
+          description: Response status
+        message:
+          type: string
+          example: Session created successfully
+          description: Response message
+        data:
+          type: object
+          required:
+          - user
+          - token
+          - refresh
+          properties:
+            token:
+              type: string
+              description: JWT access token
+            refresh:
+              type: string
+              description: JWT refresh token
+            user:
+              $ref: '#/components/schemas/User'
     ProductCategory:
       type: object
       required:
@@ -236,35 +304,6 @@ components:
         isDraft:
           type: integer
           description: Draft status
-    ColorTheme:
-      type: object
-      required:
-      - primary
-      - secondary
-      properties:
-        primary:
-          type: string
-          description: Primary color
-        secondary:
-          type: string
-          description: Secondary color
-    ContactPerson:
-      type: object
-      required:
-      - name
-      - phoneNumber
-      - email
-      properties:
-        name:
-          type: string
-          description: Contact person name
-        phoneNumber:
-          type: string
-          description: Contact person phone number
-        email:
-          type: string
-          format: email
-          description: Contact person email
     User:
       type: object
       required:
@@ -387,6 +426,69 @@ components:
         totp:
           type: integer
           description: TOTP status (1 = enabled, 0 = disabled)
+    Relation:
+      type: object
+      required:
+      - id
+      - name
+      - code
+      - codeAlias
+      - type
+      - partnerId
+      - products
+      properties:
+        id:
+          type: string
+          description: Relation ID
+        name:
+          type: string
+          description: Relation name
+        code:
+          type: string
+          description: Relation code
+        codeAlias:
+          type: string
+          description: Relation code alias
+        type:
+          type: string
+          description: Relation type
+        partnerId:
+          type: string
+          nullable: true
+          description: Partner ID
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    ContactPerson:
+      type: object
+      required:
+      - name
+      - phoneNumber
+      - email
+      properties:
+        name:
+          type: string
+          description: Contact person name
+        phoneNumber:
+          type: string
+          description: Contact person phone number
+        email:
+          type: string
+          format: email
+          description: Contact person email
+    ColorTheme:
+      type: object
+      required:
+      - primary
+      - secondary
+      properties:
+        primary:
+          type: string
+          description: Primary color
+        secondary:
+          type: string
+          description: Secondary color
     Partner:
       type: object
       required:
@@ -430,178 +532,76 @@ components:
           items:
             type: string
           description: Available login methods
-    SessionResponse:
-      type: object
-      required:
-      - camel
-      - data
-      - status
-      - message
-      properties:
-        camel:
-          type: boolean
-          description: Indicates if response keys are in camelCase
-        status:
-          type: string
-          example: success
-          description: Response status
-        message:
-          type: string
-          example: Session created successfully
-          description: Response message
-        data:
-          type: object
-          required:
-          - user
-          - token
-          - refresh
-          properties:
-            token:
-              type: string
-              description: JWT access token
-            refresh:
-              type: string
-              description: JWT refresh token
-            user:
-              $ref: '#/components/schemas/User'
-    Contact:
-      type: object
-      required:
-      - mainPic
-      - reconPic
-      properties:
-        mainPic:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContactPerson'
-        reconPic:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContactPerson'
-    Organization:
+    Product:
       type: object
       required:
       - id
+      - slug
       - name
-      - code
-      - codeAlias
-      - country
       - description
-      - type
-      - logo
-      - logoSmall
+      - industry
+      - icon
+      - isDraft
       - config
-      - contact
-      - address
-      - partnerId
-      - alternative
-      - bu
-      - colorTheme
-      - deletedAt
-      - sectionLevelId
-      - apiKey
-      - partner
-      - productCategories
-      - industries
-      - relations
-      - bank
       properties:
         id:
           type: string
-          description: Organization ID
+          description: Product ID
+        slug:
+          type: string
+          description: Product slug
         name:
           type: string
-          description: Organization name
-        code:
-          type: string
-          description: Organization code
-        codeAlias:
-          type: string
-          description: Organization code alias
-        country:
-          type: string
-          description: Organization country
+          description: Product name
         description:
           type: string
-          description: Organization description
-        type:
-          type: string
-          description: Organization type
-        logo:
-          type: string
-          description: Organization logo URL
-        logoSmall:
-          type: string
-          description: Organization small logo URL
-        address:
-          type: string
-          description: Organization address
-        alternative:
-          type: string
-          description: Alternative name
-        bu:
-          type: string
-          description: Business unit
-        partnerId:
-          type: string
           nullable: true
-          description: Partner ID
-        deletedAt:
+          description: Product description
+        industry:
           type: string
-          nullable: true
-          format: date-time
-          description: Deletion timestamp
-        sectionLevelId:
+          description: Industry
+        icon:
           type: string
-          nullable: true
-          description: Section level ID
-        bank:
-          type: string
-          nullable: true
-          description: Bank information
+          description: Icon URL
+        isDraft:
+          type: integer
+          description: Draft status
         config:
-          $ref: '#/components/schemas/OrganizationConfig'
-        colorTheme:
-          $ref: '#/components/schemas/ColorTheme'
-        contact:
-          $ref: '#/components/schemas/Contact'
-        apiKey:
-          $ref: '#/components/schemas/ApiKey'
-        partner:
-          $ref: '#/components/schemas/Partner'
-        productCategories:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductCategory'
-        industries:
-          type: array
-          items:
-            type: string
-        relations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Relation'
-    RoleDetail:
+          type: object
+          nullable: true
+          description: Product configuration
+    ApiKey:
       type: object
       required:
-      - id
-      - name
-      - rank
-      - description
-      - isLock
+      - key
+      - secret
+      - isActive
+      - createdAt
+      - updatedAt
+      - plainSecret
+      - createdBy
       properties:
-        id:
+        key:
           type: string
-          description: Role ID
-        name:
+          nullable: true
+          description: API key
+        secret:
           type: string
-          description: Role name
-        rank:
+          description: API secret (hashed)
+        plainSecret:
+          type: string
+          description: API secret (plain text)
+        isActive:
           type: integer
-          description: Role rank/priority
-        description:
+          description: Whether API key is active
+        createdAt:
           type: string
-          description: Role description
-        isLock:
-          type: integer
-          description: Whether role is locked (1 = locked, 0 = unlocked)
+          format: date-time
+          description: Creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        createdBy:
+          type: string
+          description: Creator user ID
