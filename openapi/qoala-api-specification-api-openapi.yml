@@ -1374,151 +1374,13 @@ paths:
     - url: https://api.uat.qoala.app
     - url: https://api.qoala.app
 components:
-  examples:
-    createClaimTravelProduct:
-      value:
-        currency_code: IDR
-        country_code: ID
-        user_channel: PARTNERSHIP
-        partner_code: ABC
-        partner_claim_id: C12345
-        policy_number: F-CRDC-001-20230802
-        total_amount: 100000
-        product:
-          category: TRAVEL
-          code: PA-123
-          benefit_code: BENEFIT_CODE
-        claimant_data:
-          full_name: string
-          phone_number: string
-        form_data:
-        - name: Alamat
-          value: '85778'
-        covered_data:
-        - type: USER
-          details:
-            identity_type: KTP
-            identity_number: '1234567890'
-            full_name: Test
-            email: test@gmail.com
-            phone_number: '+6281234567890'
-            birth_date: '1990-01-01'
-            gender: MALE
-            address: Jakarta
-            occupation: Software Engineer
-            additional_info:
-              passenger_type: ADULT
-    createClaimCreditInsuranceWithReinstatement:
-      value:
-        user_channel: PARTNERSHIP
-        policy_number: QOALA_POLICY_NUMBER
-        partner_code: PARTNER_CODE
-        currency_code: IDR
-        total_amount: 200000
-        country_code: ID
-        product:
-          category: FINANCE
-          code: PRODUCT_CODE
-          benefit_code: BENEFIT_CODE
-        claim_additional_info:
-          loan_id: LOAN_ID
-          borrower_name: BORROWERNAME
-          beneficiary_name: BENEFICIARY_NAME
-          last_payment_date: '2023-05-14T00:00:00.000Z'
-          last_collection_date: '2023-05-14T00:00:00.000Z'
-          outstanding_amount: 200000
-    createPolicyGadgetWithActivation:
-      value:
-        product_category: GADGET
-        partner_transaction_number: PARTNER-20230415-1393561
-        product_code: G-SCRN-PARTNER-001
-        purchased_at: '2023-04-15T23:26:08+07:00'
-        policy_holder:
-          identity_type: NATIONAL_ID
-          identity_number: 012345678901
-          full_name: John Doe
-          email: john.doe@qoala.id
-          phone_number: '+6281234567890'
-          birth_date: '1997-10-10'
-          gender: FEMALE
-          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
-          occupation: ''
-    createPolicyGadgetWithoutActivation:
-      value:
-        product_category: GADGET
-        partner_transaction_number: 231003-KT1
-        product_code: G-ADLD-PARTNER-001
-        purchased_at: '2023-10-03T00:00:00+07:00'
-        policy_holder:
-          identity_type: KTP
-          identity_number: '1234567890000000'
-          full_name: John Doe
-          email: john.doe@qoala.id
-          phone_number: '+6281234567890'
-          birth_date: '1990-01-01'
-          gender: MALE
-          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
-          occupation: Product Manager
-        insureds:
-        - type: GADGET
-          details:
-            identity_type: IMEI
-            identity_number: IMEITES2T0231003-001
-            manufacturer: Apple
-            sum_insured: 1000
-            device_price: 15000
-            brand: Apple
-            series: A2643
-            model: Iphone 13 Pro Max
-            device_category: SMARTPHONE
-            covered_type_unit: MONTH
-            covered_type_max: 1
-          documents:
-          - url: IMAGE_URL
-            type: IMEI_PHOTO
-            filename: PHOTO_OF_IMEI.jpg
-          - url: IMAGE_URL
-            type: INVOICE
-            filename: PHOTO_OF_INVOICE.jpg
-        - type: AGENT
-          details:
-            identity_type: AGENT_ID
-            identity_number: '123456'
-            full_name: John Doe ServiceAgent
-            email: serviceagent@qoala.id
-            phone_number: '+628123456789'
-            store_location: Indonesian Mall, Jakarta
-            store_name: Phone Store Jakarta
-            store_id: '1029310'
-    createPolicyGadgetMinimumRequest:
-      value:
-        product_category: GADGET
-        partner_transaction_number: Tx12345678543213456
-        product_code: G-ADLD-PARTNER-001
-        purchased_at: '2025-10-04T00:00:00+08:00'
-        policy_holder:
-          full_name: kwee
-        insureds:
-        - type: GADGET
-          details:
-            identity_type: IMEI
-            identity_number: '45678986543456789'
-            sum_insured: 100000
-            price: 100000
-            brand: VIVO
-            model: X300
-            device_category: SMARTPHONE
   schemas:
-    InsuredAgent:
-      required:
-      - identity_type
-      - identity_number
-      - store_id
+    InsuredUser:
       type: object
       properties:
         identity_type:
           type: string
-          example: AGENT_ID
+          example: ID_CARD
           description: identifier type of user information
         identity_number:
           type: string
@@ -1536,40 +1398,73 @@ components:
           type: string
           example: 81245678910
           description: phone number of user
-        store_location:
+        birth_date:
           type: string
-          example: Indonesian Mall, Jakarta
-          description: Address of the store
-        store_name:
+          example: 13-11-2000
+          description: birth date of user
+        gender:
+          description: Policy Holder Gender
           type: string
-          example: Eyewear Store
-          description: Store Name
-        store_id:
+          example: FEMALE
+          enum:
+          - FEMALE
+          - MALE
+        relationship:
           type: string
-          example: 12349
-          description: Store Id
-    InsuredPackage:
+          example: Wife
+          description: relationship of user within group of insured user in one transaction
+        address:
+          type: string
+          example: Jl. Gatot Subroto no 10, Jakarta
+          description: detail address of user
+        occupation:
+          type: string
+          example: Software Engineer
+          description: occupation of user
+        additional_info:
+          type: object
+          example:
+            passenger_type: ADULT
+            city: Jakarta
+            country: Indonesia
+            zipcode: '14045'
+            subject: sender
+          description: additional optional information
+    InsuredShipping:
       required:
       - identity_type
       - identity_number
       type: object
       properties:
-        name:
+        carrier:
           type: string
-          example: TV Samsung 12"
-          description: Name of product
+          example: JNE
+          description: 'Name of carrier that provide shipping service example: JNE, FEDEX, etc'
         identity_type:
           type: string
-          example: BARCODE_NUMBER
-          description: Identifier type of product
+          example: TRACKING_NUMBER
+          description: Identifier type of shipping
         identity_number:
           type: string
-          example: '280323142127'
-          description: Unique value as identifier number to differentiate each product
-        price:
+          example: 280323142127
+          description: Unique value as identifier number to differentiate each shipping
+        service:
+          type: string
+          example: Reguler, Sameday, Instant
+          description: Type of service offered by shipping provide
+        cost:
           type: number
-          example: 20000
-          description: Price of product
+          example: 10000
+          description: Price of shipping service
+        total_package_price:
+          type: number
+          example: 50000
+          description: Total package price
+        estimated_delivery_time:
+          type: string
+          example: '2023-02-15T10:00:00Z'
+          format: date-time
+          description: Time estimation when the package will be received by the recipient
     InsuredTravel:
       required:
       - identity_type
@@ -1658,319 +1553,6 @@ components:
           example: 2
         additional_info:
           type: object
-    Insured:
-      type: object
-      required:
-      - type
-      - details
-      properties:
-        type:
-          description: type of insureds
-          type: string
-          example: USER
-          enum:
-          - USER
-          - TRAVEL
-          - EXPERIENCE
-          - HOSPITALITY
-          - LOAN
-          - USER_LENDER
-          - USER_BORROWER
-          - GADGET
-          - SHIPPING
-          - PACKAGE
-          - GOODS
-          - VEHICLE
-          - AGENT
-        details:
-          description: detail information of insureds
-          type: object
-          anyOf:
-          - $ref: '#/components/schemas/InsuredTravel'
-          - $ref: '#/components/schemas/InsuredUser'
-          - $ref: '#/components/schemas/InsuredLoan'
-          - $ref: '#/components/schemas/InsuredGadget'
-          - $ref: '#/components/schemas/InsuredMotor'
-          - $ref: '#/components/schemas/InsuredShipping'
-          - $ref: '#/components/schemas/InsuredPackage'
-          - $ref: '#/components/schemas/InsuredVehicle'
-          - $ref: '#/components/schemas/InsuredGoods'
-          - $ref: '#/components/schemas/InsuredAgent'
-        documents:
-          description: insured's supporting documents
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
-    InsuredMotor:
-      type: object
-      properties:
-        identity_type:
-          type: string
-          example: LOAN_NUMBER
-        identity_number:
-          type: string
-          example: LOAN-NUMBER123456
-        manufacturer:
-          type: string
-          example: Yamaha
-        brand:
-          type: string
-          example: Yamaha
-        series:
-          type: string
-          example: R6
-        condition:
-          type: string
-          example: new
-        chasis_number:
-          type: string
-          example: 2
-        engine_number:
-          type: string
-          example: 5647890356765432
-        registration_number:
-          type: string
-          example: 82347694354533
-        year:
-          type: number
-          format: int
-          example: 2022
-        price:
-          type: number
-          format: float64
-          example: 20000000
-    InsuredShipping:
-      required:
-      - identity_type
-      - identity_number
-      type: object
-      properties:
-        carrier:
-          type: string
-          example: JNE
-          description: 'Name of carrier that provide shipping service example: JNE, FEDEX, etc'
-        identity_type:
-          type: string
-          example: TRACKING_NUMBER
-          description: Identifier type of shipping
-        identity_number:
-          type: string
-          example: 280323142127
-          description: Unique value as identifier number to differentiate each shipping
-        service:
-          type: string
-          example: Reguler, Sameday, Instant
-          description: Type of service offered by shipping provide
-        cost:
-          type: number
-          example: 10000
-          description: Price of shipping service
-        total_package_price:
-          type: number
-          example: 50000
-          description: Total package price
-        estimated_delivery_time:
-          type: string
-          example: '2023-02-15T10:00:00Z'
-          format: date-time
-          description: Time estimation when the package will be received by the recipient
-    InsuredGadget:
-      required:
-      - identity_type
-      - identity_number
-      - sum_insured
-      - brand
-      - model
-      - device_category
-      type: object
-      properties:
-        identity_type:
-          type: string
-          example: IMEI
-          description: type of device identification
-        identity_number:
-          type: string
-          example: 517236118991231800
-          description: value of device identification
-        sum_insured:
-          type: number
-          format: float64
-          example: 100000
-          description: amount of insured
-        manufacturer:
-          type: string
-          example: Apple
-          description: manufacture of device
-        brand:
-          type: string
-          example: Apple
-          description: brand of device
-        series:
-          type: string
-          example: A2643
-          description: series of device
-        model:
-          type: string
-          example: Iphone 13 Pro Max
-          description: model of device
-        activation_number:
-          type: string
-          example: 876543345687654
-          description: activation number of device
-        external_url:
-          type: string
-          example: http://url_here
-          description: external url for activation
-        upload_activation_at:
-          type: string
-          format: date-time
-          example: '2022-10-11T00:00:00Z'
-          description: time of activation
-        device_category:
-          type: string
-          example: SMARTPHONE
-          enum:
-          - SMARTPHONE
-          - TABLET
-          - SMARTWATCH
-          - LAPTOP
-          - OTHERS
-          description: category of device
-        device_price:
-          type: number
-          format: float64
-          example: 10000000
-          description: price of device
-        deductible_info:
-          type: object
-          description: information of deduction
-          properties:
-            unit_fee:
-              type: string
-              enum:
-              - STATIC
-              - PERCENTAGE
-            unit_fee_amount:
-              type: number
-              format: float64
-              example: 910
-        covered_type_unit:
-          type: string
-          example: MONTH
-          description: unit of covered type
-          enum:
-          - DAY
-          - MONTH
-          - YEAR
-        covered_type_max:
-          type: number
-          example: 1
-          description: maximum number of covered period or tenure
-    200status:
-      type: object
-      properties:
-        status:
-          type: string
-          example: success
-        message:
-          type: string
-          example: success get claim
-        code:
-          type: number
-          example: 200
-        data:
-          type: object
-          properties:
-            policy_number:
-              type: string
-              example: 1234
-            claims:
-              type: array
-              items:
-                type: object
-                properties:
-                  number:
-                    type: string
-                    example: C-20211213-GIPCA
-                  status:
-                    type: string
-                    example: INSURANCE_CLAIM_APPROVE
-                    oneOf:
-                    - title: CLAIM_INITIATE
-                      description: When the claimer successfully submitted a claim
-                    - title: QOALA_CLAIM_APPROVE
-                      description: Qoala approved the claim
-                    - title: QOALA_CLAIM_REJECT
-                      description: Qoala rejected the claim
-                    - title: INSURANCE_CLAIM_APPROVE
-                      description: Insurer approved the claim
-                    - title: INSURANCE_CLAIM_REJECT
-                      description: Insurer rejected the claim
-                    - title: INSURANCE_CLAIM_PAID
-                      description: Claim already paid by insurer
-                  created_at:
-                    type: string
-                    example: '2023-10-11 20:00:00'
-                    format: date-time
-                  benefit_code:
-                    type: string
-                    example: BENEFIT_CODE
-    InsuredGoods:
-      required:
-      - identity_type
-      - identity_number
-      - sum_insured
-      - brand
-      - model
-      - category
-      type: object
-      properties:
-        identity_type:
-          type: string
-          example: SERIAL_NUMBER
-          enum:
-          - SERIAL_NUMBER
-          - PURCHASE_ID
-          description: type of Goods identification
-        identity_number:
-          type: string
-          example: 517236118991231800
-          description: value of Goodse identification
-        sum_insured:
-          type: number
-          format: float64
-          example: 100000
-          description: amount of insured
-        price:
-          type: number
-          format: float64
-          example: 100000
-          description: goods price
-        manufacturer:
-          type: string
-          example: Apple
-          description: manufacture of device
-        brand:
-          type: string
-          example: Rayban
-          description: brand of goods
-        model:
-          type: string
-          example: Iphone 13 Pro Max
-          description: Goods Brand
-        category:
-          type: string
-          example: EYWR
-          description: Goods Category
-          enum:
-          - EYWR
-          - FURN
-          - MCHD
-          - AUTO
-          - TDMP
-          - HOBY
-          - RSKG
-          - MBKG
     InsuredVehicle:
       properties:
         identity_type:
@@ -2100,6 +1682,105 @@ components:
         additional_info:
           type: object
           example: {}
+    InsuredGoods:
+      required:
+      - identity_type
+      - identity_number
+      - sum_insured
+      - brand
+      - model
+      - category
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: SERIAL_NUMBER
+          enum:
+          - SERIAL_NUMBER
+          - PURCHASE_ID
+          description: type of Goods identification
+        identity_number:
+          type: string
+          example: 517236118991231800
+          description: value of Goodse identification
+        sum_insured:
+          type: number
+          format: float64
+          example: 100000
+          description: amount of insured
+        price:
+          type: number
+          format: float64
+          example: 100000
+          description: goods price
+        manufacturer:
+          type: string
+          example: Apple
+          description: manufacture of device
+        brand:
+          type: string
+          example: Rayban
+          description: brand of goods
+        model:
+          type: string
+          example: Iphone 13 Pro Max
+          description: Goods Brand
+        category:
+          type: string
+          example: EYWR
+          description: Goods Category
+          enum:
+          - EYWR
+          - FURN
+          - MCHD
+          - AUTO
+          - TDMP
+          - HOBY
+          - RSKG
+          - MBKG
+    Insured:
+      type: object
+      required:
+      - type
+      - details
+      properties:
+        type:
+          description: type of insureds
+          type: string
+          example: USER
+          enum:
+          - USER
+          - TRAVEL
+          - EXPERIENCE
+          - HOSPITALITY
+          - LOAN
+          - USER_LENDER
+          - USER_BORROWER
+          - GADGET
+          - SHIPPING
+          - PACKAGE
+          - GOODS
+          - VEHICLE
+          - AGENT
+        details:
+          description: detail information of insureds
+          type: object
+          anyOf:
+          - $ref: '#/components/schemas/InsuredTravel'
+          - $ref: '#/components/schemas/InsuredUser'
+          - $ref: '#/components/schemas/InsuredLoan'
+          - $ref: '#/components/schemas/InsuredGadget'
+          - $ref: '#/components/schemas/InsuredMotor'
+          - $ref: '#/components/schemas/InsuredShipping'
+          - $ref: '#/components/schemas/InsuredPackage'
+          - $ref: '#/components/schemas/InsuredVehicle'
+          - $ref: '#/components/schemas/InsuredGoods'
+          - $ref: '#/components/schemas/InsuredAgent'
+        documents:
+          description: insured's supporting documents
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
     Document:
       type: object
       properties:
@@ -2125,12 +1806,38 @@ components:
           description: document alias
           type: string
           example: policy_certificate.pdf
-    InsuredUser:
+    InsuredPackage:
+      required:
+      - identity_type
+      - identity_number
+      type: object
+      properties:
+        name:
+          type: string
+          example: TV Samsung 12"
+          description: Name of product
+        identity_type:
+          type: string
+          example: BARCODE_NUMBER
+          description: Identifier type of product
+        identity_number:
+          type: string
+          example: '280323142127'
+          description: Unique value as identifier number to differentiate each product
+        price:
+          type: number
+          example: 20000
+          description: Price of product
+    InsuredAgent:
+      required:
+      - identity_type
+      - identity_number
+      - store_id
       type: object
       properties:
         identity_type:
           type: string
-          example: ID_CARD
+          example: AGENT_ID
           description: identifier type of user information
         identity_number:
           type: string
@@ -2148,38 +1855,197 @@ components:
           type: string
           example: 81245678910
           description: phone number of user
-        birth_date:
+        store_location:
           type: string
-          example: 13-11-2000
-          description: birth date of user
-        gender:
-          description: Policy Holder Gender
+          example: Indonesian Mall, Jakarta
+          description: Address of the store
+        store_name:
           type: string
-          example: FEMALE
-          enum:
-          - FEMALE
-          - MALE
-        relationship:
+          example: Eyewear Store
+          description: Store Name
+        store_id:
           type: string
-          example: Wife
-          description: relationship of user within group of insured user in one transaction
-        address:
+          example: 12349
+          description: Store Id
+    InsuredMotor:
+      type: object
+      properties:
+        identity_type:
           type: string
-          example: Jl. Gatot Subroto no 10, Jakarta
-          description: detail address of user
-        occupation:
+          example: LOAN_NUMBER
+        identity_number:
           type: string
-          example: Software Engineer
-          description: occupation of user
-        additional_info:
+          example: LOAN-NUMBER123456
+        manufacturer:
+          type: string
+          example: Yamaha
+        brand:
+          type: string
+          example: Yamaha
+        series:
+          type: string
+          example: R6
+        condition:
+          type: string
+          example: new
+        chasis_number:
+          type: string
+          example: 2
+        engine_number:
+          type: string
+          example: 5647890356765432
+        registration_number:
+          type: string
+          example: 82347694354533
+        year:
+          type: number
+          format: int
+          example: 2022
+        price:
+          type: number
+          format: float64
+          example: 20000000
+    200status:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: success get claim
+        code:
+          type: number
+          example: 200
+        data:
           type: object
-          example:
-            passenger_type: ADULT
-            city: Jakarta
-            country: Indonesia
-            zipcode: '14045'
-            subject: sender
-          description: additional optional information
+          properties:
+            policy_number:
+              type: string
+              example: 1234
+            claims:
+              type: array
+              items:
+                type: object
+                properties:
+                  number:
+                    type: string
+                    example: C-20211213-GIPCA
+                  status:
+                    type: string
+                    example: INSURANCE_CLAIM_APPROVE
+                    oneOf:
+                    - title: CLAIM_INITIATE
+                      description: When the claimer successfully submitted a claim
+                    - title: QOALA_CLAIM_APPROVE
+                      description: Qoala approved the claim
+                    - title: QOALA_CLAIM_REJECT
+                      description: Qoala rejected the claim
+                    - title: INSURANCE_CLAIM_APPROVE
+                      description: Insurer approved the claim
+                    - title: INSURANCE_CLAIM_REJECT
+                      description: Insurer rejected the claim
+                    - title: INSURANCE_CLAIM_PAID
+                      description: Claim already paid by insurer
+                  created_at:
+                    type: string
+                    example: '2023-10-11 20:00:00'
+                    format: date-time
+                  benefit_code:
+                    type: string
+                    example: BENEFIT_CODE
+    InsuredGadget:
+      required:
+      - identity_type
+      - identity_number
+      - sum_insured
+      - brand
+      - model
+      - device_category
+      type: object
+      properties:
+        identity_type:
+          type: string
+          example: IMEI
+          description: type of device identification
+        identity_number:
+          type: string
+          example: 517236118991231800
+          description: value of device identification
+        sum_insured:
+          type: number
+          format: float64
+          example: 100000
+          description: amount of insured
+        manufacturer:
+          type: string
+          example: Apple
+          description: manufacture of device
+        brand:
+          type: string
+          example: Apple
+          description: brand of device
+        series:
+          type: string
+          example: A2643
+          description: series of device
+        model:
+          type: string
+          example: Iphone 13 Pro Max
+          description: model of device
+        activation_number:
+          type: string
+          example: 876543345687654
+          description: activation number of device
+        external_url:
+          type: string
+          example: http://url_here
+          description: external url for activation
+        upload_activation_at:
+          type: string
+          format: date-time
+          example: '2022-10-11T00:00:00Z'
+          description: time of activation
+        device_category:
+          type: string
+          example: SMARTPHONE
+          enum:
+          - SMARTPHONE
+          - TABLET
+          - SMARTWATCH
+          - LAPTOP
+          - OTHERS
+          description: category of device
+        device_price:
+          type: number
+          format: float64
+          example: 10000000
+          description: price of device
+        deductible_info:
+          type: object
+          description: information of deduction
+          properties:
+            unit_fee:
+              type: string
+              enum:
+              - STATIC
+              - PERCENTAGE
+            unit_fee_amount:
+              type: number
+              format: float64
+              example: 910
+        covered_type_unit:
+          type: string
+          example: MONTH
+          description: unit of covered type
+          enum:
+          - DAY
+          - MONTH
+          - YEAR
+        covered_type_max:
+          type: number
+          example: 1
+          description: maximum number of covered period or tenure
     InsuredAgent_2:
       type: object
       properties:
@@ -2276,6 +2142,127 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Document_2'
+    Document_2:
+      type: object
+      properties:
+        filename:
+          description: name of the fale, you can provide the filename include its extention.
+          type: string
+          example: G-ADLD-PARTNER-001-20251004-OM94T.pdf
+        type:
+          description: type of document, it is just constant value that categorize of the document.
+          type: string
+          examples:
+          - POLICY_CERTIFICATE
+          - POLICY_WORDING
+          - IMEI_PHOTO
+          - INVOICE
+          - KTP
+          - ID
+        url:
+          description: full url to access the document, this is should be public url
+          type: string
+          example: '{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/G-ADLD-PARTNER-001-20251004-OM94T.pdf'
+        alias:
+          description: document alias
+          type: string
+          example: policy_certificate.pdf
+    PolicyHolderRequest:
+      required:
+      - full_name
+      - email
+      properties:
+        identity_type:
+          description: type of data identity
+          type: string
+          example: BOOKING_NUMBER
+          enum:
+          - KTP
+          - PASSPORT
+          - DRIVING_LICENSE
+          - NATIONAL_ID
+        identity_number:
+          description: identity value
+          type: string
+          example: 1234567890
+        full_name:
+          description: fullname of policy holder
+          type: string
+          default: kwee
+          example: kwee
+        email:
+          description: email of policy holder, this email will receive policy certificate
+          type: string
+          example: john.doe@qoala.id
+        phone_number:
+          description: The phone number must start with the country code, prefixed by a '+' sign.
+          type: string
+          example: '+6281234567890'
+        birth_date:
+          description: birth date information in format yyyy-mm-dd
+          type: string
+          example: '1990-01-01'
+        gender:
+          description: User supplied username
+          type: string
+          example: WOMAN
+        relationship:
+          description: status of relationship
+          type: string
+          example: SINGLE
+        address:
+          description: detail of address
+          type: string
+          example: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
+        occupation:
+          description: occupation of person
+          type: string
+          example: Pilot
+        documents:
+          description: supporting documents
+          $ref: '#/components/schemas/Document_2'
+    200detailPolicy:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: success create gadget policy
+        code:
+          type: number
+          example: 200
+        data:
+          type: object
+          properties:
+            partner_transaction_number:
+              type: string
+              example: Tx12345678543213456
+            quotation_number:
+              type: string
+              example: QS-GADGET-20251004-ABC12
+            product_code:
+              type: string
+              example: G-ADLD-PARTNER-001
+            policies:
+              type: array
+              items:
+                type: object
+                properties:
+                  number:
+                    type: string
+                    example: G-ADLD-PARTNER-001-20251004-OM94T
+                  status:
+                    type: string
+                    enum:
+                    - POLICY_ACTIVE
+                    - POLICY_ISSUING
+                    example: POLICY_ACTIVE
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Document_2'
     InsuredGadget_2:
       required:
       - identity_type
@@ -2380,195 +2367,141 @@ components:
           type: number
           example: 1
           description: maximum number of covered period or tenure
-    200detailPolicy:
-      type: object
-      properties:
-        status:
-          type: string
-          example: success
-        message:
-          type: string
-          example: success create gadget policy
-        code:
-          type: number
-          example: 200
-        data:
-          type: object
-          properties:
-            partner_transaction_number:
-              type: string
-              example: Tx12345678543213456
-            quotation_number:
-              type: string
-              example: QS-GADGET-20251004-ABC12
-            product_code:
-              type: string
-              example: G-ADLD-PARTNER-001
-            policies:
-              type: array
-              items:
-                type: object
-                properties:
-                  number:
-                    type: string
-                    example: G-ADLD-PARTNER-001-20251004-OM94T
-                  status:
-                    type: string
-                    enum:
-                    - POLICY_ACTIVE
-                    - POLICY_ISSUING
-                    example: POLICY_ACTIVE
-                  documents:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Document_2'
-    Document_2:
-      type: object
-      properties:
-        filename:
-          description: name of the fale, you can provide the filename include its extention.
-          type: string
-          example: G-ADLD-PARTNER-001-20251004-OM94T.pdf
-        type:
-          description: type of document, it is just constant value that categorize of the document.
-          type: string
-          examples:
-          - POLICY_CERTIFICATE
-          - POLICY_WORDING
-          - IMEI_PHOTO
-          - INVOICE
-          - KTP
-          - ID
-        url:
-          description: full url to access the document, this is should be public url
-          type: string
-          example: '{base_url}/api/v2/policies/documents/bea04405-97d2-4eb8-b4f6-8db76e6f17ac/files/G-ADLD-PARTNER-001-20251004-OM94T.pdf'
-        alias:
-          description: document alias
-          type: string
-          example: policy_certificate.pdf
-    PolicyHolderRequest:
-      required:
-      - full_name
-      - email
-      properties:
-        identity_type:
-          description: type of data identity
-          type: string
-          example: BOOKING_NUMBER
-          enum:
-          - KTP
-          - PASSPORT
-          - DRIVING_LICENSE
-          - NATIONAL_ID
-        identity_number:
-          description: identity value
-          type: string
-          example: 1234567890
-        full_name:
-          description: fullname of policy holder
-          type: string
-          default: kwee
-          example: kwee
-        email:
-          description: email of policy holder, this email will receive policy certificate
-          type: string
-          example: john.doe@qoala.id
-        phone_number:
-          description: The phone number must start with the country code, prefixed by a '+' sign.
-          type: string
-          example: '+6281234567890'
-        birth_date:
-          description: birth date information in format yyyy-mm-dd
-          type: string
-          example: '1990-01-01'
-        gender:
-          description: User supplied username
-          type: string
-          example: WOMAN
-        relationship:
-          description: status of relationship
-          type: string
-          example: SINGLE
-        address:
-          description: detail of address
-          type: string
-          example: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
-        occupation:
-          description: occupation of person
-          type: string
-          example: Pilot
-        documents:
-          description: supporting documents
-          $ref: '#/components/schemas/Document_2'
+  examples:
+    createClaimTravelProduct:
+      value:
+        currency_code: IDR
+        country_code: ID
+        user_channel: PARTNERSHIP
+        partner_code: ABC
+        partner_claim_id: C12345
+        policy_number: F-CRDC-001-20230802
+        total_amount: 100000
+        product:
+          category: TRAVEL
+          code: PA-123
+          benefit_code: BENEFIT_CODE
+        claimant_data:
+          full_name: string
+          phone_number: string
+        form_data:
+        - name: Alamat
+          value: '85778'
+        covered_data:
+        - type: USER
+          details:
+            identity_type: KTP
+            identity_number: '1234567890'
+            full_name: Test
+            email: test@gmail.com
+            phone_number: '+6281234567890'
+            birth_date: '1990-01-01'
+            gender: MALE
+            address: Jakarta
+            occupation: Software Engineer
+            additional_info:
+              passenger_type: ADULT
+    createClaimCreditInsuranceWithReinstatement:
+      value:
+        user_channel: PARTNERSHIP
+        policy_number: QOALA_POLICY_NUMBER
+        partner_code: PARTNER_CODE
+        currency_code: IDR
+        total_amount: 200000
+        country_code: ID
+        product:
+          category: FINANCE
+          code: PRODUCT_CODE
+          benefit_code: BENEFIT_CODE
+        claim_additional_info:
+          loan_id: LOAN_ID
+          borrower_name: BORROWERNAME
+          beneficiary_name: BENEFICIARY_NAME
+          last_payment_date: '2023-05-14T00:00:00.000Z'
+          last_collection_date: '2023-05-14T00:00:00.000Z'
+          outstanding_amount: 200000
+    createPolicyGadgetMinimumRequest:
+      value:
+        product_category: GADGET
+        partner_transaction_number: Tx12345678543213456
+        product_code: G-ADLD-PARTNER-001
+        purchased_at: '2025-10-04T00:00:00+08:00'
+        policy_holder:
+          full_name: kwee
+        insureds:
+        - type: GADGET
+          details:
+            identity_type: IMEI
+            identity_number: '45678986543456789'
+            sum_insured: 100000
+            price: 100000
+            brand: VIVO
+            model: X300
+            device_category: SMARTPHONE
+    createPolicyGadgetWithActivation:
+      value:
+        product_category: GADGET
+        partner_transaction_number: PARTNER-20230415-1393561
+        product_code: G-SCRN-PARTNER-001
+        purchased_at: '2023-04-15T23:26:08+07:00'
+        policy_holder:
+          identity_type: NATIONAL_ID
+          identity_number: 012345678901
+          full_name: John Doe
+          email: john.doe@qoala.id
+          phone_number: '+6281234567890'
+          birth_date: '1997-10-10'
+          gender: FEMALE
+          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
+          occupation: ''
+    createPolicyGadgetWithoutActivation:
+      value:
+        product_category: GADGET
+        partner_transaction_number: 231003-KT1
+        product_code: G-ADLD-PARTNER-001
+        purchased_at: '2023-10-03T00:00:00+07:00'
+        policy_holder:
+          identity_type: KTP
+          identity_number: '1234567890000000'
+          full_name: John Doe
+          email: john.doe@qoala.id
+          phone_number: '+6281234567890'
+          birth_date: '1990-01-01'
+          gender: MALE
+          address: Jl. Sudirman No. 10, Kelurahan Menteng, Kecamatan Menteng, Kota Jakarta Pusat, DKI Jakarta 10310
+          occupation: Product Manager
+        insureds:
+        - type: GADGET
+          details:
+            identity_type: IMEI
+            identity_number: IMEITES2T0231003-001
+            manufacturer: Apple
+            sum_insured: 1000
+            device_price: 15000
+            brand: Apple
+            series: A2643
+            model: Iphone 13 Pro Max
+            device_category: SMARTPHONE
+            covered_type_unit: MONTH
+            covered_type_max: 1
+          documents:
+          - url: IMAGE_URL
+            type: IMEI_PHOTO
+            filename: PHOTO_OF_IMEI.jpg
+          - url: IMAGE_URL
+            type: INVOICE
+            filename: PHOTO_OF_INVOICE.jpg
+        - type: AGENT
+          details:
+            identity_type: AGENT_ID
+            identity_number: '123456'
+            full_name: John Doe ServiceAgent
+            email: serviceagent@qoala.id
+            phone_number: '+628123456789'
+            store_location: Indonesian Mall, Jakarta
+            store_name: Phone Store Jakarta
+            store_id: '1029310'
   responses:
-    401createQuotation:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              code:
-                type: number
-                description: http code response
-                example: 401
-              error_code:
-                type: string
-                description: 'qoala system error code for invalid token
-
-
-                  ### List of Error Code detail
-
-                  | Error Code | HTTP Status | Description |
-
-                  |---|---|---|
-
-                  | QC-CLT-KEYA-V1-003 | 401 | Invalid Permission |
-
-                  '
-                example: QEC-ERR-401-01
-              message:
-                type: string
-                description: short message explains about the failed response
-                example: success create gadget policy
-              status:
-                type: string
-                description: status of response, it will contain failed
-                example: failed
-    500createQuotation:
-      description: Internal Error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              code:
-                type: number
-                description: http code response
-                example: 500
-              error_code:
-                type: string
-                description: 'qoala system error code for error classification
-
-                  ### List of Error Code detail
-
-                  | Error Code | HTTP Status | Description |
-
-                  |---|---|---|
-
-                  | QEC-ERR-REST-001 | 500 | Internal Server Error |
-
-                  '
-                example: QEC-ERR-REST-001
-              message:
-                type: string
-                description: short message explains about the failed response
-                example: success create gadget policy
-              status:
-                type: string
-                description: status of response, it will contain failed
-                example: failed
     404createQuotation:
       description: Not Found
       content:
@@ -2603,41 +2536,29 @@ components:
                 type: string
                 description: status of response, it will contain failed
                 example: failed
-    202createQuotation:
-      description: Accepted
+    400createQuotation:
+      description: Bad Request
       content:
         application/json:
           schema:
             type: object
             properties:
-              status:
-                type: string
-                description: status of response, it will contain success
-                example: success
-              message:
-                type: string
-                description: short message explains about the success response
-                example: success to create gadget policy
               code:
                 type: number
                 description: http code response
-                example: 202
-              data:
-                type: object
-                description: showing data response
-                properties:
-                  partner_transaction_number:
-                    type: string
-                    description: The transaction ID serves as a unique identifier for each transaction initiated through the API. Partners are responsible for generating this ID and ensuring its uniqueness across their transactions.
-                    example: Tx12345678543213456
-                  quotation_number:
-                    type: string
-                    description: Unique transaction number generated in qoala system
-                    example: QS-GADGET-20251004-ABC12
-                  product_code:
-                    type: string
-                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual information about certain aspects of the product. However, as of now, the details for this field will be shared at a later stage when the product is ready for testing.
-                    example: G-ADLD-PARTNER-001
+                example: 400
+              error_code:
+                type: string
+                description: "qoala system error code for bad request\n\n### List of Error Code detail\n\n| Error Code | HTTP Status | Description |\n|---|---|---|  \n| QEC-ERR-001 | 400 | Invalid Request From the partner |\n"
+                example: QEC-ERR-001
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: success create gadget policy
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
     200createQuotation:
       description: Success
       content:
@@ -2719,8 +2640,43 @@ components:
                             filename: Gadget_Policy_Wording.pdf
                             alias: ''
                             url: '{base_url}/api/v2/policies/documents/198dcf19-087b-4074-aa32-1172ab1dae6f/files/Gadget_Policy_Wording.pdf'
-    400createQuotation:
-      description: Bad Request
+    202createQuotation:
+      description: Accepted
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: status of response, it will contain success
+                example: success
+              message:
+                type: string
+                description: short message explains about the success response
+                example: success to create gadget policy
+              code:
+                type: number
+                description: http code response
+                example: 202
+              data:
+                type: object
+                description: showing data response
+                properties:
+                  partner_transaction_number:
+                    type: string
+                    description: The transaction ID serves as a unique identifier for each transaction initiated through the API. Partners are responsible for generating this ID and ensuring its uniqueness across their transactions.
+                    example: Tx12345678543213456
+                  quotation_number:
+                    type: string
+                    description: Unique transaction number generated in qoala system
+                    example: QS-GADGET-20251004-ABC12
+                  product_code:
+                    type: string
+                    description: Defined by Qoala, plays a pivotal role in the API, providing contextual information about certain aspects of the product. However, as of now, the details for this field will be shared at a later stage when the product is ready for testing.
+                    example: G-ADLD-PARTNER-001
+    401createQuotation:
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -2729,11 +2685,55 @@ components:
               code:
                 type: number
                 description: http code response
-                example: 400
+                example: 401
               error_code:
                 type: string
-                description: "qoala system error code for bad request\n\n### List of Error Code detail\n\n| Error Code | HTTP Status | Description |\n|---|---|---|  \n| QEC-ERR-001 | 400 | Invalid Request From the partner |\n"
-                example: QEC-ERR-001
+                description: 'qoala system error code for invalid token
+
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QC-CLT-KEYA-V1-003 | 401 | Invalid Permission |
+
+                  '
+                example: QEC-ERR-401-01
+              message:
+                type: string
+                description: short message explains about the failed response
+                example: success create gadget policy
+              status:
+                type: string
+                description: status of response, it will contain failed
+                example: failed
+    500createQuotation:
+      description: Internal Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: number
+                description: http code response
+                example: 500
+              error_code:
+                type: string
+                description: 'qoala system error code for error classification
+
+                  ### List of Error Code detail
+
+                  | Error Code | HTTP Status | Description |
+
+                  |---|---|---|
+
+                  | QEC-ERR-REST-001 | 500 | Internal Server Error |
+
+                  '
+                example: QEC-ERR-REST-001
               message:
                 type: string
                 description: short message explains about the failed response
