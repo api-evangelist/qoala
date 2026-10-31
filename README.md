@@ -64,5 +64,137 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Qoala is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.hiive.com/securities/qoala-stock
+Qoala is a Southeast Asian omni-channel insurtech, headquartered in Jakarta and operating across Indonesia, Malaysia, Thailand and Vietnam, that distributes personal and embedded insurance through a consumer app, an agent platform (Qoala Plus) and a partner/enterprise API. Qoala for Enterprise exposes a partner-facing REST API covering policy issuance and claim handling across travel (flight, train, bus, hotel, experience), gadget, goods, vehicle, logistics, health, credit and credit-life product lines. Policy creation is asynchronous: partners POST a quotation, receive a quotation number as acknowledgement, and are notified of the issued policy through a partner callback webhook. Authentication is by partner API key in the x-api-key header.
+
+**Areas:** Insurance · Insurtech · Embedded Insurance · Policies · Claims · Southeast Asia · Indonesia · Financial Services · Partner API
+
+## Qoala on APIs.io
+
+Everything profiled for Qoala is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/qoala/](https://apis.io/providers/qoala/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [Qoala Authentication API](https://apis.io/apis/qoala/qoala-authentication-api/) — Session management for the Qoala for Enterprise platform — create an authentication session from an email and security code, and refresh it with a refresh…
+- [Qoala API Specification API](https://apis.io/apis/qoala/qoala-api-specification-api/) — Policy API documentation consist of create policy, get policy detail or status, policy cancellation and policy activation.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Qoala Webhooks](https://apis.io/asyncapis/qoala/qoala-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [mcp](https://apis.io/servers/qoala/mcp/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Qoala Agentic Access](https://apis.io/agentic-access/qoala/qoala-agentic-access/)
+
+#### Collections (2)
+
+Postman and Open Collection request collections.
+
+- [Qoala API Specification API](https://apis.io/collections/qoala/open-qoala-api-specification-api/)
+- [Authentication API](https://apis.io/collections/qoala/open-qoala-authentication-api/)
+
+#### Overlays (15)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Qoala Authentication Api Overlay](https://apis.io/overlays/qoala/qoala-authentication-api-overlay/)
+- [Qoala Bus Insurance Overlay](https://apis.io/overlays/qoala/qoala-bus-insurance-overlay/)
+- [Qoala Claim Api Alt Overlay](https://apis.io/overlays/qoala/qoala-claim-api-alt-overlay/)
+- [Qoala Claim Api Overlay](https://apis.io/overlays/qoala/qoala-claim-api-overlay/)
+- [Qoala Credit Insurance Overlay](https://apis.io/overlays/qoala/qoala-credit-insurance-overlay/)
+- [Qoala Credit Life Insurance Overlay](https://apis.io/overlays/qoala/qoala-credit-life-insurance-overlay/)
+- [Qoala Experience Event Insurance Overlay](https://apis.io/overlays/qoala/qoala-experience-event-insurance-overlay/)
+- [Qoala Flight Insurance Overlay](https://apis.io/overlays/qoala/qoala-flight-insurance-overlay/)
+- [Qoala Gadget Insurance Overlay](https://apis.io/overlays/qoala/qoala-gadget-insurance-overlay/)
+- [Qoala Goods Insurance Overlay](https://apis.io/overlays/qoala/qoala-goods-insurance-overlay/)
+- [Qoala Hotel Insurance Overlay](https://apis.io/overlays/qoala/qoala-hotel-insurance-overlay/)
+- [Qoala Logistic Insurance Overlay](https://apis.io/overlays/qoala/qoala-logistic-insurance-overlay/)
+- [Qoala Micro Health Insurance Overlay](https://apis.io/overlays/qoala/qoala-micro-health-insurance-overlay/)
+- [Qoala Train Insurance Overlay](https://apis.io/overlays/qoala/qoala-train-insurance-overlay/)
+- [Qoala Vehicle Insurance Overlay](https://apis.io/overlays/qoala/qoala-vehicle-insurance-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Qoala Authentication](https://apis.io/security/qoala/qoala-authentication/)
+- [Qoala Domain Security](https://apis.io/security/qoala/qoala-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://qoala.com/)
+- [Documentation](https://docs.qoala.app/reference/introduction)
+- [Getting started](https://docs.qoala.app/reference/introduction)
+- [API reference](https://docs.qoala.app/reference/api-integration)
+- [Sign up](https://www.qoala.app/id-en/account)
+- [Support](https://www.qoala.app/id-en/faq)
+- [Privacy policy](https://www.qoala.app/id-en/privacy-notice)
+- [GitHub](https://github.com/qoala-engineering)
+
+## API Evangelist rating
+
+**Kin Score 35.9** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 76.7 |
+| Contract quality | 57.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 38.7 |
+| Access clarity | 23.7 |
+
+**Agent readiness 36.7** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 18.4** — Insurance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/qoala/](https://apis.io/providers/qoala/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Qoala: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/qoala/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
